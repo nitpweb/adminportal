@@ -46,43 +46,25 @@ const handler = async (req, res) => {
 
       } else if (type == "user") {
         await query(
-          `insert into users where (
-		id=${params.id},
-		name=${params.name},
-		email=${params.email},
-		role=${params.role},
-		department=${params.department},
-		designation=${params.designation},
-		ext_no=${params.ext_no},
-		research_interest=${params.research_interest},
-		primary key (id))`
+          `insert into users (id=${params.id},name,email,role,department,designation,ext_no,research_interest) values (
+            ${params.id},${params.name},${params.email},${params.role},${params.department},${params.designation},${params.ext_no},${params.research_interest})`
         );
       } else if (type == "image") {
         await query(
-          `insert into faculty_image where (
-            user_id=${params.user_id},
-            email=${params.email},
-            image=${params.image},
-            primary key (email))`
+          `insert into faculty_image (user_id,email,image) values (
+            ${params.user_id},${params.email},${params.image})`
         );
       } else if (type == "current-responsibility") {
         await query(
-          `insert into curr_admin_responsibility where (
-                              id=${params.id},
-                              user_id=${params.user_id},
-                              email=${params.email},
-                              curr_responsibility=${params.curr_responsibility},
-                              primary key (id))`
+          `insert into curr_admin_responsibility (id,user_id,email,curr_responsibility) values (
+            ${params.id},${params.user_id},${params.email},${params.curr_responsibility},
+          )`
         );
       } else if (type == "memberships") {
         await query(
-          `insert into memberships where (
-              id=${params.id},
-              user_id=${params.user_id},
-              email=${params.email},
-              membership_id=${params.membership_id},
-              membership_society=${params.membership_society},
-              primary key (id))`
+          `insert into memberships (id,user_id,email,membership_id,membership_society) values (
+            ${params.id},${params.user_id}, ${params.email},${params.membership_id},${params.membership_society},
+        )`
         );
       } else if (type == "past-responsibility") {
         await query(
