@@ -13,7 +13,7 @@ const handler = async (req, res) => {
 				params.attachments = JSON.stringify(params.attachments);
 				let result = await query(
 					`UPDATE notices SET title='${params.title}',timestamp='${params.timestamp}',openDate='${params.openDate}',closeDate='${params.closeDate}',important='${params.important}',` +
-						`attachments='${params.attachments}',isVisible='${params.isVisible}',email='${params.email}' WHERE id='${params.id}'`
+						`attachments='${params.attachments}',isVisible='${params.isVisible}',email='${params.email}' WHERE id=${params.id}`
 				);
 				return res.json(result);
 			} else if (type == "event") {
@@ -21,21 +21,21 @@ const handler = async (req, res) => {
 
 				let result = await query(
 					`UPDATE events SET title='${params.title}',timestamp='${params.timestamp}',openDate='${params.openDate}',closeDate='${params.closeDate}',venue='${params.venue}',` +
-						`doclink='${params.doclink}',attachments='${params.attachments}',email='${params.email}' WHERE id='${params.id}'`
+						`doclink='${params.doclink}',attachments='${params.attachments}',email='${params.email}' WHERE id=${params.id}`
 				);
 				return res.json(result);
 			} else if (type == "innovation") {
 				params.image = JSON.stringify(params.image);
 				let result = await query(
 					`UPDATE innovation SET title='${params.title}',timestamp='${params.timestamp}',openDate='${params.openDate}',closeDate='${params.closeDate}',description='${params.description}'` +
-						`,image='${params.image}',author='${params.author}',email='${params.email}' WHERE id='${params.id}'`
+						`,image='${params.image}',author='${params.author}',email='${params.email}' WHERE id=${params.id}`
 				);
 				return res.json(result);
 			} else if (type == "news") {
 				params.image = JSON.stringify(params.image);
 				let result = await query(
 					`UPDATE news SET title='${params.title}',timestamp='${params.timestamp}',openDate='${params.openDate}',closeDate='${params.closeDate}',description='${params.description}'` +
-						`,image='${params.image}',author='${params.author}',email='${params.email}' WHERE id='${params.id}'`
+						`,image='${params.image}',author='${params.author}',email='${params.email}' WHERE id=${params.id}`
 				);
 				return res.json(result);
 			} else if (type == "user") {
@@ -48,14 +48,14 @@ const handler = async (req, res) => {
 		designation='${params.designation}',
 		ext_no='${params.ext_no}',
 		research_interest='${params.research_interest}',
-		) where id='${params.id}'`
+		) where id=${params.id}`
 				);
 			} else if (type == "memberships") {
 				await query(
 					`update memberships where (
     membership_id='${params.membership_id}',
     membership_society='${params.membership_society}',
-		) where id='${params.id}'`
+		) where id=${params.id}`
 				);
 			} else if (type == "image") {
 				await query(
@@ -67,73 +67,73 @@ const handler = async (req, res) => {
 				await query(
 					`update curr_admin_responsibility where (
 		curr_responsibility='${params.curr_responsibility}',
-		) where id='${params.id}'`
+		) where id=${params.id}`
 				);
 			} else if (type == "past-responsibility") {
 				await query(
 					`update past_admin_responsibility where (
 		past_responsibility='${params.past_responsibility}',
-		) where id='${params.id}'`
+		) where id=${params.id}`
 				);
 			} else if (type == "workexperience") {
 				await query(
 					`update work_experience where (
 		work_experiences='${params.work_experiences}',
-		) where id='${params.id}'`
+		) where id=${params.id}`
 				);
 			} else if (type == "subjects") {
 				await query(
 					`update subjects_teaching where (
-		id='${params.id}',
-		user_id='${params.user_id}',
+		id=${params.id},
+		user_id=${params.user_id},
 		email='${params.email}',
 		subject='${params.subject}',
-		) where publicaton_id='${params.id}'`
+		) where publicaton_id=${params.id}`
 				);
 			} else if (type == "publications") {
 				await query(
 					`update publications where (
-		publication_id='${params.id}',
-		user_id='${params.user_id}',
+		publication_id=${params.id},
+		user_id=${params.user_id},
 		email='${params.email}',
 		publication_id='${params.publication_id}',
 		publications='${params.publications}',
-		) where publicaton_id='${params.id}'`
+		) where publicaton_id=${params.id}`
 				);
 			} else if (type == "project") {
 				await query(
 					`update project where (
-		id='${params.id}',
-		user_id='${params.user_id}',
+		id=${params.id},
+		user_id=${params.user_id},
       email='${params.email}',
       project='${params.project}',
-		) where id='${params.id}'`
+		) where id=${params.id}`
 				);
 			} else if (type == "professionalservice") {
 				await query(
 					`update Professional_Service where (
-		user_id='${params.user_id}',
+		user_id=${params.user_id},
 		email='${params.email}',
 		services='${params.services}',
-		) where publicaton_id='${params.id}'`
+		) where publicaton_id=${params.id}`
 				);
 			} else if (type == "education") {
 				await query(
 					`update education where (
 		certification='${params.certification}',
 		passing_year='${params.passing_year}',
-		) where id='${params.id}'`
+		) where id=${params.id}`
 				);
 			} else if (type == "phdcandidates") {
 				await query(
 					`update phd_candidates where (
-		user_id='${params.user_id}',
+		user_id=${params.user_id},
 		email='${params.email}',
 		phd_student_name='${params.phd_student_name}',
 		thesis_topic='${params.thesis_topic}',
 		start_year='${params.start_year}',
 		completion_year='${params.completion_year}',
-		) where publicaton_id='${params.id}'`
+		) where publicaton_id=${params.id}`
 				);
 			} else {
 				res.json({ message: "Could not find matching requests" });
@@ -159,12 +159,12 @@ export default handler;
 // important='${params.important}',
 // attachments='${params.attachments}',
 // email='${params.email}',
-// ) where id='${params.id}'`,
+// ) where id=${params.id}`,
 // 		);
 
 // await query(
 // 	`update news where (
-// 	id='${params.id}',
+// 	id=${params.id},
 // 	title='${params.title}',
 // 	timestamp='${params.timestamp}',
 // 	openDate='${params.openDate}',
@@ -174,5 +174,5 @@ export default handler;
 //   author='${params.author}',
 // 	important='${params.important}',
 //   email='${params.email}',
-//     ) where id='${params.id}'`
+//     ) where id=${params.id}`
 // );
