@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { signIn, signout, useSession } from "next-auth/client";
+import TextField from "@material-ui/core/TextField";
 
 const Profile = styled.div`
   font-family: "Source Sans Pro";
@@ -112,28 +113,28 @@ export default function Profilepage(props) {
               <p>{detail.profile.ext_no}</p>
             </div>
 
-            {detail.subjects_teaching && (
-              <div className="fac-card" data-aos="fade-up">
-                <h3>Subjects</h3>
-                {detail.subjects.map((item) => {
+            <div className="fac-card" data-aos="fade-up">
+              <h3>Subjects</h3>
+              {detail.subjects_teaching &&
+                detail.subjects.map((item) => {
                   return <li>{item}</li>;
                 })}
-              </div>
-            )}
-            {detail.memberships && (
-              <div className="fac-card" data-aos="fade-up">
-                <h3>Memberships & Society</h3>
-                <div className="factable">
-                  <table>
-                    <tr>
-                      <td>
-                        <h4>Membership</h4>
-                      </td>
-                      <td>
-                        <h4>Membership Society</h4>
-                      </td>
-                    </tr>
-                    {detail.memberships.map((item) => {
+            </div>
+
+            <div className="fac-card" data-aos="fade-up">
+              <h3>Memberships & Society</h3>
+              <div className="factable">
+                <table>
+                  <tr>
+                    <td>
+                      <h4>Membership</h4>
+                    </td>
+                    <td>
+                      <h4>Membership Society</h4>
+                    </td>
+                  </tr>
+                  {detail.memberships &&
+                    detail.memberships.map((item) => {
                       return (
                         <tr>
                           <td>
@@ -145,27 +146,27 @@ export default function Profilepage(props) {
                         </tr>
                       );
                     })}
-                  </table>
-                </div>
+                </table>
               </div>
-            )}
-            {detail.education && (
-              <div className="fac-card" data-aos="fade-up">
-                <h3>Educational Qualification</h3>
-                <div className="factable">
-                  <table>
-                    <tr>
-                      <td>
-                        <h4>Certification</h4>
-                      </td>
-                      <td>
-                        <h4>Institute Name</h4>
-                      </td>
-                      <td>
-                        <h4>Passing Year</h4>
-                      </td>
-                    </tr>
-                    {detail.qualification.map((item) => {
+            </div>
+
+            <div className="fac-card" data-aos="fade-up">
+              <h3>Educational Qualification</h3>
+              <div className="factable">
+                <table>
+                  <tr>
+                    <td>
+                      <h4>Certification</h4>
+                    </td>
+                    <td>
+                      <h4>Institute Name</h4>
+                    </td>
+                    <td>
+                      <h4>Passing Year</h4>
+                    </td>
+                  </tr>
+                  {detail.education &&
+                    detail.qualification.map((item) => {
                       return (
                         <tr>
                           <td>
@@ -180,58 +181,57 @@ export default function Profilepage(props) {
                         </tr>
                       );
                     })}
-                  </table>
-                </div>
+                </table>
               </div>
-            )}
-            {detail.curr_admin_responsibility && (
-              <div className="fac-card" data-aos="fade-up">
-                <h3>Current Administrative Responsibility</h3>
-                {detail.currResponsibility.map((item) => {
+            </div>
+
+            <div className="fac-card" data-aos="fade-up">
+              <h3>Current Administrative Responsibility</h3>
+              {detail.curr_admin_responsibility &&
+                detail.currResponsibility.map((item) => {
                   return <li>{item}</li>;
                 })}
-              </div>
-            )}
-            {detail.past_admin_reponsibility && (
-              <div className="fac-card" data-aos="fade-up">
-                <h3>Past Administrative Responsibility</h3>
-                {detail.pastreponsibility.map((item) => {
+            </div>
+
+            <div className="fac-card" data-aos="fade-up">
+              <h3>Past Administrative Responsibility</h3>
+              {detail.past_admin_reponsibility &&
+                detail.pastreponsibility.map((item) => {
                   return <li>{item}</li>;
                 })}
-              </div>
-            )}
-            {detail.work_experience && (
-              <div className="fac-card" data-aos="fade-up">
-                <h3>Work Experiences</h3>
-                {detail.workExperience.map((item) => {
+            </div>
+
+            <div className="fac-card" data-aos="fade-up">
+              <h3>Work Experiences</h3>
+              {detail.work_experience &&
+                detail.workExperience.map((item) => {
                   return <li>{item}</li>;
                 })}
-              </div>
-            ) }
-            {detail.professional_service && (
-              <div className="fac-card" data-aos="fade-up">
-                <h3>Professional Services</h3>
-                {detail.services.map((item) => {
+            </div>
+
+            <div className="fac-card" data-aos="fade-up">
+              <h3>Professional Services</h3>
+              {detail.professional_service &&
+                detail.services.map((item) => {
                   return <li>{item}</li>;
                 })}
-              </div>
-            )}
-            {detail.project && (
-              <div className="fac-card" data-aos="fade-up">
-                <h3>Projects</h3>
-                {detail.projects.map((item) => {
+            </div>
+
+            <div className="fac-card" data-aos="fade-up">
+              <h3>Projects</h3>
+              {detail.project &&
+                detail.projects.map((item) => {
                   return <li>{item}</li>;
                 })}
-              </div>
-            )}
-            {detail.phd_candidates && (
-              <div className="fac-card" data-aos="fade-up">
-                <h3>Phd Candidates</h3>
-                {detail.phdCandidates.map((item) => {
+            </div>
+
+            <div className="fac-card" data-aos="fade-up">
+              <h3>Phd Candidates</h3>
+              {detail.phd_candidates &&
+                detail.phdCandidates.map((item) => {
                   return <li>{item}</li>;
                 })}
-              </div>
-            )}
+            </div>
           </div>
         </Profile>
       )}
