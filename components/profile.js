@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { signIn, signout, useSession } from "next-auth/client";
-
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import SubjectDisplay from "@/components/display-subjects";
+import MembershipDisplay from "@/components/display-memberships";
+import EducationDisplay from "@/components/display-education";
+import PastResponsibilityDisplay from "@/components/display-pastresponsibilty";
+import CurrResponsibilityDisplay from "@/components/display-curresponsibilty";
+import WorkExperiencedisplay from "@/components/display-workexperience";
+import ServicesDisplay from "@/components/display-professionalservice";
+import Projectdisplay from "@/components/display-project";
+import CandidateDisplay from "@/components/display-phdcandidate";
 const Profile = styled.div`
   font-family: "Source Sans Pro";
   margin-top: 10vw;
@@ -82,158 +92,176 @@ export default function Profilepage(props) {
   const [detail, useDetail] = useState(JSON.parse(props.details));
   console.log(props.details);
   const [session, loading] = useSession();
+  const [submitting, setSubmitting] = useState(false);
+  const [content, setContent] = useState({
+		id: detail.profile.id,
+		name: detail.profile.name,
+		email: detail.profile.email,
+		role: detail.profile.role,
+		department:detail.profile.department,
+		designation: detail.profile.designation,
+    ext_no:detail.profile.ext_no,
+    research_interest:detail.profile.research_interest,
+	});
+  const handleChange = (e) => {
+		if (e.target.name == "important" || e.target.name == "isVisible") {
+			setContent({ ...content, [e.target.name]: e.target.checked });
+		} else {
+			setContent({ ...content, [e.target.name]: e.target.value });
+		}
+		// console.log(content);
+	};
+  const handleSubmit = async (e) => {
+		e.preventDefault();
+		setSubmitting(true);
 
+		let finaldata = {
+			...content,
+
+      id: content.id,
+      name: content.name,
+      email: content.email,
+      role: content.role,
+      department:content.department,
+      designation: content.designation,
+      ext_no:content.ext_no,
+      research_interest:content.research_interest,
+		};
+
+		console.log(finaldata);
+		let result = await fetch("/api/update/user", {
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/json",
+			},
+			method: "POST",
+			body: JSON.stringify(finaldata),
+		});
+		result = await result.json();
+		if (result instanceof Error) {
+			console.log("Error Occured");
+			console.log(result);
+		}
+    setSubmitting(true);
+    setdisable(!disabled);
+		console.log(result);
+	};
+  const [disabled, setdisable]= useState(true);
+  function handledisable(){
+    setdisable(!disabled);
+  }
   return (
     <>
       {session && (
+        <div>
         <Profile>
-          <div className="faculty-img-row">
-            <div className="faculty-img-wrap">
-              {/* <img
-                src={`${process.env.GATSBY_API_URL}/profile/image?id=${detail.profile.id}`}
-                className="facultypic"
-              /> */}
-            </div>
-            <a href={`mailto:${detail.profile.email}`} target="blank">
-              {/* <img src={mail} className="img-fluid facmail" /> */}
-            </a>
-            <h2>{detail.profile.name}</h2>
-            <h3>{detail.profile.designation}</h3>
-          </div>
-
           <div className="faculty-details-row">
             <h1>Profile</h1>
             <div className="fac-card" data-aos="fade-up">
-              <h3>Research Interest:-</h3>
-              <p>{detail.profile.research_interest}</p>
-              <h3>Email:-</h3>
-              <p>{detail.profile.email}</p>
-              <h3>Phone:-</h3>
-              <p>{detail.profile.ext_no}</p>
+              
+            <TextField
+							margin="dense"
+							id="name"
+							label="Name"
+							name="name"
+							type="text"
+							required
+							fullWidth
+              disabled={disabled}
+							placeholder="name"
+							onChange={(e) => handleChange(e)}
+							value={content.name}
+						/>
+             <TextField
+							margin="dense"
+							id="designation"
+							label="Designation"
+							name="designation"
+							type="text"
+							required
+							fullWidth
+              disabled={disabled}
+							placeholder="designation"
+							onChange={(e) => handleChange(e)}
+							value={content.designation}
+						/>
+              <TextField
+							margin="dense"
+							id="research_interest"
+							label="Research interest"
+							name="research_interest"
+							type="text"
+							required
+							fullWidth
+              disabled={disabled}
+							placeholder="research_interest"
+							onChange={(e) => handleChange(e)}
+							value={content.research_interest}
+						/>
+                <TextField
+							margin="dense"
+							id="email"
+							label="Email"
+							name="email"
+							type="text"
+							required
+							fullWidth
+              disabled={disabled}
+							placeholder="email"
+							onChange={(e) => handleChange(e)}
+							value={content.email}
+						/>
+                 <TextField
+							margin="dense"
+							id="ext_no"
+							label="Ext_no"
+							name="ext_no"
+							type="text"
+							required
+							fullWidth
+              disabled={disabled}
+							placeholder="ext_no"
+							onChange={(e) => handleChange(e)}
+							value={content.ext_no}
+						/>
+            {disabled ? (
+							<Button color="primary" onClick={handledisable}>
+								Edit
+							</Button>
+						) : (
+              
+                <Button type="submit" color="primary" onClick={handleSubmit}>
+                 {submitting ? "Submitting": "Submit"} 
+                </Button>
+            
+						)}
+              
             </div>
 
-            {detail.subjects_teaching && (
-              <div className="fac-card" data-aos="fade-up">
-                <h3>Subjects</h3>
-                {detail.subjects.map((item) => {
-                  return <li>{item}</li>;
-                })}
-              </div>
-            )}
-            {detail.memberships && (
-              <div className="fac-card" data-aos="fade-up">
-                <h3>Memberships & Society</h3>
-                <div className="factable">
-                  <table>
-                    <tr>
-                      <td>
-                        <h4>Membership</h4>
-                      </td>
-                      <td>
-                        <h4>Membership Society</h4>
-                      </td>
-                    </tr>
-                    {detail.memberships.map((item) => {
-                      return (
-                        <tr>
-                          <td>
-                            <li>{item.membership_id}</li>
-                          </td>
-                          <td>
-                            <li>{item.membership_society}</li>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </table>
-                </div>
-              </div>
-            )}
-            {detail.education && (
-              <div className="fac-card" data-aos="fade-up">
-                <h3>Educational Qualification</h3>
-                <div className="factable">
-                  <table>
-                    <tr>
-                      <td>
-                        <h4>Certification</h4>
-                      </td>
-                      <td>
-                        <h4>Institute Name</h4>
-                      </td>
-                      <td>
-                        <h4>Passing Year</h4>
-                      </td>
-                    </tr>
-                    {detail.qualification.map((item) => {
-                      return (
-                        <tr>
-                          <td>
-                            <li>{item.certification}</li>
-                          </td>
-                          <td>
-                            <li>{item.institution}</li>
-                          </td>
-                          <td>
-                            <li>{item.passing_year}</li>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </table>
-                </div>
-              </div>
-            )}
-            {detail.curr_admin_responsibility && (
-              <div className="fac-card" data-aos="fade-up">
-                <h3>Current Administrative Responsibility</h3>
-                {detail.currResponsibility.map((item) => {
-                  return <li>{item}</li>;
-                })}
-              </div>
-            )}
-            {detail.past_admin_reponsibility && (
-              <div className="fac-card" data-aos="fade-up">
-                <h3>Past Administrative Responsibility</h3>
-                {detail.pastreponsibility.map((item) => {
-                  return <li>{item}</li>;
-                })}
-              </div>
-            )}
-            {detail.work_experience && (
-              <div className="fac-card" data-aos="fade-up">
-                <h3>Work Experiences</h3>
-                {detail.workExperience.map((item) => {
-                  return <li>{item}</li>;
-                })}
-              </div>
-            ) }
-            {detail.professional_service && (
-              <div className="fac-card" data-aos="fade-up">
-                <h3>Professional Services</h3>
-                {detail.services.map((item) => {
-                  return <li>{item}</li>;
-                })}
-              </div>
-            )}
-            {detail.project && (
-              <div className="fac-card" data-aos="fade-up">
-                <h3>Projects</h3>
-                {detail.projects.map((item) => {
-                  return <li>{item}</li>;
-                })}
-              </div>
-            )}
-            {detail.phd_candidates && (
-              <div className="fac-card" data-aos="fade-up">
-                <h3>Phd Candidates</h3>
-                {detail.phdCandidates.map((item) => {
-                  return <li>{item}</li>;
-                })}
-              </div>
-            )}
+            <SubjectDisplay data={detail} />
+            <br></br>
+            <MembershipDisplay data={detail} />
+            <br></br>
+            <EducationDisplay data={detail} />
+            <br/>
+            <CurrResponsibilityDisplay data={detail} />
+            <br/>
+            <PastResponsibilityDisplay data={detail} />
+            <br/>
+            <WorkExperiencedisplay data={detail} />
+            <br/>
+            <ServicesDisplay data={detail} />
+            <br/>
+            <Projectdisplay  data={detail} />
+            <br/>
+            <CandidateDisplay data={detail} />
+            <br/>
+            
           </div>
+         
         </Profile>
+        
+        </div>
       )}
     </>
   );

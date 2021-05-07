@@ -128,6 +128,7 @@ const handler = async (req, res) => {
                   id=${params.id},
                   user_id=${params.user_id},
                   email=${params.email},
+                  institution=${params.institution},
                   certification=${params.certification},
                   passing_year=${params.passing_year},
                   primary key (id))`
