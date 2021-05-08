@@ -111,7 +111,7 @@ export default function ButtonAppBar() {
 			</List>
 			<Divider />
 			<List>
-				{["Profile", "Events", "Notice", "News", "Innovation"].map(
+				{["Events", "Notice", "News", "Innovation"].map(
 					(text, index) => (
 						<ListItem button key={text}>
 							<ListItemIcon></ListItemIcon>
@@ -183,9 +183,6 @@ export default function ButtonAppBar() {
 									open={open}
 									onClose={handleClose}
 								>
-									<MenuItem>
-										<Link href="/user">Profile</Link>
-									</MenuItem>
 									<MenuItem
 										onClick={(e) => {
 											e.preventDefault();

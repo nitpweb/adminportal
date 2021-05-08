@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { signIn, signout, useSession } from "next-auth/client";
 import TextField from "@material-ui/core/TextField";
+import { Button } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
 const Profile = styled.div`
   font-family: "Source Sans Pro";
@@ -80,7 +82,18 @@ const Profile = styled.div`
 `;
 
 export default function Profilepage(props) {
-  const [detail, useDetail] = useState(JSON.parse(props.details));
+  const useStyles = makeStyles({
+    input: {
+      width: `250px`,
+      textAlign:`center`
+    },
+    underline: {
+      border: `0px`
+    }
+  })
+    const classes = useStyles();
+  const [detail, setDetail] = useState(JSON.parse(props.details));
+  const [disable, setDisabled] = useState(true);
   console.log(props.details);
   const [session, loading] = useSession();
 
@@ -98,26 +111,74 @@ export default function Profilepage(props) {
             <a href={`mailto:${detail.profile.email}`} target="blank">
               {/* <img src={mail} className="img-fluid facmail" /> */}
             </a>
-            <h2>{detail.profile.name}</h2>
-            <h3>{detail.profile.designation}</h3>
+            <TextField
+              value={detail.profile.name}
+              size="medium"
+              InputProps={{
+                readOnly: disable,
+              }}
+            />
+            <h3>
+              <TextField
+                value={detail.profile.designation}
+                InputProps={{
+                  readOnly: disable,
+                }}
+              />
+            </h3>
+            <Button
+              color="primary"
+              variant="outlined"
+              onClick={() => setDisabled(false)}
+            >
+              Edit Profile
+            </Button>
           </div>
 
           <div className="faculty-details-row">
             <h1>Profile</h1>
             <div className="fac-card" data-aos="fade-up">
               <h3>Research Interest:-</h3>
-              <p>{detail.profile.research_interest}</p>
+              <TextField
+                value={detail.profile.research_interest}
+                size="medium"
+                InputProps={{
+                  readOnly: disable,
+                }}
+              />
               <h3>Email:-</h3>
-              <p>{detail.profile.email}</p>
+              <TextField
+                value={detail.profile.email}
+                InputProps={{
+                  readOnly: disable,
+                }}
+                className={classes.input }
+              />
               <h3>Phone:-</h3>
-              <p>{detail.profile.ext_no}</p>
+              <TextField
+                value={detail.profile.ext_no}
+                size="medium"
+                InputProps={{
+                  readOnly: disable,
+                }}
+              />
             </div>
 
             <div className="fac-card" data-aos="fade-up">
               <h3>Subjects</h3>
               {detail.subjects_teaching &&
                 detail.subjects.map((item) => {
-                  return <li>{item}</li>;
+                  return (
+                    <li>
+                      <TextField
+                        value={item}
+                        size="medium"
+                        InputProps={{
+                          readOnly: disable,
+                        }}
+                      />
+                    </li>
+                  );
                 })}
             </div>
 
@@ -138,10 +199,26 @@ export default function Profilepage(props) {
                       return (
                         <tr>
                           <td>
-                            <li>{item.membership_id}</li>
+                            <li>
+                              <TextField
+                                value={item.membership_id}
+                                size="medium"
+                                InputProps={{
+                                  readOnly: disable,
+                                }}
+                              />
+                            </li>
                           </td>
                           <td>
-                            <li>{item.membership_society}</li>
+                            <li>
+                              <TextField
+                                value={item.membership_society}
+                                size="medium"
+                                InputProps={{
+                                  readOnly: disable,
+                                }}
+                              />
+                            </li>
                           </td>
                         </tr>
                       );
@@ -170,13 +247,38 @@ export default function Profilepage(props) {
                       return (
                         <tr>
                           <td>
-                            <li>{item.certification}</li>
+                            <li>
+                              <TextField
+                                value={item.certification}
+                                size="medium"
+                                InputProps={{
+                                  readOnly: disable,
+                                }}
+                              />
+                            </li>
                           </td>
                           <td>
-                            <li>{item.institution}</li>
+                            <li>
+                              {" "}
+                              <TextField
+                                value={item.institution}
+                                size="medium"
+                                InputProps={{
+                                  readOnly: disable,
+                                }}
+                              />
+                            </li>
                           </td>
                           <td>
-                            <li>{item.passing_year}</li>
+                            <li>
+                              <TextField
+                                value={item.passing_year}
+                                size="medium"
+                                InputProps={{
+                                  readOnly: disable,
+                                }}
+                              />
+                            </li>
                           </td>
                         </tr>
                       );
@@ -189,7 +291,17 @@ export default function Profilepage(props) {
               <h3>Current Administrative Responsibility</h3>
               {detail.curr_admin_responsibility &&
                 detail.currResponsibility.map((item) => {
-                  return <li>{item}</li>;
+                  return (
+                    <li>
+                      <TextField
+                        value={item}
+                        size="medium"
+                        InputProps={{
+                          readOnly: disable,
+                        }}
+                      />
+                    </li>
+                  );
                 })}
             </div>
 
@@ -197,7 +309,17 @@ export default function Profilepage(props) {
               <h3>Past Administrative Responsibility</h3>
               {detail.past_admin_reponsibility &&
                 detail.pastreponsibility.map((item) => {
-                  return <li>{item}</li>;
+                  return (
+                    <li>
+                      <TextField
+                        value={item}
+                        size="medium"
+                        InputProps={{
+                          readOnly: disable,
+                        }}
+                      />
+                    </li>
+                  );
                 })}
             </div>
 
@@ -205,7 +327,17 @@ export default function Profilepage(props) {
               <h3>Work Experiences</h3>
               {detail.work_experience &&
                 detail.workExperience.map((item) => {
-                  return <li>{item}</li>;
+                  return (
+                    <li>
+                      <TextField
+                        value={item}
+                        size="medium"
+                        InputProps={{
+                          readOnly: disable,
+                        }}
+                      />
+                    </li>
+                  );
                 })}
             </div>
 
@@ -213,7 +345,17 @@ export default function Profilepage(props) {
               <h3>Professional Services</h3>
               {detail.professional_service &&
                 detail.services.map((item) => {
-                  return <li>{item}</li>;
+                  return (
+                    <li>
+                      <TextField
+                        value={item}
+                        size="medium"
+                        InputProps={{
+                          readOnly: disable,
+                        }}
+                      />
+                    </li>
+                  );
                 })}
             </div>
 
@@ -221,7 +363,17 @@ export default function Profilepage(props) {
               <h3>Projects</h3>
               {detail.project &&
                 detail.projects.map((item) => {
-                  return <li>{item}</li>;
+                  return (
+                    <li>
+                      <TextField
+                        value={item}
+                        size="medium"
+                        InputProps={{
+                          readOnly: disable,
+                        }}
+                      />
+                    </li>
+                  );
                 })}
             </div>
 
@@ -229,7 +381,17 @@ export default function Profilepage(props) {
               <h3>Phd Candidates</h3>
               {detail.phd_candidates &&
                 detail.phdCandidates.map((item) => {
-                  return <li>{item}</li>;
+                  return (
+                    <li>
+                      <TextField
+                        value={item}
+                        size="medium"
+                        InputProps={{
+                          readOnly: disable,
+                        }}
+                      />
+                    </li>
+                  );
                 })}
             </div>
           </div>
