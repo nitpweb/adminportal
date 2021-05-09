@@ -45,26 +45,26 @@ const handler = async (req, res) => {
         res.json(result)
 
       } else if (type == "user") {
-        await query(
-          `insert into users (id=${params.id},name,email,role,department,designation,ext_no,research_interest) values (
-            ${params.id},${params.name},${params.email},${params.role},${params.department},${params.designation},${params.ext_no},${params.research_interest})`
+        let result = await query(
+          `insert into users (name,email,role,department,designation,ext_no,research_interest) values (`+
+            `'${params.name}','${params.email}','${params.role}','${params.department}','${params.designation}','${params.ext_no}','${params.research_interest}')`
         );
+        res.json(result)
       } else if (type == "image") {
         await query(
-          `insert into faculty_image (user_id,email,image) values (
-            ${params.user_id},${params.email},${params.image})`
+          `insert into faculty_image (user_id,email,image) values (`+
+            `${params.user_id},${params.email},${params.image})`
         );
       } else if (type == "current-responsibility") {
         await query(
-          `insert into curr_admin_responsibility (id,user_id,email,curr_responsibility) values (
-            ${params.id},${params.user_id},${params.email},${params.curr_responsibility},
+          `insert into curr_admin_responsibility (id,user_id,email,curr_responsibility) values (`+
+            `${params.id},${params.user_id},${params.email},${params.curr_responsibility},
           )`
         );
       } else if (type == "memberships") {
         await query(
-          `insert into memberships (id,user_id,email,membership_id,membership_society) values (
-            ${params.id},${params.user_id}, ${params.email},${params.membership_id},${params.membership_society},
-        )`
+          `insert into memberships (id,user_id,email,membership_id,membership_society) values (`+
+            `${params.id},${params.user_id}, ${params.email},${params.membership_id},${params.membership_society},)`
         );
       } else if (type == "past-responsibility") {
         await query(
