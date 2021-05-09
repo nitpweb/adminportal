@@ -105,7 +105,7 @@ export async function getServerSideProps({ req, res }) {
     console.log(profile.id);
     array.forEach(async(element) => {
       let data = await query(
-        `SELECT * FROM ${element} WHERE user_id=${profile.id};`
+        `SELECT * FROM ${element} WHERE email="${session.user.email}";`
       ).catch((e) => {
         console.log(e);
       });
