@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { signIn, signout, useSession } from "next-auth/client";
 import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const Profile = styled.div`
   font-family: "Source Sans Pro";
@@ -114,16 +117,48 @@ export default function Profilepage(props) {
               <p>{detail.profile.ext_no}</p>
             </div>
 
-            <div className="fac-card" data-aos="fade-up">
+            <div
+              className="fac-card"
+              data-aos="fade-up"
+              style={{ position: `relative` }}
+            >
               <h3>Subjects</h3>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={() => {}}
+                style={{ position: `absolute`, top: `5px`, right: `5px` }}
+              >
+                Add
+              </Button>
+
               {detail.subjects_teaching &&
                 detail.subjects.map((item) => {
-                  return <li>{item}</li>;
+                  return (
+                    <li>
+                      {item}{" "}
+                      <IconButton aria-label="delete" onClick={() => {}}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </li>
+                  );
                 })}
             </div>
 
-            <div className="fac-card" data-aos="fade-up">
+            <div
+              className="fac-card"
+              data-aos="fade-up"
+              style={{ position: `relative` }}
+            >
               <h3>Memberships & Society</h3>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={() => {}}
+                style={{ position: `absolute`, top: `5px`, right: `5px` }}
+              >
+                Add
+              </Button>
               <div className="factable">
                 <table>
                   <tr>
@@ -144,6 +179,9 @@ export default function Profilepage(props) {
                           <td>
                             <li>{item.membership_society}</li>
                           </td>
+                          <IconButton aria-label="delete" onClick={() => {}}>
+                            <DeleteIcon />
+                          </IconButton>
                         </tr>
                       );
                     })}
@@ -151,8 +189,20 @@ export default function Profilepage(props) {
               </div>
             </div>
 
-            <div className="fac-card" data-aos="fade-up">
+            <div
+              className="fac-card"
+              data-aos="fade-up"
+              style={{ position: `relative` }}
+            >
               <h3>Educational Qualification</h3>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={() => {}}
+                style={{ position: `absolute`, top: `5px`, right: `5px` }}
+              >
+                Add
+              </Button>
               <div className="factable">
                 <table>
                   <tr>
@@ -179,6 +229,9 @@ export default function Profilepage(props) {
                           <td>
                             <li>{item.passing_year}</li>
                           </td>
+                          <IconButton aria-label="delete" onClick={() => {}}>
+          <DeleteIcon />
+        </IconButton>
                         </tr>
                       );
                     })}
@@ -186,51 +239,135 @@ export default function Profilepage(props) {
               </div>
             </div>
 
-            <div className="fac-card" data-aos="fade-up">
+            <div
+              className="fac-card"
+              data-aos="fade-up"
+              style={{ position: `relative` }}
+            >
               <h3>Current Administrative Responsibility</h3>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={() => {}}
+                style={{ position: `absolute`, top: `5px`, right: `5px` }}
+              >
+                Add
+              </Button>
               {detail.curr_admin_responsibility &&
                 detail.currResponsibility.map((item) => {
-                  return <li>{item}</li>;
+                  return <li>{item} <IconButton aria-label="delete" onClick={() => {}}>
+                  <DeleteIcon />
+                </IconButton></li>;
                 })}
             </div>
 
-            <div className="fac-card" data-aos="fade-up">
+            <div
+              className="fac-card"
+              data-aos="fade-up"
+              style={{ position: `relative` }}
+            >
               <h3>Past Administrative Responsibility</h3>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={() => {}}
+                style={{ position: `absolute`, top: `5px`, right: `5px` }}
+              >
+                Add
+              </Button>
               {detail.past_admin_reponsibility &&
                 detail.pastreponsibility.map((item) => {
-                  return <li>{item}</li>;
+                  return <li>{item} <IconButton aria-label="delete" onClick={() => {}}>
+                  <DeleteIcon />
+                </IconButton></li>;
                 })}
             </div>
 
-            <div className="fac-card" data-aos="fade-up">
+            <div
+              className="fac-card"
+              data-aos="fade-up"
+              style={{ position: `relative` }}
+            >
               <h3>Work Experiences</h3>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={() => {}}
+                style={{ position: `absolute`, top: `5px`, right: `5px` }}
+              >
+                Add
+              </Button>
               {detail.work_experience &&
                 detail.workExperience.map((item) => {
-                  return <li>{item}</li>;
+                  return <li>{item} <IconButton aria-label="delete" onClick={() => {}}>
+                  <DeleteIcon />
+                </IconButton></li>;
                 })}
             </div>
 
-            <div className="fac-card" data-aos="fade-up">
+            <div
+              className="fac-card"
+              data-aos="fade-up"
+              style={{ position: `relative` }}
+            >
               <h3>Professional Services</h3>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={() => {}}
+                style={{ position: `absolute`, top: `5px`, right: `5px` }}
+              >
+                Add
+              </Button>
               {detail.professional_service &&
                 detail.services.map((item) => {
-                  return <li>{item}</li>;
+                  return <li>{item} <IconButton aria-label="delete" onClick={() => {}}>
+                  <DeleteIcon />
+                </IconButton></li>;
                 })}
             </div>
 
-            <div className="fac-card" data-aos="fade-up">
+            <div
+              className="fac-card"
+              data-aos="fade-up"
+              style={{ position: `relative` }}
+            >
               <h3>Projects</h3>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={() => {}}
+                style={{ position: `absolute`, top: `5px`, right: `5px` }}
+              >
+                Add
+              </Button>
               {detail.project &&
                 detail.projects.map((item) => {
-                  return <li>{item}</li>;
+                  return <li>{item} <IconButton aria-label="delete" onClick={() => {}}>
+                  <DeleteIcon />
+                </IconButton></li>;
                 })}
             </div>
 
-            <div className="fac-card" data-aos="fade-up">
+            <div
+              className="fac-card"
+              data-aos="fade-up"
+              style={{ position: `relative` }}
+            >
               <h3>Phd Candidates</h3>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={() => {}}
+                style={{ position: `absolute`, top: `5px`, right: `5px` }}
+              >
+                Add
+              </Button>
               {detail.phd_candidates &&
                 detail.phdCandidates.map((item) => {
-                  return <li>{item}</li>;
+                  return <li>{item} <IconButton aria-label="delete" onClick={() => {}}>
+                  <DeleteIcon />
+                </IconButton></li>;
                 })}
             </div>
           </div>
