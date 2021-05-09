@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { signIn, signout, useSession } from "next-auth/client";
 import TextField from "@material-ui/core/TextField";
-import { Button } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
 
 const Profile = styled.div`
   font-family: "Source Sans Pro";
@@ -82,18 +80,7 @@ const Profile = styled.div`
 `;
 
 export default function Profilepage(props) {
-  const useStyles = makeStyles({
-    input: {
-      width: `250px`,
-      textAlign:`center`
-    },
-    underline: {
-      border: `0px`
-    }
-  })
-    const classes = useStyles();
-  const [detail, setDetail] = useState(JSON.parse(props.details));
-  const [disable, setDisabled] = useState(true);
+  const [detail, useDetail] = useState(JSON.parse(props.details));
   console.log(props.details);
   const [session, loading] = useSession();
 
@@ -103,6 +90,7 @@ export default function Profilepage(props) {
         <Profile>
           <div className="faculty-img-row">
             <div className="faculty-img-wrap">
+              <img src="/faculty.png" alt="faculty" />
               {/* <img
                 src={`${process.env.GATSBY_API_URL}/profile/image?id=${detail.profile.id}`}
                 className="facultypic"
@@ -111,74 +99,26 @@ export default function Profilepage(props) {
             <a href={`mailto:${detail.profile.email}`} target="blank">
               {/* <img src={mail} className="img-fluid facmail" /> */}
             </a>
-            <TextField
-              value={detail.profile.name}
-              size="medium"
-              InputProps={{
-                readOnly: disable,
-              }}
-            />
-            <h3>
-              <TextField
-                value={detail.profile.designation}
-                InputProps={{
-                  readOnly: disable,
-                }}
-              />
-            </h3>
-            <Button
-              color="primary"
-              variant="outlined"
-              onClick={() => setDisabled(false)}
-            >
-              Edit Profile
-            </Button>
+            <h2>{detail.profile.name}</h2>
+            <h3>{detail.profile.designation}</h3>
           </div>
 
           <div className="faculty-details-row">
             <h1>Profile</h1>
             <div className="fac-card" data-aos="fade-up">
               <h3>Research Interest:-</h3>
-              <TextField
-                value={detail.profile.research_interest}
-                size="medium"
-                InputProps={{
-                  readOnly: disable,
-                }}
-              />
+              <p>{detail.profile.research_interest}</p>
               <h3>Email:-</h3>
-              <TextField
-                value={detail.profile.email}
-                InputProps={{
-                  readOnly: disable,
-                }}
-                className={classes.input }
-              />
+              <p>{detail.profile.email}</p>
               <h3>Phone:-</h3>
-              <TextField
-                value={detail.profile.ext_no}
-                size="medium"
-                InputProps={{
-                  readOnly: disable,
-                }}
-              />
+              <p>{detail.profile.ext_no}</p>
             </div>
 
             <div className="fac-card" data-aos="fade-up">
               <h3>Subjects</h3>
               {detail.subjects_teaching &&
                 detail.subjects.map((item) => {
-                  return (
-                    <li>
-                      <TextField
-                        value={item}
-                        size="medium"
-                        InputProps={{
-                          readOnly: disable,
-                        }}
-                      />
-                    </li>
-                  );
+                  return <li>{item}</li>;
                 })}
             </div>
 
@@ -199,26 +139,10 @@ export default function Profilepage(props) {
                       return (
                         <tr>
                           <td>
-                            <li>
-                              <TextField
-                                value={item.membership_id}
-                                size="medium"
-                                InputProps={{
-                                  readOnly: disable,
-                                }}
-                              />
-                            </li>
+                            <li>{item.membership_id}</li>
                           </td>
                           <td>
-                            <li>
-                              <TextField
-                                value={item.membership_society}
-                                size="medium"
-                                InputProps={{
-                                  readOnly: disable,
-                                }}
-                              />
-                            </li>
+                            <li>{item.membership_society}</li>
                           </td>
                         </tr>
                       );
@@ -247,38 +171,13 @@ export default function Profilepage(props) {
                       return (
                         <tr>
                           <td>
-                            <li>
-                              <TextField
-                                value={item.certification}
-                                size="medium"
-                                InputProps={{
-                                  readOnly: disable,
-                                }}
-                              />
-                            </li>
+                            <li>{item.certification}</li>
                           </td>
                           <td>
-                            <li>
-                              {" "}
-                              <TextField
-                                value={item.institution}
-                                size="medium"
-                                InputProps={{
-                                  readOnly: disable,
-                                }}
-                              />
-                            </li>
+                            <li>{item.institution}</li>
                           </td>
                           <td>
-                            <li>
-                              <TextField
-                                value={item.passing_year}
-                                size="medium"
-                                InputProps={{
-                                  readOnly: disable,
-                                }}
-                              />
-                            </li>
+                            <li>{item.passing_year}</li>
                           </td>
                         </tr>
                       );
@@ -291,17 +190,7 @@ export default function Profilepage(props) {
               <h3>Current Administrative Responsibility</h3>
               {detail.curr_admin_responsibility &&
                 detail.currResponsibility.map((item) => {
-                  return (
-                    <li>
-                      <TextField
-                        value={item}
-                        size="medium"
-                        InputProps={{
-                          readOnly: disable,
-                        }}
-                      />
-                    </li>
-                  );
+                  return <li>{item}</li>;
                 })}
             </div>
 
@@ -309,17 +198,7 @@ export default function Profilepage(props) {
               <h3>Past Administrative Responsibility</h3>
               {detail.past_admin_reponsibility &&
                 detail.pastreponsibility.map((item) => {
-                  return (
-                    <li>
-                      <TextField
-                        value={item}
-                        size="medium"
-                        InputProps={{
-                          readOnly: disable,
-                        }}
-                      />
-                    </li>
-                  );
+                  return <li>{item}</li>;
                 })}
             </div>
 
@@ -327,17 +206,7 @@ export default function Profilepage(props) {
               <h3>Work Experiences</h3>
               {detail.work_experience &&
                 detail.workExperience.map((item) => {
-                  return (
-                    <li>
-                      <TextField
-                        value={item}
-                        size="medium"
-                        InputProps={{
-                          readOnly: disable,
-                        }}
-                      />
-                    </li>
-                  );
+                  return <li>{item}</li>;
                 })}
             </div>
 
@@ -345,17 +214,7 @@ export default function Profilepage(props) {
               <h3>Professional Services</h3>
               {detail.professional_service &&
                 detail.services.map((item) => {
-                  return (
-                    <li>
-                      <TextField
-                        value={item}
-                        size="medium"
-                        InputProps={{
-                          readOnly: disable,
-                        }}
-                      />
-                    </li>
-                  );
+                  return <li>{item}</li>;
                 })}
             </div>
 
@@ -363,17 +222,7 @@ export default function Profilepage(props) {
               <h3>Projects</h3>
               {detail.project &&
                 detail.projects.map((item) => {
-                  return (
-                    <li>
-                      <TextField
-                        value={item}
-                        size="medium"
-                        InputProps={{
-                          readOnly: disable,
-                        }}
-                      />
-                    </li>
-                  );
+                  return <li>{item}</li>;
                 })}
             </div>
 
@@ -381,17 +230,7 @@ export default function Profilepage(props) {
               <h3>Phd Candidates</h3>
               {detail.phd_candidates &&
                 detail.phdCandidates.map((item) => {
-                  return (
-                    <li>
-                      <TextField
-                        value={item}
-                        size="medium"
-                        InputProps={{
-                          readOnly: disable,
-                        }}
-                      />
-                    </li>
-                  );
+                  return <li>{item}</li>;
                 })}
             </div>
           </div>
