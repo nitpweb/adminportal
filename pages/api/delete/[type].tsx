@@ -27,33 +27,34 @@ const handler = async (req, res) => {
         let result = await query(`delete from news WHERE id = ${params}`);
       res.json(result)
       } else if (type == "user") {
-        await query(`delete from users WHERE id = ${params}`);
+        let result = await query(`delete from users WHERE id = ${params}`);
+           res.json(result)
       } else if (type == "memberships") {
-        await query(`delete from memberships WHERE id = ${params}`);
+        let result = await query(`delete from memberships WHERE id = ${params}`); res.json(result)
       } else if (type == "image") {
-        await query(`delete from faculty_image WHERE email = "${params}"`);
+        let result = await query(`delete from faculty_image WHERE email = "${params}"`); res.json(result)
       } else if (type == "current-responsibility") {
-        await query(
+        let result = await query(
           `delete from curr_admin_responsibility WHERE id = ${params}`
-        );
+        ); res.json(result)
       } else if (type == "past-responsibility") {
-        await query(
+        let result = await query(
           `delete from past_admin_responsibility WHERE id = ${params}`
-        );
+        ); res.json(result)
       } else if (type == "workexperience") {
-        await query(`delete from work_experience WHERE id = ${params}`);
+        let result = await query(`delete from work_experience WHERE id = ${params}`); res.json(result)
       } else if (type == "subjects") {
-        await query(`delete from subjects_teaching WHERE id = ${params}`);
+        let result = await query(`delete from subjects_teaching WHERE id = ${params}`); res.json(result)
       } else if (type == "publications") {
-        await query(`delete from publications WHERE id = ${params}`);
+        let result = await query(`delete from publications WHERE id = ${params}`); res.json(result)
       } else if (type == "project") {
-        await query(`delete from project WHERE id = ${params}`);
+        let result = await query(`delete from project WHERE id = ${params}`); res.json(result)
       } else if (type == "professionalservice") {
-        await query(`delete from Professional_Service WHERE id = ${params}`);
+        let result = await query(`delete from Professional_Service WHERE id = ${params}`); res.json(result)
       } else if (type == "education") {
-        await query(`delete from education WHERE id = ${params}`);
+        let result = await query(`delete from education WHERE id = ${params}`); res.json(result)
       } else if (type == "phdcandidates") {
-        await query(`delete from phd_candidates WHERE id = ${params}`);
+        let result = await query(`delete from phd_candidates WHERE id = ${params}`); res.json(result)
       } else {
         res.json({ message: "Could not find matching requests" });
       }

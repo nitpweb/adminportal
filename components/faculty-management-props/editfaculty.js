@@ -10,11 +10,12 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
 import { Delete } from "@material-ui/icons";
-import { useSession } from "next-auth/client";
+// import { useSession } from "next-auth/client";
 import React, { useState } from "react";
+import { ConfirmDelete } from "./confirm-delete";
 
 export const EditFaculty = ({ data, handleClose, modal }) => {
-	const [session, loading] = useSession();
+	// const [session, loading] = useSession();
 	const [submitting, setSubmitting] = useState(false);
 
 	const [content, setContent] = useState({ ...data });
@@ -22,6 +23,12 @@ export const EditFaculty = ({ data, handleClose, modal }) => {
 		setContent({ ...content, [e.target.name]: e.target.value });
 		// console.log(content);
 	};
+	const [verifyDelete, setVerifyDelete] = useState(false);
+
+	const handleDelete = () => {
+		setVerifyDelete(false);
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setSubmitting(true);
@@ -62,11 +69,11 @@ export const EditFaculty = ({ data, handleClose, modal }) => {
 							/>
 						</i>
 					</DialogTitle>
-					{/* <ConfirmDelete
+					<ConfirmDelete
 						modal={verifyDelete}
 						handleClose={handleDelete}
 						id={content.id}
-					/> */}
+					/>
 					<DialogContent>
 						<TextField
 							margin="dense"
