@@ -81,8 +81,12 @@ export const FacultyTable = ({ entries }) => {
 										{roles[row.role]}
 									</StyledTableCell>
 									<StyledTableCell align="right">{row.ext_no}</StyledTableCell>
-									<StyledTableCell align="right">
-										<Edit onClick={editModalOpen} /> <span>Edit</span>
+									<StyledTableCell
+										align="right"
+										onClick={editModalOpen}
+										style={{ cursor: `pointer` }}
+									>
+										<Edit /> <span>Edit</span>
 									</StyledTableCell>
 								</StyledTableRow>
 								<EditFaculty
