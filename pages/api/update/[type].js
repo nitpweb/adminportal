@@ -40,15 +40,8 @@ const handler = async (req, res) => {
 				return res.json(result);
 			} else if (type == "user") {
 				await query(
-					`update users where (
-		name='${params.name}',
-		email='${params.email}',
-		role='${params.role}',
-		department='${params.department}',
-		designation='${params.designation}',
-		ext_no='${params.ext_no}',
-		research_interest='${params.research_interest}',
-		) where id=${params.id}`
+					`UPDATE users SET	name='${params.name}',email='${params.email}',role='${params.role}',department='${params.department}',designation='${params.designation}',ext_no='${params.ext_no}'` +
+						`,research_interest='${params.research_interest}' WHERE id=${params.id}`
 				);
 			} else if (type == "memberships") {
 				await query(

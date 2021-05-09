@@ -111,7 +111,7 @@ export default function ButtonAppBar() {
 			</List>
 			<Divider />
 			<List>
-				{["Events", "Notice", "News", "Innovation"].map(
+				{["Events", "Notice", "News", "Innovation", "Faculty-Management"].map(
 					(text, index) => (
 						<ListItem button key={text}>
 							<ListItemIcon></ListItemIcon>
