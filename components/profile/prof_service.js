@@ -8,10 +8,10 @@ import { useSession } from "next-auth/client";
 import React, { useState } from "react";
 import { AddAttachments } from "./../common-props/add-attachment";
 
-export const AddForm = ({ handleClose, modal }) => {
+export const AddProf = ({ handleClose, modal }) => {
   const [session, loading] = useSession();
   const [content, setContent] = useState({
-    professional_service: "",
+    services: "",
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -30,7 +30,7 @@ export const AddForm = ({ handleClose, modal }) => {
     };
     // data.attachments = JSON.stringify(data.attachments);
 
-    let result = await fetch("/api/create/event", {
+    let result = await fetch("/api/create/professionalservice", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -63,12 +63,12 @@ export const AddForm = ({ handleClose, modal }) => {
               margin="dense"
               id="label"
               label="Professional Services"
-              name="professional_service"
+              name="services"
               type="text"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
-              value={content.professional_service}
+              value={content.services}
             />
           </DialogContent>
           <DialogActions>

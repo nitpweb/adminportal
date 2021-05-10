@@ -30,7 +30,7 @@ export const AddForm = ({ handleClose, modal }) => {
     };
     // data.attachments = JSON.stringify(data.attachments);
 
-    let result = await fetch("/api/create/event", {
+    let result = await fetch("/api/create/subjects", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -63,7 +63,7 @@ export const AddForm = ({ handleClose, modal }) => {
               margin="dense"
               id="label"
               label="Subjects"
-              name="subjects_teaching"
+              name="subject_teaching"
               type="text"
               required
               fullWidth

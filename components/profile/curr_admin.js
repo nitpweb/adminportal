@@ -8,10 +8,10 @@ import { useSession } from "next-auth/client";
 import React, { useState } from "react";
 import { AddAttachments } from "./../common-props/add-attachment";
 
-export const AddForm = ({ handleClose, modal }) => {
+export const AddCurrent = ({ handleClose, modal }) => {
   const [session, loading] = useSession();
   const [content, setContent] = useState({
-    curr_admin_responsibility: ""
+    curr_responsibility: ""
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -30,7 +30,7 @@ export const AddForm = ({ handleClose, modal }) => {
     };
     // data.attachments = JSON.stringify(data.attachments);
 
-    let result = await fetch("/api/create/event", {
+    let result = await fetch("/api/create/current-responsibility", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -63,12 +63,12 @@ export const AddForm = ({ handleClose, modal }) => {
               margin="dense"
               id="label"
               label="Current Admin Responsibility"
-              name="curr_admin_responsibility"
+              name="curr_responsibility"
               type="text"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
-              value={content.curr_admin_responsibility}
+              value={content.curr_responsibility}
             />
           </DialogContent>
           <DialogActions>

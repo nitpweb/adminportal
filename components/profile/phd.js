@@ -8,10 +8,10 @@ import { useSession } from "next-auth/client";
 import React, { useState } from "react";
 import { AddAttachments } from "./../common-props/add-attachment";
 
-export const AddForm = ({ handleClose, modal }) => {
+export const Addphd = ({ handleClose, modal }) => {
   const [session, loading] = useSession();
   const [content, setContent] = useState({
-    phd_candidates: "",
+    phd_student_name: "",
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -30,7 +30,7 @@ export const AddForm = ({ handleClose, modal }) => {
     };
     // data.attachments = JSON.stringify(data.attachments);
 
-    let result = await fetch("/api/create/event", {
+    let result = await fetch("/api/create/phdcandidates", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -63,12 +63,12 @@ export const AddForm = ({ handleClose, modal }) => {
               margin="dense"
               id="label"
               label="PhD Student"
-              name="phd_candidates"
+              name="phd_student_name"
               type="text"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
-              value={content.phd_candidates}
+              value={content.phd_student_name}
             />
           </DialogContent>
           <DialogActions>
