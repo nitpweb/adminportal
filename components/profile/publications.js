@@ -8,16 +8,10 @@ import { useSession } from "next-auth/client";
 import React, { useState } from "react";
 import { AddAttachments } from "./../common-props/add-attachment";
 
-export const AddResearch = ({ handleClose, modal }) => {
+export const AddPublications = ({ handleClose, modal }) => {
   const [session, loading] = useSession();
   const [content, setContent] = useState({
-    name: "",
-    email:"",
-    role:"",
-    department:"",
-    designation:"",
-    ext_no:"",
-    research_interest:""
+    publications: "",
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -36,7 +30,7 @@ export const AddResearch = ({ handleClose, modal }) => {
     };
     // data.attachments = JSON.stringify(data.attachments);
 
-    let result = await fetch("/api/create/user", {
+    let result = await fetch("/api/create/publications", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -62,85 +56,19 @@ export const AddResearch = ({ handleClose, modal }) => {
           }}
         >
           <DialogTitle disableTypography style={{ fontSize: `2rem` }}>
-            Add Research Interest
+            Add Your Publications
           </DialogTitle>
           <DialogContent>
             <TextField
               margin="dense"
               id="label"
-              label="name"
-              name="name"
+              label="publications"
+              name="publications"
               type="text"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
-              value={content.name}
-            />
-              <TextField
-              margin="dense"
-              id="label"
-              label="email"
-              name="email"
-              type="text"
-              required
-              fullWidth
-              onChange={(e) => handleChange(e)}
-              value={content.email}
-            />
-            <TextField
-              margin="dense"
-              id="label"
-              label="role"
-              name="role"
-              type="text"
-              required
-              fullWidth
-              onChange={(e) => handleChange(e)}
-              value={content.role}
-            />
-            <TextField
-              margin="dense"
-              id="label"
-              label="department"
-              name="department"
-              type="text"
-              required
-              fullWidth
-              onChange={(e) => handleChange(e)}
-              value={content.department}
-            />
-            <TextField
-              margin="dense"
-              id="label"
-              label="designation"
-              name="designation"
-              type="text"
-              required
-              fullWidth
-              onChange={(e) => handleChange(e)}
-              value={content.designation}
-            />
-            <TextField
-              margin="dense"
-              id="label"
-              label="ext_no"
-              name="ext_no"
-              type="text"
-              required
-              fullWidth
-              onChange={(e) => handleChange(e)}
-              value={content.ext_no}
-            />
-            <TextField
-              margin="dense"
-              id="label"
-              label="research_interest"
-              name="research_interest"
-              type="text"
-              required
-              fullWidth
-              onChange={(e) => handleChange(e)}
-              value={content.research_interest}
+              value={content.publications}
             />
           </DialogContent>
           <DialogActions>

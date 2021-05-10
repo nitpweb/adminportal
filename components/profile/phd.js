@@ -12,6 +12,9 @@ export const Addphd = ({ handleClose, modal }) => {
   const [session, loading] = useSession();
   const [content, setContent] = useState({
     phd_student_name: "",
+    thesis_topic: "",
+    start_year: "",
+    completion_year:"",
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -69,6 +72,39 @@ export const Addphd = ({ handleClose, modal }) => {
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.phd_student_name}
+            />
+              <TextField
+              margin="dense"
+              id="label"
+              label="thesis_topic"
+              name="thesis_topic"
+              type="text"
+              required
+              fullWidth
+              onChange={(e) => handleChange(e)}
+              value={content.thesis_topic}
+            />
+              <TextField
+              margin="dense"
+              id="label"
+              label="start_year"
+              name="start_year"
+              type="text"
+              required
+              fullWidth
+              onChange={(e) => handleChange(e)}
+              value={content.start_year}
+            />
+              <TextField
+              margin="dense"
+              id="label"
+              label="completion_year"
+              name="completion_year"
+              type="text"
+              required
+              fullWidth
+              onChange={(e) => handleChange(e)}
+              value={content.completion_year}
             />
           </DialogContent>
           <DialogActions>

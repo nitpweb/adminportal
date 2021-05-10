@@ -44,7 +44,7 @@ export const AddCurrent = ({ handleClose, modal }) => {
       console.log(result);
     }
     console.log(result);
-    window.location.reload();
+    // window.location.reload();
   };
 
   return (

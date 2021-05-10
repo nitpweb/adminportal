@@ -15,6 +15,8 @@ import { AddWork } from "./profile/work";
 import { Addproject } from "./profile/project";
 import { Addphd } from "./profile/phd";
 import { AddResearch } from "./profile/research";
+import { AddPublications } from "./profile/publications";
+import { ConfirmDelete } from "./profile/delete"
 
 const Profile = styled.div`
   font-family: "Source Sans Pro";
@@ -93,7 +95,7 @@ const Profile = styled.div`
 `;
 
 export default function Profilepage(props) {
-  const [detail, useDetail] = useState(JSON.parse(props.details));
+  const [detail, useDetail] = useState(props.details);
   console.log(props.details);
   const [session, loading] = useSession();
   const [addModal, setAddModal] = useState(false);
@@ -104,12 +106,28 @@ export default function Profilepage(props) {
     setAddModal(false);
   };
 
+  const [addModald, setAddModald] = useState(false);
+  const addModalOpend = () => {
+    setAddModald(true);
+  };
+  const handleCloseAddModald = () => {
+    setAddModald(false);
+  };
+
   const [addModal1, setAddModal1] = useState(false);
   const addModalOpen1 = () => {
     setAddModal1(true);
   };
   const handleCloseAddModal1 = () => {
     setAddModal1(false);
+  };
+
+  const [addModal1d, setAddModal1d] = useState(false);
+  const addModalOpen1d = () => {
+    setAddModal1d(true);
+  };
+  const handleCloseAddModal1d = () => {
+    setAddModal1d(false);
   };
 
   const [addModal2, setAddModal2] = useState(false);
@@ -120,12 +138,28 @@ export default function Profilepage(props) {
     setAddModal2(false);
   };
 
+  const [addModal2d, setAddModal2d] = useState(false);
+  const addModalOpen2d = () => {
+    setAddModal2d(true);
+  };
+  const handleCloseAddModal2d = () => {
+    setAddModal2d(false);
+  };
+
   const [addModal3, setAddModal3] = useState(false);
   const addModalOpen3 = () => {
     setAddModal3(true);
   };
   const handleCloseAddModal3 = () => {
     setAddModal3(false);
+  };
+
+  const [addModal3d, setAddModal3d] = useState(false);
+  const addModalOpen3d = () => {
+    setAddModal3d(true);
+  };
+  const handleCloseAddModal3d = () => {
+    setAddModal3d(false);
   };
 
   const [addModal4, setAddModal4] = useState(false);
@@ -136,12 +170,28 @@ export default function Profilepage(props) {
     setAddModal4(false);
   };
 
+  const [addModal4d, setAddModal4d] = useState(false);
+  const addModalOpen4d = () => {
+    setAddModal4d(true);
+  };
+  const handleCloseAddModal4d = () => {
+    setAddModal4d(false);
+  };
+
   const [addModal5, setAddModal5] = useState(false);
   const addModalOpen5 = () => {
     setAddModal5(true);
   };
   const handleCloseAddModal5 = () => {
     setAddModal5(false);
+  };
+
+  const [addModal5d, setAddModal5d] = useState(false);
+  const addModalOpen5d = () => {
+    setAddModal5d(true);
+  };
+  const handleCloseAddModal5d = () => {
+    setAddModal5d(false);
   };
 
   const [addModal6, setAddModal6] = useState(false);
@@ -152,12 +202,28 @@ export default function Profilepage(props) {
     setAddModal6(false);
   };
 
+  const [addModal6d, setAddModal6d] = useState(false);
+  const addModalOpen6d = () => {
+    setAddModal6d(true);
+  };
+  const handleCloseAddModal6d = () => {
+    setAddModal6d(false);
+  };
+
   const [addModal7, setAddModal7] = useState(false);
   const addModalOpen7 = () => {
     setAddModal7(true);
   };
   const handleCloseAddModal7 = () => {
     setAddModal7(false);
+  };
+
+  const [addModal7d, setAddModal7d] = useState(false);
+  const addModalOpen7d = () => {
+    setAddModal7d(true);
+  };
+  const handleCloseAddModal7d = () => {
+    setAddModal7d(false);
   };
 
   const [addModal8, setAddModal8] = useState(false);
@@ -168,6 +234,14 @@ export default function Profilepage(props) {
     setAddModal8(false);
   };
 
+  const [addModal8d, setAddModal8d] = useState(false);
+  const addModalOpen8d = () => {
+    setAddModal8d(true);
+  };
+  const handleCloseAddModal8d = () => {
+    setAddModal8d(false);
+  };
+
   const [addModal9, setAddModal9] = useState(false);
   const addModalOpen9 = () => {
     setAddModal9(true);
@@ -176,6 +250,21 @@ export default function Profilepage(props) {
     setAddModal9(false);
   };
 
+  const [addModal10, setAddModal10] = useState(false);
+  const addModalOpen10 = () => {
+    setAddModal10(true);
+  };
+  const handleCloseAddModal10 = () => {
+    setAddModal10(false);
+  };
+
+  const [addModal10d, setAddModal10d] = useState(false);
+  const addModalOpen10d = () => {
+    setAddModal10d(true);
+  };
+  const handleCloseAddModal10d = () => {
+    setAddModal10d(false);
+  };
 
   return (
     <>
@@ -237,13 +326,14 @@ export default function Profilepage(props) {
               <AddForm handleClose={handleCloseAddModal} modal={addModal} />
 
               {detail.subjects_teaching &&
-                detail.subjects.map((item) => {
+                detail.subjects_teaching.map((item) => {
                   return (
                     <li>
-                      {item}{" "}
-                      <IconButton aria-label="delete" onClick={() => {}}>
+                      {item.subject}
+                      <IconButton aria-label="delete" onClick={() =>addModalOpend()}>
                         <DeleteIcon />
                       </IconButton>
+                      <ConfirmDelete handleClose={handleCloseAddModald} modal={addModald} id={item.id} del={"subjects"}/>
                     </li>
                   );
                 })}
@@ -287,9 +377,10 @@ export default function Profilepage(props) {
                           <td>
                             <li>{item.membership_society}</li>
                           </td>
-                          <IconButton aria-label="delete" onClick={() => {}}>
+                          <IconButton aria-label="delete" onClick={() => addModalOpen1d()}>
                             <DeleteIcon />
                           </IconButton>
+                          <ConfirmDelete handleClose={handleCloseAddModal1d} modal={addModal1d} id={item.id} del={"memberships"}/>
                         </tr>
                       );
                     })}
@@ -326,7 +417,7 @@ export default function Profilepage(props) {
                     </td>
                   </tr>
                   {detail.education &&
-                    detail.qualification.map((item) => {
+                    detail.education.map((item) => {
                       return (
                         <tr>
                           <td>
@@ -338,9 +429,10 @@ export default function Profilepage(props) {
                           <td>
                             <li>{item.passing_year}</li>
                           </td>
-                          <IconButton aria-label="delete" onClick={() => {}}>
+                          <IconButton aria-label="delete" onClick={() => addModalOpen3d()}>
                             <DeleteIcon />
                           </IconButton>
+                          <ConfirmDelete handleClose={handleCloseAddModal3d} modal={addModal3d} id={item.id} del={"education"}/>
                         </tr>
                       );
                     })}
@@ -367,13 +459,14 @@ export default function Profilepage(props) {
                 modal={addModal4}
               />
               {detail.curr_admin_responsibility &&
-                detail.currResponsibility.map((item) => {
+                detail.curr_admin_responsibility.map((item) => {
                   return (
                     <li>
-                      {item}{" "}
-                      <IconButton aria-label="delete" onClick={() => {}}>
+                      {item.curr_responsibility}{" "}
+                      <IconButton aria-label="delete" onClick={() => addModalOpen4d()}>
                         <DeleteIcon />
                       </IconButton>
+                      <ConfirmDelete handleClose={handleCloseAddModal4d} modal={addModal4d} id={item.id} del={"current-responsibility"}/>
                     </li>
                   );
                 })}
@@ -394,14 +487,15 @@ export default function Profilepage(props) {
                 Add
               </Button>
               <AddPast handleClose={handleCloseAddModal5} modal={addModal5} />
-              {detail.past_admin_reponsibility &&
-                detail.pastreponsibility.map((item) => {
+              {detail.past_admin_responsibility &&
+                detail.past_admin_responsibility.map((item) => {
                   return (
                     <li>
-                      {item}{" "}
-                      <IconButton aria-label="delete" onClick={() => {}}>
+                      {item.past_responsibility}{" "}
+                      <IconButton aria-label="delete" onClick={() =>  addModalOpen5d()}>
                         <DeleteIcon />
                       </IconButton>
+                      <ConfirmDelete handleClose={handleCloseAddModal5d} modal={addModal5d} id={item.id} del={"past-responsibility"}/>
                     </li>
                   );
                 })}
@@ -423,13 +517,14 @@ export default function Profilepage(props) {
               </Button>
               <AddWork handleClose={handleCloseAddModal6} modal={addModal6} />
               {detail.work_experience &&
-                detail.workExperience.map((item) => {
+                detail.work_experience.map((item) => {
                   return (
                     <li>
-                      {item}{" "}
-                      <IconButton aria-label="delete" onClick={() => {}}>
+                      {item.work_experiences}
+                      <IconButton aria-label="delete" onClick={() => addModalOpen6d()}>
                         <DeleteIcon />
                       </IconButton>
+                      <ConfirmDelete handleClose={handleCloseAddModal6d} modal={addModal6d} id={item.id} del={"workexperience"}/>
                     </li>
                   );
                 })}
@@ -451,13 +546,14 @@ export default function Profilepage(props) {
               </Button>
               <AddProf handleClose={handleCloseAddModal2} modal={addModal2} />
               {detail.professional_service &&
-                detail.services.map((item) => {
+                detail.professional_service.map((item) => {
                   return (
                     <li>
-                      {item}{" "}
-                      <IconButton aria-label="delete" onClick={() => {}}>
+                      {item.services}
+                      <IconButton aria-label="delete" onClick={() => addModalOpen2d()}>
                         <DeleteIcon />
                       </IconButton>
+                      <ConfirmDelete handleClose={handleCloseAddModal2d} modal={addModal2d} id={item.id} del={"professionalservice"}/>
                     </li>
                   );
                 })}
@@ -482,13 +578,46 @@ export default function Profilepage(props) {
                 modal={addModal7}
               />
               {detail.project &&
-                detail.projects.map((item) => {
+                detail.project.map((item) => {
                   return (
                     <li>
-                      {item}{" "}
-                      <IconButton aria-label="delete" onClick={() => {}}>
+                      {item.project}{" "}
+                      <IconButton aria-label="delete" onClick={() => addModalOpen7d()}>
                         <DeleteIcon />
                       </IconButton>
+                      <ConfirmDelete handleClose={handleCloseAddModal7d} modal={addModal7d} id={item.id} del={"project"}/>
+                    </li>
+                  );
+                })}
+            </div>
+
+            <div
+              className="fac-card"
+              data-aos="fade-up"
+              style={{ position: `relative` }}
+            >
+              <h3>Publications</h3>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={() => addModalOpen10()}
+                style={{ position: `absolute`, top: `5px`, right: `5px` }}
+              >
+                Add
+              </Button>
+              <AddPublications
+                handleClose={handleCloseAddModal10}
+                modal={addModal10}
+              />
+              {detail.publications &&
+                detail.publications.map((item) => {
+                  return (
+                    <li>
+                      {item.publications}{" "}
+                      <IconButton aria-label="delete" onClick={() => addModalOpen10d()}>
+                        <DeleteIcon />
+                      </IconButton>
+                      <ConfirmDelete handleClose={handleCloseAddModal10d} modal={addModal10d} id={item.id} del={"publications"}/>
                     </li>
                   );
                 })}
@@ -509,17 +638,58 @@ export default function Profilepage(props) {
                 Add
               </Button>
               <Addphd handleClose={handleCloseAddModal8} modal={addModal8} />
-              {detail.phd_candidates &&
-                detail.phdCandidates.map((item) => {
+              {/* {detail.phd_candidates &&
+                detail.phd_candidates.map((item) => {
                   return (
                     <li>
-                      {item}{" "}
+                      {item.phd_student_name}{" "}
                       <IconButton aria-label="delete" onClick={() => {}}>
                         <DeleteIcon />
                       </IconButton>
                     </li>
                   );
-                })}
+                })} */}
+                <div className="factable">
+                <table>
+                  <tr>
+                    <td>
+                      <h4>Student Name</h4>
+                    </td>
+                    <td>
+                      <h4>Thesis_Topic</h4>
+                    </td>
+                    <td>
+                      <h4>Start Year</h4>
+                    </td>
+                    <td>
+                      <h4>Completion Year</h4>
+                    </td>
+                  </tr>
+                  {detail.phd_candidates &&
+                detail.phd_candidates.map((item) => {
+                      return (
+                        <tr>
+                          <td>
+                            <li>{item.phd_student_name}</li>
+                          </td>
+                          <td>
+                            <li>{item.thesis_topic}</li>
+                          </td>
+                          <td>
+                            <li>{item.start_year}</li>
+                          </td>
+                          <td>
+                            <li>{item.completion_year}</li>
+                          </td>
+                          <IconButton aria-label="delete" onClick={() => addModalOpen8d()}>
+                            <DeleteIcon />
+                          </IconButton>
+                          <ConfirmDelete handleClose={handleCloseAddModal8d} modal={addModal8d} id={item.id} del={"phdcandidates"}/>
+                        </tr>
+                      );
+                    })}
+                </table>
+              </div>
             </div>
           </div>
         </Profile>

@@ -69,7 +69,6 @@ async function migrate() {
             )`).catch((e) => console.log(e));
 
 	await query(`create table if not exists faculty_image (
-                user_id int,
                 email varchar(50),
                 image MEDIUMBLOB,
                 PRIMARY KEY(email),
@@ -77,70 +76,44 @@ async function migrate() {
             )`).catch((e) => console.log(e));
 
 	await query(`create table if not exists project (
-      id int NOT NULL AUTO_INCREMENT,
-            user_id int NOT NULL,
-            email varchar(250) NOT NULL,
+            id bigint NOT NULL,
+            email varchar(100),
             project text NOT NULL,
             PRIMARY KEY(id)
-    )AUTO_INCREMENT=80000`).catch((e) => console.log(e));
+    );`).catch((e) => console.log(e));
 
-	await query(`create table if not exists professional_service (
-            id int NOT NULL AUTO_INCREMENT,
-            email varchar(50) NOT NULL,
-            services text NOT NULL,
-            PRIMARY KEY(id)
-        )AUTO_INCREMENT=140000;`).catch((e) => console.log(e));
-
-	await query(`create table if not exists publications (
-                email varchar(50),
-                publication_id int NOT NULL AUTO_INCREMENT,
-                publications mediumtext NOT NULL,
-                PRIMARY KEY(publication_id),
-                UNIQUE KEY(email)
-            )AUTO_INCREMENT=160000`).catch((e) => console.log(e));
-
-	await query(`create table if not exists subjects_teaching(
-                id int NOT NULL AUTO_INCREMENT,
-                email varchar(100),
-                user_id int NOT NULL,
-                subject text NOT NULL,
-                PRIMARY KEY(id)
-            )AUTO_INCREMENT=20000;`).catch((e) => console.log(e));
 
 	await query(`create table if not exists phd_candidates (
-            id int NOT NULL AUTO_INCREMENT,
-            user_id int NOT NULL,
-            email varchar(250) NOT NULL,
+            id bigint NOT NULL,
+            email varchar(100),
             phd_student_name text NOT NULL,
             thesis_topic text NOT NULL,
             start_year varchar(10) NOT NULL,
             completion_year varchar(10) NOT NULL,
             PRIMARY KEY(id)
-        )AUTO_INCREMENT=120000;`).catch((e) => console.log(e));
+        );`).catch((e) => console.log(e));
 
-	await query(`create table if not exists Professional_Service (
-            id int NOT NULL AUTO_INCREMENT,
-            user_id int NOT NULL,
-            email varchar(250) NOT NULL,
+	await query(`create table if not exists professional_service (
+            id bigint NOT NULL,
+            email varchar(100),
             services text NOT NULL,
             PRIMARY KEY(id)
-        )AUTO_INCREMENT=140000;`).catch((e) => console.log(e));
+        );`).catch((e) => console.log(e));
 
 	await query(`create table if not exists publications (
-                user_id int NOT NULL,
-                email varchar(50),
-                publication_id int NOT NULL AUTO_INCREMENT,
+                id bigint NOT NULL,
+                email varchar(100),
                 publications mediumtext NOT NULL,
-                PRIMARY KEY(publication_id),
+                PRIMARY KEY(id),
                 UNIQUE KEY(email)
-            )AUTO_INCREMENT=160000;`).catch((e) => console.log(e));
+            );`).catch((e) => console.log(e));
 
 	await query(`create table if not exists subjects_teaching(
-                id int NOT NULL AUTO_INCREMENT,
+                id bigint NOT NULL,
                 email varchar(100),
                 subject text NOT NULL,
                 PRIMARY KEY(id)
-            )AUTO_INCREMENT=20000;`).catch((e) => console.log(e));
+            );`).catch((e) => console.log(e));
 
 	await query(`create table if not exists users (
                 id int NOT NULL AUTO_INCREMENT,
@@ -157,34 +130,34 @@ async function migrate() {
 `).catch((e) => console.log(e));
 
 	await query(`create table if not exists work_experience (
-            id int NOT NULL AUTO_INCREMENT,
-            email varchar(250) NOT NULL,
+            id bigint NOT NULL,
+            email varchar(100),
             work_experiences text NOT NULL,
             PRIMARY KEY(id)
-        )AUTO_INCREMENT=60000`).catch((e) => console.log(e));
+        );`).catch((e) => console.log(e));
 
 	await query(`create table if not exists curr_admin_responsibility (
-                id int NOT NULL AUTO_INCREMENT,
+                id bigint NOT NULL,
                 email varchar(100),
                 curr_responsibility text NOT NULL,
                 PRIMARY KEY(id)
-            )AUTO_INCREMENT=34000;`).catch((e) => console.log(e));
+            );`).catch((e) => console.log(e));
 
 	await query(`CREATE TABLE if not exists past_admin_responsibility (
-                id int NOT NULL AUTO_INCREMENT,
+                id bigint NOT NULL,
                 email varchar(100),
                 past_responsibility text NOT NULL,
                 PRIMARY KEY(id)
-            ) AUTO_INCREMENT = 4500;`).catch((e) => console.log(e));
+            );`).catch((e) => console.log(e));
 
 	await query(`CREATE TABLE if not exists education (
-                id int NOT NULL AUTO_INCREMENT,
+                id bigint NOT NULL,
                 email varchar(100),
                 certification varchar(10) NOT NULL,
                 institution text NOT NULL,
                 passing_year varchar(10) DEFAULT NULL,
                 PRIMARY KEY(id)
-            )AUTO_INCREMENT=7781`).catch((e) => console.log(e));
+            );`).catch((e) => console.log(e));
 
 	await query(`create table if not exists events (
                 id bigint NOT NULL,
@@ -199,13 +172,12 @@ async function migrate() {
                 PRIMARY KEY (id))`).catch((e) => console.log(e));
 
 	await query(`CREATE TABLE if not exists memberships (
-                id int NOT NULL AUTO_INCREMENT,
+                id bigint NOT NULL,
                 email varchar(100),
-                user_id int NOT NULL,
                 membership_id varchar(20) NOT NULL,
                 membership_society text NOT NULL,
                 PRIMARY KEY(id)
-            )AUTO_INCREMENT=90000;`).catch((e) => console.log(e));
+            );`).catch((e) => console.log(e));
 
 	console.log("migration ran successfully");
 }

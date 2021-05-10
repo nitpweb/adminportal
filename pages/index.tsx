@@ -81,7 +81,7 @@ export async function getServerSideProps({ req, res }) {
     const session = await getSession({ req });
 
   if (session) {
-    let details = {};
+    var details = {};
     console.log(session.user.email)
     let data = await query(
       `SELECT * FROM users WHERE email="${session.user.email}";`
@@ -89,7 +89,7 @@ export async function getServerSideProps({ req, res }) {
       console.log(e);
     });
     let profile = JSON.parse(JSON.stringify(data))[0];
-    details["profile"]=profile
+    details["profile"]=profile;
     let array = [
       "curr_admin_responsibility",
       "education",
@@ -103,17 +103,31 @@ export async function getServerSideProps({ req, res }) {
       "work_experience",
     ];
     console.log(profile.id);
-    array.forEach(async(element) => {
+    for(let i=0;i<array.length;i++){
+      let element=array[i];
       let data = await query(
         `SELECT * FROM ${element} WHERE email="${session.user.email}";`
       ).catch((e) => {
         console.log(e);
       });
-      let tmp = JSON.parse(JSON.stringify(data))[0];
-      details[element] = tmp;
-    });
+      let tmp =JSON.parse(JSON.stringify(data));
+      console.log(JSON.parse(JSON.stringify(tmp)));
+      if(tmp[0]!=undefined){
+        details[element]=tmp;
+      }
+    }
+    // array.forEach(async(element) => {
+    //   let data = await query(
+    //     `SELECT * FROM ${element} WHERE email="${session.user.email}";`
+    //   ).catch((e) => {
+    //     console.log(e);
+    //   });
+    //   let tmp = JSON.parse(JSON.stringify(data))[0];
+    //   console.log(tmp);
+    //   details={...details,element:tmp};
+    // });
     console.log(details);
-    let result=JSON.stringify(details);
+    let result=JSON.parse(JSON.stringify(details));
     console.log(result);
     
     return {
@@ -125,3 +139,7 @@ export async function getServerSideProps({ req, res }) {
     };
   }
 }
+function asyncForEach(array: string[], arg1: (element: any) => Promise<void>) {
+  throw new Error("Function not implemented.");
+}
+

@@ -46,103 +46,58 @@ const handler = async (req, res) => {
 
       } else if (type == "user") {
         let result = await query(
-          `insert into users (name,email,role,department,designation,ext_no,research_interest) values (`+
+          `REPLACE INTO users (name,email,role,department,designation,ext_no,research_interest) values (`+
             `'${params.name}','${params.email}','${params.role}','${params.department}','${params.designation}','${params.ext_no}','${params.research_interest}')`
         );
         res.json(result)
       } else if (type == "image") {
         await query(
-          `insert into faculty_image (user_id,email,image) values (`+
-            `${params.user_id},${params.email},${params.image})`
+          `insert into faculty_image (email,image) values (`+
+            `'${params.email}',${params.image})`
         );
       } else if (type == "current-responsibility") {
         await query(
-          `insert into curr_admin_responsibility (id,user_id,email,curr_responsibility) values (`+
-            `${params.id},${params.user_id},${params.email},${params.curr_responsibility},
-          )`
+          `INSERT INTO curr_admin_responsibility (id,email,curr_responsibility) VALUES` + `(${params.id},'${params.email}','${params.curr_responsibility}')`
         );
       } else if (type == "memberships") {
         await query(
-          `insert into memberships (id,user_id,email,membership_id,membership_society) values (`+
-            `${params.id},${params.user_id}, ${params.email},${params.membership_id},${params.membership_society},)`
+          `insert into memberships (id,email,membership_id,membership_society) values (`+
+            `${params.id},'${params.email}','${params.membership_id}','${params.membership_society}')`
         );
       } else if (type == "past-responsibility") {
         await query(
-          `insert into past_admin_responsibility where (
-		id=${params.id},
-		user_id=${params.user_id},
-		email=${params.email},
-		past_responsibility=${params.past_responsibility},
-		primary key (id))`
+          `INSERT INTO past_admin_responsibility (id,email,past_responsibility) VALUES` + `(${params.id},'${params.email}','${params.past_responsibility}')`
         );
       } else if (type == "workexperience") {
         await query(
-          `insert into work_experience where (
-		id=${params.id},
-		user_id=${params.user_id},
-		email=${params.email},
-		work_experiences=${params.work_experiences},
-		primary key (id))`
+          `INSERT INTO work_experience (id,email,work_experiences) VALUES` + `(${params.id},'${params.email}','${params.work_experiences}')`
         );
       } else if (type == "subjects") {
-        await query(
-          `insert into subjects_teaching where (
-		id=${params.id},
-		user_id=${params.user_id},
-		email=${params.email},
-		subject=${params.subject},
-		primary key (id)`
-        );
+        let result=await query(
+      `INSERT INTO subjects_teaching (id,email,subject) VALUES` + `(${params.id},'${params.email}','${params.subject}')`
+        ).catch((e) => {
+          console.log(e);
+        });
+        res.json(result);
       } else if (type == "publications") {
         await query(
-          `insert into publications where (
-		publication_id=${params.id},
-		user_id=${params.user_id},
-		email=${params.email},
-		publication_id=${params.publication_id},
-		publications=${params.publications},
-		primary key (publication_id),
-		unique key (email))`
+          `INSERT INTO publications (id,email,publications) VALUES` + `(${params.id},'${params.email}','${params.publications}')`
         );
       } else if (type == "project") {
         await query(
-          `insert into project where (
-		id=${params.id},
-		user_id=${params.user_id},
-      email=${params.email},
-      project=${params.project},
-		primary key (id))`
+          `INSERT INTO project (id,email,project) VALUES` + `(${params.id},'${params.email}','${params.project}')`
         );
       } else if (type == "professionalservice") {
         await query(
-          `insert into Professional_Service where (
-		id=${params.id},
-		user_id=${params.user_id},
-		email=${params.email},
-		services=${params.services},
-		primary key (id)`
+          `INSERT INTO professional_service (id,email,services) VALUES` + `(${params.id},'${params.email}','${params.services}')`
         );
       } else if (type == "education") {
         await query(
-          `insert into education where (
-                  id=${params.id},
-                  user_id=${params.user_id},
-                  email=${params.email},
-                  certification=${params.certification},
-                  passing_year=${params.passing_year},
-                  primary key (id))`
+          `INSERT INTO education (id,email,certification,institution,passing_year) VALUES` + `(${params.id},'${params.email}','${params.certification}','${params.institution}','${params.passing_year}')`
         );
       } else if (type == "phdcandidates") {
         await query(
-          `insert into phd_candidates where (
-		id=${params.id},
-		user_id=${params.user_id},
-		email=${params.email},
-		phd_student_name=${params.phd_student_name},
-		thesis_topic=${params.thesis_topic},
-		start_year=${params.start_year},
-		completion_year=${params.completion_year},
-		primary key (publication_id))`
+          `INSERT INTO phd_candidates (id,email,phd_student_name,thesis_topic,start_year,completion_year) VALUES` + `(${params.id},'${params.email}','${params.phd_student_name}','${params.thesis_topic}','${params.start_year}','${params.completion_year}')`
         );
       } else {
         res.json({ message: "Could not find matching requests" });

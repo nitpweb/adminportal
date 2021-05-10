@@ -11,7 +11,7 @@ import { AddAttachments } from "./../common-props/add-attachment";
 export const AddForm = ({ handleClose, modal }) => {
   const [session, loading] = useSession();
   const [content, setContent] = useState({
-    subject_teaching: "",
+    subject: "",
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -63,12 +63,12 @@ export const AddForm = ({ handleClose, modal }) => {
               margin="dense"
               id="label"
               label="Subjects"
-              name="subject_teaching"
+              name="subject"
               type="text"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
-              value={content.subject_teaching}
+              value={content.subject}
             />
           </DialogContent>
           <DialogActions>
