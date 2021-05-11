@@ -51,27 +51,32 @@ const handler = async (req, res) => {
         );
         res.json(result)
       } else if (type == "image") {
-        await query(
-          `insert into faculty_image (email,image) values (`+
-            `'${params.email}',${params.image})`
+        let result = await query(
+          `REPLACE INTO faculty_image (email,image) values (`+
+            `'${params.email}','${params.image[0].url}')`
         );
+        res.json(result);
       } else if (type == "current-responsibility") {
-        await query(
+        let result= await query(
           `INSERT INTO curr_admin_responsibility (id,email,curr_responsibility) VALUES` + `(${params.id},'${params.email}','${params.curr_responsibility}')`
         );
+        res.json(result);
       } else if (type == "memberships") {
-        await query(
+        let result= await query(
           `insert into memberships (id,email,membership_id,membership_society) values (`+
             `${params.id},'${params.email}','${params.membership_id}','${params.membership_society}')`
         );
+        res.json(result);
       } else if (type == "past-responsibility") {
-        await query(
+        let result= await query(
           `INSERT INTO past_admin_responsibility (id,email,past_responsibility) VALUES` + `(${params.id},'${params.email}','${params.past_responsibility}')`
         );
+        res.json(result);
       } else if (type == "workexperience") {
-        await query(
+        let result= await query(
           `INSERT INTO work_experience (id,email,work_experiences) VALUES` + `(${params.id},'${params.email}','${params.work_experiences}')`
         );
+        res.json(result);
       } else if (type == "subjects") {
         let result=await query(
       `INSERT INTO subjects_teaching (id,email,subject) VALUES` + `(${params.id},'${params.email}','${params.subject}')`
@@ -80,25 +85,30 @@ const handler = async (req, res) => {
         });
         res.json(result);
       } else if (type == "publications") {
-        await query(
+        let result= await query(
           `INSERT INTO publications (id,email,publications) VALUES` + `(${params.id},'${params.email}','${params.publications}')`
         );
+        res.json(result);
       } else if (type == "project") {
-        await query(
+        let result = await query(
           `INSERT INTO project (id,email,project) VALUES` + `(${params.id},'${params.email}','${params.project}')`
         );
+        res.json(result);
       } else if (type == "professionalservice") {
-        await query(
+        let result = await query(
           `INSERT INTO professional_service (id,email,services) VALUES` + `(${params.id},'${params.email}','${params.services}')`
         );
+        res.json(result);
       } else if (type == "education") {
-        await query(
+        let result = await query(
           `INSERT INTO education (id,email,certification,institution,passing_year) VALUES` + `(${params.id},'${params.email}','${params.certification}','${params.institution}','${params.passing_year}')`
         );
+        res.json(result);
       } else if (type == "phdcandidates") {
-        await query(
+        let result = await query(
           `INSERT INTO phd_candidates (id,email,phd_student_name,thesis_topic,start_year,completion_year) VALUES` + `(${params.id},'${params.email}','${params.phd_student_name}','${params.thesis_topic}','${params.start_year}','${params.completion_year}')`
         );
+        res.json(result);
       } else {
         res.json({ message: "Could not find matching requests" });
       }

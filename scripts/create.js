@@ -70,7 +70,7 @@ async function migrate() {
 
 	await query(`create table if not exists faculty_image (
                 email varchar(50),
-                image MEDIUMBLOB,
+                image varchar(1000),
                 PRIMARY KEY(email),
                 UNIQUE KEY(email)
             )`).catch((e) => console.log(e));
@@ -104,8 +104,7 @@ async function migrate() {
                 id bigint NOT NULL,
                 email varchar(100),
                 publications mediumtext NOT NULL,
-                PRIMARY KEY(id),
-                UNIQUE KEY(email)
+                PRIMARY KEY(id)
             );`).catch((e) => console.log(e));
 
 	await query(`create table if not exists subjects_teaching(

@@ -17,6 +17,7 @@ import { Addphd } from "./profile/phd";
 import { AddResearch } from "./profile/research";
 import { AddPublications } from "./profile/publications";
 import { ConfirmDelete } from "./profile/delete"
+import { AddPic } from "./profile/profilepic";
 
 const Profile = styled.div`
   font-family: "Source Sans Pro";
@@ -266,23 +267,44 @@ export default function Profilepage(props) {
     setAddModal10d(false);
   };
 
+  const [addModalp, setAddModalp] = useState(false);
+  const addModalOpenp = () => {
+    setAddModalp(true);
+  };
+  const handleCloseAddModalp = () => {
+    setAddModalp(false);
+  };
+
+console.log(detail.faculty_image[0].image);
+
   return (
     <>
       {session && (
         <Profile>
           <div className="faculty-img-row">
             <div className="faculty-img-wrap">
-              <img src="/faculty.png" alt="faculty" />
+      {/* {detail.faculty_image[0].image?detail.faculty_image[0].image:"/faculty.png"} */}
+              <img src={(detail.faculty_image && detail.faculty_image[0]).image?detail.faculty_image[0].image:"/faculty.png"} alt="faculty" />
               {/* <img
                 src={`${process.env.GATSBY_API_URL}/profile/image?id=${detail.profile.id}`}
                 className="facultypic"
               /> */}
+
             </div>
             <a href={`mailto:${detail.profile.email}`} target="blank">
               {/* <img src={mail} className="img-fluid facmail" /> */}
             </a>
             <h2>{detail.profile.name}</h2>
             <h3>{detail.profile.designation}</h3>
+            <Button
+                color="primary"
+                variant="contained"
+                onClick={() =>addModalOpenp()}
+                style={{}}
+              >
+                Upload
+              </Button>
+              <AddPic handleClose={handleCloseAddModalp} modal={addModalp}/>
           </div>
 
           <div className="faculty-details-row">
@@ -304,9 +326,9 @@ export default function Profilepage(props) {
                 onClick={() => addModalOpen9()}
                 style={{ position: `absolute`, top: `5px`, right: `5px` }}
               >
-                Add
+                Edit
               </Button>
-              <AddResearch handleClose={handleCloseAddModal9} modal={addModal9} />
+              <AddResearch handleClose={handleCloseAddModal9} modal={addModal9} detail={detail.profile} />
             </div>
 
             <div

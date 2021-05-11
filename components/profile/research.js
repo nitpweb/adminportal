@@ -8,16 +8,16 @@ import { useSession } from "next-auth/client";
 import React, { useState } from "react";
 import { AddAttachments } from "./../common-props/add-attachment";
 
-export const AddResearch = ({ handleClose, modal }) => {
+export const AddResearch = ({ handleClose, modal, detail}) => {
   const [session, loading] = useSession();
   const [content, setContent] = useState({
-    name: "",
-    email:"",
-    role:"",
-    department:"",
-    designation:"",
-    ext_no:"",
-    research_interest:""
+    name: `${detail.name}`,
+    email: `${detail.email}`,
+    role: `${detail.role}`,
+    department: `${detail.department}`,
+    designation: `${detail.designation}`,
+    ext_no: `${detail.ext_no}`,
+    research_interest:`${detail.research_interest}`
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -62,7 +62,7 @@ export const AddResearch = ({ handleClose, modal }) => {
           }}
         >
           <DialogTitle disableTypography style={{ fontSize: `2rem` }}>
-            Add Research Interest
+            Add Profile Data
           </DialogTitle>
           <DialogContent>
             <TextField

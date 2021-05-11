@@ -101,6 +101,7 @@ export async function getServerSideProps({ req, res }) {
       "publications",
       "subjects_teaching",
       "work_experience",
+      "faculty_image"
     ];
     console.log(profile.id);
     for(let i=0;i<array.length;i++){

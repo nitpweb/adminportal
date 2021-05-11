@@ -30,7 +30,7 @@ export const AddSociety = ({ handleClose, modal }) => {
       email: session.user.email,
     };
     // data.attachments = JSON.stringify(data.attachments);
-
+    console.log(data);
     let result = await fetch("/api/create/memberships", {
       headers: {
         Accept: "application/json",
@@ -39,6 +39,7 @@ export const AddSociety = ({ handleClose, modal }) => {
       method: "POST",
       body: JSON.stringify(data),
     });
+    
     result = await result.json();
     if (result instanceof Error) {
       console.log("Error Occured");
