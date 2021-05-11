@@ -111,6 +111,7 @@ export default function ButtonAppBar() {
       </List>
       <Divider />
       <List>
+        {session.user.role === 0 ? signout() : null}
         {session.user.role === 1 || session.user.role === 2
           ? ["Events", "Notice", "News", "Innovation"].map((text, index) => (
               <ListItem button key={text}>
