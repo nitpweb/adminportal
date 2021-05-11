@@ -60,6 +60,7 @@ const options = {
     },
     // async redirect(url, baseUrl) { return baseUrl },
     async session(session, user, profile) {
+
       const data = user;
       data.role = role;
       session.user = data;
@@ -67,8 +68,19 @@ const options = {
       return session;
     },
     async jwt(token, user, account, profile, isNewUser) {
+      await db
+        .query(`SELECT * FROM users WHERE email="${token.email}";`)
+        .then((a) => {
+          const s = JSON.parse(JSON.stringify(a))[0];
+          role = s.role;
+          token.role = role;
+          // console.log(token);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
       token.role = role;
-      console.log(token);
+      // console.log(token);
       return token
     }
   },

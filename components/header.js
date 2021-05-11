@@ -26,6 +26,7 @@ import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import PermIdentityIcon from "@material-ui/icons/PermIdentity";
 import CallToActionIcon from "@material-ui/icons/CallToAction";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -124,21 +125,35 @@ export default function ButtonAppBar() {
               ))
             : null)}
 
-        {session &&(session.user.role === 1 ? (
-          <ListItem button key="Faculty-Management">
-            <ListItemIcon></ListItemIcon>
-            <Link href="faculty-management">
-              <ListItemText primary="Faculty Management" />
-            </Link>
-          </ListItem>
-        ) : null)}
+        {session &&
+          (session.user.role === 1 ? (
+            <ListItem button key="Faculty-Management">
+              <ListItemIcon></ListItemIcon>
+              <Link href="faculty-management">
+                <ListItemText primary="Faculty Management" />
+              </Link>
+            </ListItem>
+          ) : null)}
+        <ListItem>
+          <ListItemIcon>
+            <ExitToAppIcon />
+          </ListItemIcon>
+          <Button
+            onClick={(e) => {
+              e.preventDefault();
+              signout();
+            }}
+          >
+            Sign Out
+          </Button>
+        </ListItem>
       </List>
     </div>
   );
 
   return (
     <div className={classes.root}>
-      <AppBar color="secondary" position="static">
+      <AppBar color="default" position="static">
         <SwipeableDrawer
           anchor={"left"}
           open={state["left"]}
@@ -158,54 +173,8 @@ export default function ButtonAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Admin Portal
+            National Institute of Technology Patna
           </Typography>
-          {!session && (
-            <>
-              <Button color="inherit" onClick={() => signIn("google")}>
-                Login
-              </Button>
-            </>
-          )}
-          {session && (
-            <>
-              <div>
-                <IconButton
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={handleMenu}
-                  color="inherit"
-                >
-                  <AccountCircle />
-                </IconButton>
-                <Menu
-                  id="menu-appbar"
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: "top",
-                    horizontal: "right",
-                  }}
-                  open={open}
-                  onClose={handleClose}
-                >
-                  <MenuItem
-                    onClick={(e) => {
-                      e.preventDefault();
-                      signout();
-                    }}
-                  >
-                    Sign Out
-                  </MenuItem>
-                </Menu>
-              </div>
-            </>
-          )}
         </Toolbar>
       </AppBar>
     </div>

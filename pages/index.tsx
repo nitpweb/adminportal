@@ -140,7 +140,4 @@ export async function getServerSideProps({ req, res }) {
     };
   }
 }
-function asyncForEach(array: string[], arg1: (element: any) => Promise<void>) {
-  throw new Error("Function not implemented.");
-}
 
