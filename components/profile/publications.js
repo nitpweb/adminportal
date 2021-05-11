@@ -8,10 +8,10 @@ import { useSession } from "next-auth/client";
 import React, { useState } from "react";
 import { AddAttachments } from "./../common-props/add-attachment";
 
-export const AddProf = ({ handleClose, modal }) => {
+export const AddPublications = ({ handleClose, modal }) => {
   const [session, loading] = useSession();
   const [content, setContent] = useState({
-    services: "",
+    publications: "",
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -30,7 +30,7 @@ export const AddProf = ({ handleClose, modal }) => {
     };
     // data.attachments = JSON.stringify(data.attachments);
 
-    let result = await fetch("/api/create/professionalservice", {
+    let result = await fetch("/api/create/publications", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -56,19 +56,19 @@ export const AddProf = ({ handleClose, modal }) => {
           }}
         >
           <DialogTitle disableTypography style={{ fontSize: `2rem` }}>
-            Add Professional Services
+            Add Your Publications
           </DialogTitle>
           <DialogContent>
             <TextField
               margin="dense"
               id="label"
-              label="Professional Services"
-              name="services"
+              label="publications"
+              name="publications"
               type="text"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
-              value={content.services}
+              value={content.publications}
             />
           </DialogContent>
           <DialogActions>

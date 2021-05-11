@@ -8,10 +8,10 @@ import { useSession } from "next-auth/client";
 import React, { useState } from "react";
 import { AddAttachments } from "./../common-props/add-attachment";
 
-export const AddForm = ({ handleClose, modal }) => {
+export const AddPast = ({ handleClose, modal }) => {
   const [session, loading] = useSession();
   const [content, setContent] = useState({
-    past_admin_responsibility: "",
+    past_responsibility: "",
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -30,7 +30,7 @@ export const AddForm = ({ handleClose, modal }) => {
     };
     // data.attachments = JSON.stringify(data.attachments);
 
-    let result = await fetch("/api/create/event", {
+    let result = await fetch("/api/create/past-responsibility", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -63,12 +63,12 @@ export const AddForm = ({ handleClose, modal }) => {
               margin="dense"
               id="label"
               label="Past Admin Responsibility"
-              name="past_admin_responsibility"
+              name="past_responsibility"
               type="text"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
-              value={content.past_admin_responsibility}
+              value={content.past_responsibility}
             />
           </DialogContent>
           <DialogActions>
