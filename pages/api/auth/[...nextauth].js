@@ -8,8 +8,8 @@ var role = 0;
 const options = {
   providers: [
     Providers.Google({
-      clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET,
+      clientId: process.env.NEXT_GOOGLE_ID,
+      clientSecret: process.env.NEXT_GOOGLE_SECRET,
     }),
   ],
   // adapter: NextAuthDynamodb,
