@@ -82,7 +82,7 @@ export async function getServerSideProps({ req, res }) {
 
   if (session) {
     var details = {};
-    console.log(session.user.email)
+    // console.log(session.user.email)
     let data = await query(
       `SELECT * FROM users WHERE email="${session.user.email}";`
     ).catch((e) => {
@@ -103,7 +103,7 @@ export async function getServerSideProps({ req, res }) {
       "work_experience",
       "faculty_image"
     ];
-    console.log(profile.id);
+    // console.log(profile.id);
     for(let i=0;i<array.length;i++){
       let element=array[i];
       let data = await query(
@@ -112,7 +112,7 @@ export async function getServerSideProps({ req, res }) {
         console.log(e);
       });
       let tmp =JSON.parse(JSON.stringify(data));
-      console.log(JSON.parse(JSON.stringify(tmp)));
+      // console.log(JSON.parse(JSON.stringify(tmp)));
       if(tmp[0]!=undefined){
         details[element]=tmp;
       }
@@ -127,9 +127,9 @@ export async function getServerSideProps({ req, res }) {
     //   console.log(tmp);
     //   details={...details,element:tmp};
     // });
-    console.log(details);
+    // console.log(details);
     let result=JSON.parse(JSON.stringify(details));
-    console.log(result);
+    // console.log(result);
     
     return {
       props: { result }, // will be passed to the page component as props

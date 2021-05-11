@@ -16,7 +16,7 @@ import { Addproject } from "./profile/project";
 import { Addphd } from "./profile/phd";
 import { AddResearch } from "./profile/research";
 import { AddPublications } from "./profile/publications";
-import { ConfirmDelete } from "./profile/delete"
+import { ConfirmDelete } from "./profile/delete";
 import { AddPic } from "./profile/profilepic";
 
 const Profile = styled.div`
@@ -275,21 +275,20 @@ export default function Profilepage(props) {
     setAddModalp(false);
   };
 
-console.log(detail.faculty_image[0].image);
-
   return (
     <>
       {session && (
         <Profile>
           <div className="faculty-img-row">
             <div className="faculty-img-wrap">
-      {/* {detail.faculty_image[0].image?detail.faculty_image[0].image:"/faculty.png"} */}
-              <img src={(detail.faculty_image && detail.faculty_image[0]).image?detail.faculty_image[0].image:"/faculty.png"} alt="faculty" />
-              {/* <img
-                src={`${process.env.GATSBY_API_URL}/profile/image?id=${detail.profile.id}`}
-                className="facultypic"
-              /> */}
-
+              <img
+                src={
+                  detail.faculty_image && detail.faculty_image[0].image
+                    ? detail.faculty_image[0].image
+                    : "/faculty.png"
+                }
+                alt="faculty"
+              />
             </div>
             <a href={`mailto:${detail.profile.email}`} target="blank">
               {/* <img src={mail} className="img-fluid facmail" /> */}
@@ -297,14 +296,14 @@ console.log(detail.faculty_image[0].image);
             <h2>{detail.profile.name}</h2>
             <h3>{detail.profile.designation}</h3>
             <Button
-                color="primary"
-                variant="contained"
-                onClick={() =>addModalOpenp()}
-                style={{}}
-              >
-                Upload
-              </Button>
-              <AddPic handleClose={handleCloseAddModalp} modal={addModalp}/>
+              color="primary"
+              variant="contained"
+              onClick={() => addModalOpenp()}
+              style={{}}
+            >
+              Upload
+            </Button>
+            <AddPic handleClose={handleCloseAddModalp} modal={addModalp} />
           </div>
 
           <div className="faculty-details-row">
@@ -328,7 +327,11 @@ console.log(detail.faculty_image[0].image);
               >
                 Edit
               </Button>
-              <AddResearch handleClose={handleCloseAddModal9} modal={addModal9} detail={detail.profile} />
+              <AddResearch
+                handleClose={handleCloseAddModal9}
+                modal={addModal9}
+                detail={detail.profile}
+              />
             </div>
 
             <div
@@ -352,10 +355,18 @@ console.log(detail.faculty_image[0].image);
                   return (
                     <li>
                       {item.subject}
-                      <IconButton aria-label="delete" onClick={() =>addModalOpend()}>
+                      <IconButton
+                        aria-label="delete"
+                        onClick={() => addModalOpend()}
+                      >
                         <DeleteIcon />
                       </IconButton>
-                      <ConfirmDelete handleClose={handleCloseAddModald} modal={addModald} id={item.id} del={"subjects"}/>
+                      <ConfirmDelete
+                        handleClose={handleCloseAddModald}
+                        modal={addModald}
+                        id={item.id}
+                        del={"subjects"}
+                      />
                     </li>
                   );
                 })}
@@ -399,10 +410,18 @@ console.log(detail.faculty_image[0].image);
                           <td>
                             <li>{item.membership_society}</li>
                           </td>
-                          <IconButton aria-label="delete" onClick={() => addModalOpen1d()}>
+                          <IconButton
+                            aria-label="delete"
+                            onClick={() => addModalOpen1d()}
+                          >
                             <DeleteIcon />
                           </IconButton>
-                          <ConfirmDelete handleClose={handleCloseAddModal1d} modal={addModal1d} id={item.id} del={"memberships"}/>
+                          <ConfirmDelete
+                            handleClose={handleCloseAddModal1d}
+                            modal={addModal1d}
+                            id={item.id}
+                            del={"memberships"}
+                          />
                         </tr>
                       );
                     })}
@@ -451,10 +470,18 @@ console.log(detail.faculty_image[0].image);
                           <td>
                             <li>{item.passing_year}</li>
                           </td>
-                          <IconButton aria-label="delete" onClick={() => addModalOpen3d()}>
+                          <IconButton
+                            aria-label="delete"
+                            onClick={() => addModalOpen3d()}
+                          >
                             <DeleteIcon />
                           </IconButton>
-                          <ConfirmDelete handleClose={handleCloseAddModal3d} modal={addModal3d} id={item.id} del={"education"}/>
+                          <ConfirmDelete
+                            handleClose={handleCloseAddModal3d}
+                            modal={addModal3d}
+                            id={item.id}
+                            del={"education"}
+                          />
                         </tr>
                       );
                     })}
@@ -485,10 +512,18 @@ console.log(detail.faculty_image[0].image);
                   return (
                     <li>
                       {item.curr_responsibility}{" "}
-                      <IconButton aria-label="delete" onClick={() => addModalOpen4d()}>
+                      <IconButton
+                        aria-label="delete"
+                        onClick={() => addModalOpen4d()}
+                      >
                         <DeleteIcon />
                       </IconButton>
-                      <ConfirmDelete handleClose={handleCloseAddModal4d} modal={addModal4d} id={item.id} del={"current-responsibility"}/>
+                      <ConfirmDelete
+                        handleClose={handleCloseAddModal4d}
+                        modal={addModal4d}
+                        id={item.id}
+                        del={"current-responsibility"}
+                      />
                     </li>
                   );
                 })}
@@ -514,10 +549,18 @@ console.log(detail.faculty_image[0].image);
                   return (
                     <li>
                       {item.past_responsibility}{" "}
-                      <IconButton aria-label="delete" onClick={() =>  addModalOpen5d()}>
+                      <IconButton
+                        aria-label="delete"
+                        onClick={() => addModalOpen5d()}
+                      >
                         <DeleteIcon />
                       </IconButton>
-                      <ConfirmDelete handleClose={handleCloseAddModal5d} modal={addModal5d} id={item.id} del={"past-responsibility"}/>
+                      <ConfirmDelete
+                        handleClose={handleCloseAddModal5d}
+                        modal={addModal5d}
+                        id={item.id}
+                        del={"past-responsibility"}
+                      />
                     </li>
                   );
                 })}
@@ -543,10 +586,18 @@ console.log(detail.faculty_image[0].image);
                   return (
                     <li>
                       {item.work_experiences}
-                      <IconButton aria-label="delete" onClick={() => addModalOpen6d()}>
+                      <IconButton
+                        aria-label="delete"
+                        onClick={() => addModalOpen6d()}
+                      >
                         <DeleteIcon />
                       </IconButton>
-                      <ConfirmDelete handleClose={handleCloseAddModal6d} modal={addModal6d} id={item.id} del={"workexperience"}/>
+                      <ConfirmDelete
+                        handleClose={handleCloseAddModal6d}
+                        modal={addModal6d}
+                        id={item.id}
+                        del={"workexperience"}
+                      />
                     </li>
                   );
                 })}
@@ -572,10 +623,18 @@ console.log(detail.faculty_image[0].image);
                   return (
                     <li>
                       {item.services}
-                      <IconButton aria-label="delete" onClick={() => addModalOpen2d()}>
+                      <IconButton
+                        aria-label="delete"
+                        onClick={() => addModalOpen2d()}
+                      >
                         <DeleteIcon />
                       </IconButton>
-                      <ConfirmDelete handleClose={handleCloseAddModal2d} modal={addModal2d} id={item.id} del={"professionalservice"}/>
+                      <ConfirmDelete
+                        handleClose={handleCloseAddModal2d}
+                        modal={addModal2d}
+                        id={item.id}
+                        del={"professionalservice"}
+                      />
                     </li>
                   );
                 })}
@@ -604,10 +663,18 @@ console.log(detail.faculty_image[0].image);
                   return (
                     <li>
                       {item.project}{" "}
-                      <IconButton aria-label="delete" onClick={() => addModalOpen7d()}>
+                      <IconButton
+                        aria-label="delete"
+                        onClick={() => addModalOpen7d()}
+                      >
                         <DeleteIcon />
                       </IconButton>
-                      <ConfirmDelete handleClose={handleCloseAddModal7d} modal={addModal7d} id={item.id} del={"project"}/>
+                      <ConfirmDelete
+                        handleClose={handleCloseAddModal7d}
+                        modal={addModal7d}
+                        id={item.id}
+                        del={"project"}
+                      />
                     </li>
                   );
                 })}
@@ -636,10 +703,18 @@ console.log(detail.faculty_image[0].image);
                   return (
                     <li>
                       {item.publications}{" "}
-                      <IconButton aria-label="delete" onClick={() => addModalOpen10d()}>
+                      <IconButton
+                        aria-label="delete"
+                        onClick={() => addModalOpen10d()}
+                      >
                         <DeleteIcon />
                       </IconButton>
-                      <ConfirmDelete handleClose={handleCloseAddModal10d} modal={addModal10d} id={item.id} del={"publications"}/>
+                      <ConfirmDelete
+                        handleClose={handleCloseAddModal10d}
+                        modal={addModal10d}
+                        id={item.id}
+                        del={"publications"}
+                      />
                     </li>
                   );
                 })}
@@ -671,7 +746,7 @@ console.log(detail.faculty_image[0].image);
                     </li>
                   );
                 })} */}
-                <div className="factable">
+              <div className="factable">
                 <table>
                   <tr>
                     <td>
@@ -688,7 +763,7 @@ console.log(detail.faculty_image[0].image);
                     </td>
                   </tr>
                   {detail.phd_candidates &&
-                detail.phd_candidates.map((item) => {
+                    detail.phd_candidates.map((item) => {
                       return (
                         <tr>
                           <td>
@@ -703,10 +778,18 @@ console.log(detail.faculty_image[0].image);
                           <td>
                             <li>{item.completion_year}</li>
                           </td>
-                          <IconButton aria-label="delete" onClick={() => addModalOpen8d()}>
+                          <IconButton
+                            aria-label="delete"
+                            onClick={() => addModalOpen8d()}
+                          >
                             <DeleteIcon />
                           </IconButton>
-                          <ConfirmDelete handleClose={handleCloseAddModal8d} modal={addModal8d} id={item.id} del={"phdcandidates"}/>
+                          <ConfirmDelete
+                            handleClose={handleCloseAddModal8d}
+                            modal={addModal8d}
+                            id={item.id}
+                            del={"phdcandidates"}
+                          />
                         </tr>
                       );
                     })}

@@ -4,6 +4,7 @@ import Providers from "next-auth/providers";
 import NextAuthDynamodb from "next-auth-dynamodb";
 import { db } from "../../../lib/db";
 
+var role = 0;
 const options = {
   providers: [
     Providers.Google({
@@ -47,24 +48,29 @@ const options = {
     async signIn(user, account, profile, session) {
       let data = await db
         .query(`SELECT * FROM users WHERE email="${profile.email}";`)
+        .then((a) => {
+          const s = JSON.parse(JSON.stringify(a))[0];
+          role = s.role;
+          user.role = role;
+          return true;
+        })
         .catch((e) => {
           console.log(e);
         });
-      let a = JSON.parse(JSON.stringify(data));
-      if (a[0]) {
-        return true;
-      } else {
-        return false;
-      }
     },
     // async redirect(url, baseUrl) { return baseUrl },
-    // async session(session, user) {
-    //   const data = user;
-    //   data.role = 1;
-    //   session.user = data;
-    //   return session;
-    // },
-    // async jwt(token, user, account, profile, isNewUser) { return token }
+    async session(session, user, profile) {
+      const data = user;
+      data.role = role;
+      session.user = data;
+      // console.log(`Session user: ${session.user.role}`);
+      return session;
+    },
+    async jwt(token, user, account, profile, isNewUser) {
+      token.role = role;
+      console.log(token);
+      return token
+    }
   },
 
   // Events are useful for logging
