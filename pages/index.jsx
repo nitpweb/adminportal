@@ -11,6 +11,8 @@ import Profilepage from "@/components/profile";
 import { getSession } from "next-auth/client";
 import { query } from "@/lib/db";
 import { useEffect } from "react";
+import Loading from "../components/loading"
+import Sign from "../components/signin";
 
 const Home = styled.div`
   width: 100vw;
@@ -33,52 +35,27 @@ const Home = styled.div`
   }
 `;
 
-export default function Page({result}) {
+export default function Page({ result }) {
   const [session, loading] = useSession();
   useEffect(() => {
-    if(session){fetch("/api/gdrive/authorize")}    
+    if (session) { fetch("/api/gdrive/authorize") }
   }, [session])
-  return (
-    <>
-      {!session ? (
-        <Home>
-          <Image
-            className="image"
-            src="/nitp.png"
-            layout="fill"
-            objectFit="cover"
-            quality={100}
-          />
-          <Card className="card">
-            <CardContent>
-              <Image src="/logo512.png" width="100" height="100" />
-              <Typography className="title" color="textPrimary">
-                Welcome to Admin Portal
-              </Typography>
+  if (typeof window !== 'undefined' && loading) return <Loading/>
 
-              <CardActions className="card">
-                <Button
-                  color="secondary"
-                  variant="contained"
-                  onClick={() => signIn("google")}
-                >
-                  Login with Google
-                </Button>
-              </CardActions>
-            </CardContent>
-          </Card>
-        </Home>
-      ) : (
-          <Layout>
-          <Profilepage details={result} />
-        </Layout>
-      )}
-    </>
+  if (!session) {
+    return (
+      <Sign/>
+    )
+  }
+  return (
+    <Layout>
+      <Profilepage details={result} />
+    </Layout>
   );
 }
 
 export async function getServerSideProps({ req, res }) {
-    const session = await getSession({ req });
+  const session = await getSession({ req });
 
   if (session) {
     var details = {};
@@ -89,7 +66,7 @@ export async function getServerSideProps({ req, res }) {
       console.log(e);
     });
     let profile = JSON.parse(JSON.stringify(data))[0];
-    details["profile"]=profile;
+    details["profile"] = profile;
     let array = [
       "curr_admin_responsibility",
       "education",
@@ -103,17 +80,17 @@ export async function getServerSideProps({ req, res }) {
       "work_experience",
     ];
     // console.log(profile.id);
-    for(let i=0;i<array.length;i++){
-      let element=array[i];
+    for (let i = 0; i < array.length; i++) {
+      let element = array[i];
       let data = await query(
         `SELECT * FROM ${element} WHERE email="${session.user.email}";`
       ).catch((e) => {
         console.log(e);
       });
-      let tmp =JSON.parse(JSON.stringify(data));
+      let tmp = JSON.parse(JSON.stringify(data));
       // console.log(JSON.parse(JSON.stringify(tmp)));
-      if(tmp[0]!=undefined){
-        details[element]=tmp;
+      if (tmp[0] != undefined) {
+        details[element] = tmp;
       }
     }
     // array.forEach(async(element) => {
@@ -127,9 +104,9 @@ export async function getServerSideProps({ req, res }) {
     //   details={...details,element:tmp};
     // });
     // console.log(details);
-    let result=JSON.parse(JSON.stringify(details));
+    let result = JSON.parse(JSON.stringify(details));
     // console.log(result);
-    
+
     return {
       props: { result }, // will be passed to the page component as props
     };

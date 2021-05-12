@@ -5,6 +5,10 @@ import { useEntries } from '@/lib/swr-hook'
 import LoadAnimation from "@/components/loading";
 import { useSession } from "next-auth/client";
 import { useRouter } from "next/router";
+import Loading from "../components/loading";
+import { useEffect } from "react";
+import Sign from "../components/signin";
+import Unauthorise from "../components/unauthorise";
 
 const Wrap = styled.div`
 	width: 90%;
@@ -17,13 +21,21 @@ export default function Page() {
 	const [session, loading] = useSession();
 	const router = useRouter();
 
-	return (
-		<Layout>
-			<Wrap>
-				{session && (session.user.role === 1 || session.user.role === 2 ?
-					(isLoading ? <LoadAnimation /> : <DataDisplay data={entries} />) : () => { router.push("/") })
-				}
-			</Wrap>
-		</Layout>
-	);
+	if (typeof window !== 'undefined' && loading) return <Loading />
+
+
+
+	if (session && (session.user.role === 1 || session.user.role === 2)) {
+		return (
+			<Layout>
+				<Wrap>
+					{isLoading ? <LoadAnimation /> : <DataDisplay data={entries} />}
+				</Wrap>
+			</Layout>
+		);
+	}
+	if (session && session.user.role === 3) {
+		return <Unauthorise />
+	}
+	return <Sign />
 }

@@ -16,22 +16,23 @@ export default function Page() {
 	const { entries, isLoading } = useEntries('/api/notice/all');
 	const [session, loading] = useSession();
 	const router = useRouter();
-	console.log(entries);
-	return (
-		<Layout>
-			<Wrap>
-				{session && (session.user.role === 1 || session.user.role === 2 ?
-					(isLoading ? <LoadAnimation /> : <DataDisplay data={entries} />) : () => { router.push("/") })
-				}
-			</Wrap>
-		</Layout>
-	);
+
+	if (typeof window !== 'undefined' && loading) return <Loading />
+
+
+
+	if (session && (session.user.role === 1 || session.user.role === 2)) {
+		return (
+			<Layout>
+				<Wrap>
+					{isLoading ? <LoadAnimation /> : <DataDisplay data={entries} />}
+				</Wrap>
+			</Layout>
+		);
+	}
+	if (session && session.user.role === 3) {
+		return <Unauthorise />
+	}
+	return <Sign />
 }
 
-// export async function getServerSideProps(context) {
-
-
-// 	return {
-// 		props: { entries,isLoading }, // will be passed to the page component as props
-// 	};
-// }

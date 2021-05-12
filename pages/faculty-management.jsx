@@ -14,16 +14,23 @@ const Wrap = styled.div`
 
 export default function Page() {
 	const { entries, isLoading } = useEntries('/api/faculty/all');
-	const [session,loading] = useSession();
+	const [session, loading] = useSession();
 	const router = useRouter();
-	// console.log(entries);
-	return (
-		<Layout>
-			<Wrap>
-				{session && (session.user.role === 1 ?
-					(isLoading ? <LoadAnimation /> : <FacultyTable entries={entries} />) : () => { router.push("/") })
-				}
-			</Wrap>
-		</Layout>
-	);
+	if (typeof window !== 'undefined' && loading) return <Loading />
+
+
+
+	if (session && session.user.role === 1) {
+		return (
+			<Layout>
+				<Wrap>
+					{isLoading ? <LoadAnimation /> : <FacultyTable entries={entries} />}
+				</Wrap>
+			</Layout>
+		);
+	}
+	if (session && (session.user.role === 2 || session.user.role === 3)) {
+		return <Unauthorise />
+	}
+	return <Sign />
 }
