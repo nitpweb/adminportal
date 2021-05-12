@@ -114,18 +114,24 @@ export default function ButtonAppBar() {
 			<List>
 				{session && (session.user.role === 0 ? signout() : null)}
 
+				{session && (
+					<ListItem button key={"Profile"}>
+						<ListItemIcon></ListItemIcon>
+						<Link href={`/`}>
+							<ListItemText primary={"Profile"} />
+						</Link>
+					</ListItem>
+				)}
 				{session &&
 					(session.user.role === 1 || session.user.role === 2
-						? [("Events", "Notice", "News", "Innovation")].map(
-								(text, index) => (
-									<ListItem button key={index}>
-										<ListItemIcon></ListItemIcon>
-										<Link href={`/${text.toLowerCase()}`}>
-											<ListItemText primary={text} />
-										</Link>
-									</ListItem>
-								)
-						  )
+						? ["Events", "Notice", "News", "Innovation"].map((text, index) => (
+								<ListItem button key={text}>
+									<ListItemIcon></ListItemIcon>
+									<Link href={`/${text.toLowerCase()}`}>
+										<ListItemText primary={text} />
+									</Link>
+								</ListItem>
+						  ))
 						: null)}
 
 				{session &&
