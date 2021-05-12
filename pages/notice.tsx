@@ -3,7 +3,7 @@ import styled from "styled-components";
 import DataDisplay from "@/components/display-notices";
 import { useEntries } from '@/lib/swr-hook'
 import LoadAnimation from "@/components/loading";
-import { getSession } from "next-auth/client";
+import { useSession } from "next-auth/client";
 import { useRouter } from "next/router";
 
 const Wrap = styled.div`
@@ -14,7 +14,7 @@ const Wrap = styled.div`
 
 export default function Page() {
 	const { entries, isLoading } = useEntries('/api/notice/all');
-	const session = getSession();
+	const [session, loading] = useSession();
 	const router = useRouter();
 	console.log(entries);
 	return (
