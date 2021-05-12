@@ -27,7 +27,7 @@ const handler = async (req, res) => {
     if (type in fdept) {
       results = await query(
         `
-      select * from users where department="${fdept[val]}"
+      select * from users where department="${fdept[type]}"
     `
       );
     } else {

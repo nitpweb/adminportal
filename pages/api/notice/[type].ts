@@ -14,9 +14,9 @@ const handler: NextApiHandler = async (req, res) => {
     `
       );
     } else if (type == "active") {
-      `
-        SELECT * from notices where openDate<${now} and closeDate>${now};
-        `;
+      results = await query(`
+        SELECT * from notices where openDate<${now} and closeDate>${now} and isVisible=1;
+        `);
     }
     let array = JSON.parse(JSON.stringify(results));
     array.forEach((element) => {
