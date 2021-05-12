@@ -82,7 +82,6 @@ async function migrate() {
             PRIMARY KEY(id)
     );`).catch((e) => console.log(e));
 
-
 	await query(`create table if not exists phd_candidates (
             id bigint NOT NULL,
             email varchar(100),
@@ -122,6 +121,7 @@ async function migrate() {
                 department varchar(100),
                 designation varchar(100),
                 ext_no bigint,
+                image varchar(1000),
                 research_interest text,
                 PRIMARY KEY (id),
                 UNIQUE KEY (email)

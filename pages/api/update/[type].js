@@ -51,11 +51,10 @@ const handler = async (req, res) => {
 		) where id=${params.id}`
 				);
 			} else if (type == "image") {
-				await query(
-					`update faculty_image where (
-		image='${params.image}',
-		) where email='${params.email}'`
+				let reuslt = await query(
+					`UPDATE users SET	image='${params.image[0].url}' WHERE id='${params.id}'`
 				);
+				res.json(result);
 			} else if (type == "current-responsibility") {
 				await query(
 					`update curr_admin_responsibility where (
