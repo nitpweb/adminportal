@@ -29,154 +29,157 @@ import CallToActionIcon from "@material-ui/icons/CallToAction";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    flexGrow: 1,
-  },
-  list: {
-    width: 250,
-  },
-  fullList: {
-    width: "auto",
-  },
+	root: {
+		flexGrow: 1,
+	},
+	menuButton: {
+		marginRight: theme.spacing(2),
+	},
+	title: {
+		flexGrow: 1,
+	},
+	list: {
+		width: 250,
+	},
+	fullList: {
+		width: "auto",
+	},
 }));
 
 export default function ButtonAppBar() {
-  const classes = useStyles();
-  const [session, loading] = useSession();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
+	const classes = useStyles();
+	const [session, loading] = useSession();
+	const [anchorEl, setAnchorEl] = React.useState(null);
+	const open = Boolean(anchorEl);
 
-  const handleChange = (event) => {
-    setAuth(event.target.checked);
-  };
+	const handleChange = (event) => {
+		setAuth(event.target.checked);
+	};
 
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+	const handleMenu = (event) => {
+		setAnchorEl(event.currentTarget);
+	};
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
 
-  const [state, setState] = React.useState({
-    top: false,
-    left: false,
-    bottom: false,
-    right: false,
-  });
+	const [state, setState] = React.useState({
+		top: false,
+		left: false,
+		bottom: false,
+		right: false,
+	});
 
-  const toggleDrawer = (anchor, open) => (event) => {
-    if (
-      event &&
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
+	const toggleDrawer = (anchor, open) => (event) => {
+		if (
+			event &&
+			event.type === "keydown" &&
+			(event.key === "Tab" || event.key === "Shift")
+		) {
+			return;
+		}
 
-    setState({ ...state, [anchor]: open });
-  };
+		setState({ ...state, [anchor]: open });
+	};
 
-  const list = (anchor) => (
-    <div
-      className={clsx(classes.list, {
-        [classes.fullList]: anchor === "top" || anchor === "bottom",
-      })}
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      <List>
-        {session && (
-          <ListItem button key={session.user.name}>
-            <ListItemIcon>
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-            </ListItemIcon>
-            <ListItemText primary={session.user.name} />
-          </ListItem>
-        )}
-      </List>
-      <Divider />
-      <List>
-        {session && (session.user.role === 0 ? signout() : null)}
-        {session &&
-          (session.user.role === 1 || session.user.role === 2
-            ? ["Events", "Notice", "News", "Innovation"].map((text, index) => (
-                <ListItem button key={text}>
-                  <ListItemIcon></ListItemIcon>
-                  <Link href={`/${text.toLowerCase()}`}>
-                    <ListItemText primary={text} />
-                  </Link>
-                </ListItem>
-              ))
-            : null)}
+	const list = (anchor) => (
+		<div
+			className={clsx(classes.list, {
+				[classes.fullList]: anchor === "top" || anchor === "bottom",
+			})}
+			role="presentation"
+			onClick={toggleDrawer(anchor, false)}
+			onKeyDown={toggleDrawer(anchor, false)}
+		>
+			<List>
+				{session && (
+					<ListItem button key={session.user.name}>
+						<ListItemIcon>
+							<IconButton
+								aria-label="account of current user"
+								aria-controls="menu-appbar"
+								aria-haspopup="true"
+								onClick={handleMenu}
+								color="inherit"
+							>
+								<AccountCircle />
+							</IconButton>
+						</ListItemIcon>
+						<ListItemText primary={session.user.name} />
+					</ListItem>
+				)}
+			</List>
+			<Divider />
+			<List>
+				{session && (session.user.role === 0 ? signout() : null)}
 
-        {session &&
-          (session.user.role === 1 ? (
-            <ListItem button key="Faculty-Management">
-              <ListItemIcon></ListItemIcon>
-              <Link href="faculty-management">
-                <ListItemText primary="Faculty Management" />
-              </Link>
-            </ListItem>
-          ) : null)}
-        <ListItem>
-          <ListItemIcon>
-            <ExitToAppIcon />
-          </ListItemIcon>
-          <Button
-            onClick={(e) => {
-              e.preventDefault();
-              signout();
-            }}
-          >
-            Sign Out
-          </Button>
-        </ListItem>
-      </List>
-    </div>
-  );
+				{session &&
+					(session.user.role === 1 || session.user.role === 2
+						? [("Events", "Notice", "News", "Innovation")].map(
+								(text, index) => (
+									<ListItem button key={index}>
+										<ListItemIcon></ListItemIcon>
+										<Link href={`/${text.toLowerCase()}`}>
+											<ListItemText primary={text} />
+										</Link>
+									</ListItem>
+								)
+						  )
+						: null)}
 
-  return (
-    <div className={classes.root}>
-      <AppBar color="default" position="static">
-        <SwipeableDrawer
-          anchor={"left"}
-          open={state["left"]}
-          onClose={toggleDrawer("left", false)}
-          onOpen={toggleDrawer("left", true)}
-        >
-          {list("left")}
-        </SwipeableDrawer>
-        <Toolbar>
-          <IconButton
-            edge="start"
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="menu"
-            onClick={toggleDrawer("left", true)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.title}>
-            National Institute of Technology Patna
-          </Typography>
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
+				{session &&
+					(session.user.role === 1 ? (
+						<ListItem button key="Faculty-Management">
+							<ListItemIcon></ListItemIcon>
+							<Link href="faculty-management">
+								<ListItemText primary="Faculty Management" />
+							</Link>
+						</ListItem>
+					) : null)}
+				<ListItem>
+					<ListItemIcon>
+						<ExitToAppIcon />
+					</ListItemIcon>
+					<Button
+						onClick={(e) => {
+							e.preventDefault();
+							signout();
+						}}
+					>
+						Sign Out
+					</Button>
+				</ListItem>
+			</List>
+		</div>
+	);
+
+	return (
+		<div className={classes.root}>
+			<AppBar color="default" position="static">
+				<SwipeableDrawer
+					anchor={"left"}
+					open={state["left"]}
+					onClose={toggleDrawer("left", false)}
+					onOpen={toggleDrawer("left", true)}
+				>
+					{list("left")}
+				</SwipeableDrawer>
+				<Toolbar>
+					<IconButton
+						edge="start"
+						className={classes.menuButton}
+						color="inherit"
+						aria-label="menu"
+						onClick={toggleDrawer("left", true)}
+					>
+						<MenuIcon />
+					</IconButton>
+					<Typography variant="h6" className={classes.title}>
+						National Institute of Technology Patna
+					</Typography>
+				</Toolbar>
+			</AppBar>
+		</div>
+	);
 }

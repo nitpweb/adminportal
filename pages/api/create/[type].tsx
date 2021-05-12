@@ -51,10 +51,11 @@ const handler = async (req, res) => {
         );
         res.json(result)
       } else if (type == "image") {
-        let result = await query(
-          `REPLACE INTO faculty_image (email,image) values (`+
-            `'${params.email}','${params.image[0].url}')`
-        );
+        // let result = await query(
+        //   `REPLACE INTO users (email,image) values (`+
+        //     `'${params.email}','${params.image[0].url}')`
+        // );
+        let result = await query(`UPDATE users SET	image='${params.image[0].url}' WHERE email='${params.email}'`);
         res.json(result);
       } else if (type == "current-responsibility") {
         let result= await query(
