@@ -49,7 +49,7 @@ async function migrate() {
                 openDate bigint,
                 closeDate bigint,
                 description varchar(1000),
-                image varchar(1000),
+                attachments varchar(1000),
                 author varchar(1000),
                 email varchar(50) NOT NULL,
                 PRIMARY KEY (id)
@@ -62,7 +62,7 @@ async function migrate() {
                 openDate bigint,
                 closeDate bigint,
                 description varchar(1000),
-                image varchar(1000),
+                attachments varchar(1000),
                 author varchar(1000),
                 email varchar(50) NOT NULL,
                 PRIMARY KEY (email)

@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start -p 81"
+    "start": "next start"
   },
   "license": "ISC",
   "dependencies": {

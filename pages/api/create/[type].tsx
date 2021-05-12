@@ -31,7 +31,7 @@ const handler = async (req, res) => {
       } else if (type == "innovation") {
          params.image = JSON.stringify(params.image)
         let result = await query(
-          `INSERT INTO innovation (id,title,timestamp,openDate,closeDate,description,image,author,email) VALUES ` +
+          `INSERT INTO innovation (id,title,timestamp,openDate,closeDate,description,attachments,author,email) VALUES ` +
           `(${params.id},'${params.title}',${params.timestamp},${params.openDate},${params.closeDate},'${params.description}','${params.image}','${params.author}','${params.email}')`
         );
         res.json(result)
@@ -39,7 +39,7 @@ const handler = async (req, res) => {
       } else if (type == "news") {
         params.image = JSON.stringify(params.image)
         let result = await query(
-          `INSERT INTO news (id,title,timestamp,openDate,closeDate,description,image,author,email) VALUES ` +
+          `INSERT INTO news (id,title,timestamp,openDate,closeDate,description,attachments,author,email) VALUES ` +
           `(${params.id},'${params.title}',${params.timestamp},${params.openDate},${params.closeDate},'${params.description}','${params.image}','${params.author}','${params.email}')`
         );
         res.json(result)
