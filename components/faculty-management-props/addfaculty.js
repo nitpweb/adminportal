@@ -21,7 +21,7 @@ export const AddFaculty = ({ handleClose, modal }) => {
 		email: "",
 		designation: "",
 		department: "Developer",
-		ext_no: "",
+		ext_no: "0",
 		research_interest: "",
 		image: null,
 		role: 3,
@@ -33,8 +33,9 @@ export const AddFaculty = ({ handleClose, modal }) => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		setSubmitting(true);
+		// setSubmitting(true);
 
+		// console.log(content);
 		let result = await fetch("/api/create/user", {
 			headers: {
 				Accept: "application/json",
@@ -49,7 +50,7 @@ export const AddFaculty = ({ handleClose, modal }) => {
 			console.log(result);
 		}
 		console.log(result);
-		// window.location.reload();
+		window.location.reload();
 	};
 	return (
 		<>
@@ -173,7 +174,7 @@ export const AddFaculty = ({ handleClose, modal }) => {
 							margin="dense"
 							id="ext-no"
 							label="Ext No."
-							type="text"
+							type="number"
 							fullWidth
 							placeholder="Ext No."
 							name="ext_no"

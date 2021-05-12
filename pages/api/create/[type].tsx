@@ -45,9 +45,10 @@ const handler = async (req, res) => {
         res.json(result)
 
       } else if (type == "user") {
+      
         let result = await query(
-          `REPLACE INTO users (name,email,role,department,designation,ext_no,research_interest) values (`+
-            `'${params.name}','${params.email}','${params.role}','${params.department}','${params.designation}','${params.ext_no}','${params.research_interest}')`
+          `INSERT INTO users (name,email,role,department,designation,ext_no,research_interest,image) values (`+
+            `'${params.name}','${params.email}','${params.role}','${params.department}','${params.designation}','${params.ext_no}','${params.research_interest}',${params.image})`
         );
         res.json(result)
       } else if (type == "image") {
