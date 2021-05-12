@@ -50,7 +50,6 @@ const handler = async (req, res) => {
         "publications",
         "subjects_teaching",
         "work_experience",
-        "faculty_image",
       ];
       for (let i = 0; i < array.length; i++) {
         let element = array[i];

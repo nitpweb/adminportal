@@ -283,8 +283,8 @@ export default function Profilepage(props) {
             <div className="faculty-img-wrap">
               <img
                 src={
-                  detail.faculty_image && detail.faculty_image[0].image
-                    ? detail.faculty_image[0].image
+                  detail.profile.image
+                    ? detail.profile.image
                     : "/faculty.png"
                 }
                 alt="faculty"

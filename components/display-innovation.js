@@ -100,8 +100,8 @@ const DataDisplay = (props) => {
 								>
 									<span className={classes.truncate}>{detail.title}</span>
 									<div className={classes.attached}>
-										{detail.image &&
-											detail.image.map((img, idx) => {
+										{detail.attachments &&
+											detail.attachments.map((img, idx) => {
 												return (
 													<span
 														key={idx}
