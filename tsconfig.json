@@ -30,8 +30,12 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "pages/api/update/[type].js", "components/display-notices.js", "pages/api/auth/[...nextauth].js"  ],
+    "**/*.tsx",
+    "pages/api/update/[type].js",
+    "pages/faculty-management.jsx",
+    "components/display-notices.js",
+    "pages/api/auth/[...nextauth].js"
+  ],
   "exclude": [
     "node_modules"
   ]
