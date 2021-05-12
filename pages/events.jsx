@@ -6,7 +6,6 @@ import LoadAnimation from "@/components/loading";
 import { useSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import Loading from "../components/loading";
-import { useEffect } from "react";
 import Sign from "../components/signin";
 import Unauthorise from "../components/unauthorise";
 

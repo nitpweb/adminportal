@@ -5,6 +5,9 @@ import styled from "styled-components";
 import DataDisplay from "@/components/display-news";
 import { useSession } from "next-auth/client";
 import { useRouter } from "next/router";
+import Loading from "../components/loading";
+import Sign from "../components/signin";
+import Unauthorise from "../components/unauthorise";
 
 const Wrap = styled.div`
 	width: 90%;
