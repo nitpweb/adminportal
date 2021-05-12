@@ -22,7 +22,7 @@ const handler: NextApiHandler = async (req, res) => {
     array.forEach((element) => {
       element.attachments = JSON.parse(element.attachments);
     });
-    console.log(array);
+    // console.log(array);
     return res.json(array.reverse());
   } catch (e) {
     res.status(500).json({ message: e.message });

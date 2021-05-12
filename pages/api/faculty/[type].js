@@ -6,7 +6,7 @@ const handler = async (req, res) => {
   if (type == "all") {
     let results = await query(`select * from users; `);
     let array = JSON.parse(JSON.stringify(results));
-    console.log(array);
+    // console.log(array);
     return res.json(array);
   }
   try {
@@ -66,7 +66,7 @@ const handler = async (req, res) => {
       }
     }
     let array = JSON.parse(JSON.stringify(results));
-    console.log(array);
+    // console.log(array);
     return res.json(array);
   } catch (e) {
     res.status(500).json({ message: e.message });
