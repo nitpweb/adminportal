@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	title: {
 		flexGrow: 1,
+		fontSize: "17px"
 	},
 	list: {
 		width: 250,

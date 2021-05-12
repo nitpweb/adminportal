@@ -23,6 +23,7 @@ const Profile = styled.div`
   font-family: "Source Sans Pro";
   margin-top: 10vw;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-evenly;
   .faculty-img-row {
     margin-top: 5vh;
@@ -43,6 +44,7 @@ const Profile = styled.div`
       height: 250px;
       min-width: 250px;
       border-radius: 50%;
+
 
       img {
         width: 100%;
@@ -73,6 +75,7 @@ const Profile = styled.div`
       padding-bottom: 15px;
       font-family: "Source Sans Pro";
       list-style: disc;
+
       h3 {
         color: #2f2f2f;
       }
