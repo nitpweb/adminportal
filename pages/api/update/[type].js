@@ -39,10 +39,11 @@ const handler = async (req, res) => {
 				);
 				return res.json(result);
 			} else if (type == "user") {
-				await query(
+				let result = await query(
 					`UPDATE users SET	name='${params.name}',email='${params.email}',role='${params.role}',department='${params.department}',designation='${params.designation}',ext_no='${params.ext_no}'` +
 						`,research_interest='${params.research_interest}' WHERE id=${params.id}`
 				);
+				res.json(result);
 			} else if (type == "memberships") {
 				await query(
 					`update memberships where (

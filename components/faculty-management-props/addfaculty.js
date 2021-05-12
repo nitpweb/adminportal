@@ -20,9 +20,10 @@ export const AddFaculty = ({ handleClose, modal }) => {
 		name: "",
 		email: "",
 		designation: "",
-		department: "",
+		department: "Developer",
 		ext_no: "",
 		research_interest: "",
+		image: null,
 		role: 3,
 	});
 	const handleChange = (e) => {
@@ -48,7 +49,7 @@ export const AddFaculty = ({ handleClose, modal }) => {
 			console.log(result);
 		}
 		console.log(result);
-		window.location.reload();
+		// window.location.reload();
 	};
 	return (
 		<>
@@ -109,13 +110,17 @@ export const AddFaculty = ({ handleClose, modal }) => {
 							onChange={(e) => handleChange(e)}
 							value={content.research_interest}
 						/>
-						<FormControl style={{ margin: `10px auto` }}>
+						<FormControl
+							style={{ margin: `10px auto`, width: `100%` }}
+							required
+						>
 							<InputLabel id="demo-dialog-select-label">Role</InputLabel>
 
 							<Select
 								labelId="demo-dialog-select-label"
 								id="demo-dialog-select"
 								name="role"
+								fullWidth
 								value={content.role}
 								onChange={(e) => handleChange(e)}
 								input={<Input />}
@@ -123,6 +128,44 @@ export const AddFaculty = ({ handleClose, modal }) => {
 								<MenuItem value={1}>Admin</MenuItem>
 								<MenuItem value={2}>HOD</MenuItem>
 								<MenuItem value={3}>Faculty</MenuItem>
+							</Select>
+						</FormControl>
+
+						<FormControl
+							style={{ margin: `10px auto`, width: `100%` }}
+							required
+						>
+							<InputLabel id="department">Department</InputLabel>
+							<Select
+								labelId="branch"
+								autoWidth
+								id="branch"
+								name="department"
+								value={content.department}
+								onChange={(e) => handleChange(e)}
+								input={<Input />}
+							>
+								<MenuItem value="Computer Science and Engineering">
+									Computer Science and Engineering
+								</MenuItem>
+								<MenuItem value="Electronics & Communication Engineering">
+									Electronics & Communication Engineering
+								</MenuItem>
+								<MenuItem value="Electrical Engineering">
+									Electrical Engineering
+								</MenuItem>
+								<MenuItem value="Mechanical Engineering">
+									Mechanical Engineering
+								</MenuItem>
+								<MenuItem value="Civil Engineering">Civil Engineering</MenuItem>
+								<MenuItem value="Physics">Physics</MenuItem>
+								<MenuItem value="Chemistry">Chemistry</MenuItem>
+								<MenuItem value="Mathematics">Mathematics</MenuItem>
+								<MenuItem value="Architecture">Architecture</MenuItem>
+								<MenuItem value="Humanities & Social Sciences">
+									Humanities & Social Sciences
+								</MenuItem>
+								<MenuItem value="Developer">Developer</MenuItem>
 							</Select>
 						</FormControl>
 
@@ -137,7 +180,7 @@ export const AddFaculty = ({ handleClose, modal }) => {
 							onChange={(e) => handleChange(e)}
 							value={content.ext_no}
 						/>
-						<TextField
+						{/* <TextField
 							margin="dense"
 							id="department"
 							label="Department"
@@ -147,7 +190,7 @@ export const AddFaculty = ({ handleClose, modal }) => {
 							type="text"
 							onChange={(e) => handleChange(e)}
 							value={content.department}
-						/>
+						/> */}
 					</DialogContent>
 					<DialogActions>
 						{submitting ? (
