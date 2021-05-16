@@ -27,7 +27,7 @@ export default function Page() {
 		return (
 			<Layout>
 				<Wrap>
-					{isLoading ? <LoadAnimation /> : <FacultyTable entries={entries} />}
+					{isLoading ? <LoadAnimation /> : <FacultyTable rows={entries} />}
 				</Wrap>
 			</Layout>
 		);
