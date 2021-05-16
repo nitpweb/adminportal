@@ -14,6 +14,7 @@ import {
 import React, { useState } from "react";
 import { AddForm } from "./notices-props/add-form";
 import { EditForm } from "./notices-props/edit-form";
+import { useSession } from "next-auth/client";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -45,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DataDisplay = (props) => {
+	const [session, loading] = useSession();
 	const classes = useStyles();
 	const [details, setDetails] = useState(props.data);
 
@@ -172,20 +174,31 @@ const DataDisplay = (props) => {
 									)}
 								</Paper>{" "}
 							</Grid>
-							<Grid item xs={4} sm={2} lg={1}>
-								<Paper
-									className={classes.paper}
-									style={{ textAlign: `center`, cursor: `pointer` }}
-									onClick={editModalOpen}
-								>
-									<Edit className={classes.icon} /> <span>Edit</span>
-								</Paper>{" "}
-								<EditForm
-									data={detail}
-									modal={editModal}
-									handleClose={handleCloseEditModal}
-								/>
-							</Grid>
+							{session.user.email === detail.email ? (
+								<Grid item xs={4} sm={2} lg={1}>
+									<Paper
+										className={classes.paper}
+										style={{ textAlign: `center`, cursor: `pointer` }}
+										onClick={editModalOpen}
+									>
+										<Edit className={classes.icon} /> <span>Edit</span>
+									</Paper>{" "}
+									<EditForm
+										data={detail}
+										modal={editModal}
+										handleClose={handleCloseEditModal}
+									/>
+								</Grid>
+							) : (
+								<Grid item xs={6} sm={2} lg={1}>
+									<Paper
+										className={classes.paper}
+										style={{ textAlign: `center`, cursor: `pointer` }}
+									>
+										Not Authorized
+									</Paper>{" "}
+								</Grid>
+							)}
 						</React.Fragment>
 					);
 				})}
