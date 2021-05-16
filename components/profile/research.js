@@ -8,16 +8,17 @@ import { useSession } from "next-auth/client";
 import React, { useState } from "react";
 import { AddAttachments } from "./../common-props/add-attachment";
 
-export const AddResearch = ({ handleClose, modal, detail}) => {
+export const AddResearch = ({ handleClose, modal, detail }) => {
   const [session, loading] = useSession();
   const [content, setContent] = useState({
+    id: `${detail.id}`,
     name: `${detail.name}`,
     email: `${detail.email}`,
     role: `${detail.role}`,
     department: `${detail.department}`,
     designation: `${detail.designation}`,
     ext_no: `${detail.ext_no}`,
-    research_interest:`${detail.research_interest}`
+    research_interest: `${detail.research_interest}`,
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -31,7 +32,6 @@ export const AddResearch = ({ handleClose, modal, detail}) => {
     e.preventDefault();
     let data = {
       ...content,
-      id: Date.now(),
       email: session.user.email,
     };
     // data.attachments = JSON.stringify(data.attachments);
