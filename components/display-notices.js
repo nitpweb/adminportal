@@ -174,7 +174,7 @@ const DataDisplay = (props) => {
 									)}
 								</Paper>{" "}
 							</Grid>
-							{session.user.email === detail.email ? (
+							{session.user.role == 1 || session.user.email === detail.email ? (
 								<Grid item xs={4} sm={2} lg={1}>
 									<Paper
 										className={classes.paper}

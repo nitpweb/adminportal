@@ -144,7 +144,7 @@ const DataDisplay = (props) => {
 									modal={descriptionModal}
 								/>
 							</Grid>
-							{session.user.email === detail.email ? (
+							{session.user.role == 1 || session.user.email === detail.email ? (
 								<Grid item xs={6} sm={2} lg={1}>
 									<Paper
 										className={classes.paper}
