@@ -36,7 +36,7 @@ export const AddResearch = ({ handleClose, modal, detail}) => {
     };
     // data.attachments = JSON.stringify(data.attachments);
 
-    let result = await fetch("/api/create/user", {
+    let result = await fetch("/api/update/user", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -65,61 +65,6 @@ export const AddResearch = ({ handleClose, modal, detail}) => {
             Add Profile Data
           </DialogTitle>
           <DialogContent>
-            <TextField
-              margin="dense"
-              id="label"
-              label="name"
-              name="name"
-              type="text"
-              required
-              fullWidth
-              onChange={(e) => handleChange(e)}
-              value={content.name}
-            />
-              <TextField
-              margin="dense"
-              id="label"
-              label="email"
-              name="email"
-              type="text"
-              required
-              fullWidth
-              onChange={(e) => handleChange(e)}
-              value={content.email}
-            />
-            <TextField
-              margin="dense"
-              id="label"
-              label="role"
-              name="role"
-              type="text"
-              required
-              fullWidth
-              onChange={(e) => handleChange(e)}
-              value={content.role}
-            />
-            <TextField
-              margin="dense"
-              id="label"
-              label="department"
-              name="department"
-              type="text"
-              required
-              fullWidth
-              onChange={(e) => handleChange(e)}
-              value={content.department}
-            />
-            <TextField
-              margin="dense"
-              id="label"
-              label="designation"
-              name="designation"
-              type="text"
-              required
-              fullWidth
-              onChange={(e) => handleChange(e)}
-              value={content.designation}
-            />
             <TextField
               margin="dense"
               id="label"

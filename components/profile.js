@@ -756,7 +756,7 @@ export default function Profilepage(props) {
                       <h4>Student Name</h4>
                     </td>
                     <td>
-                      <h4>Thesis_Topic</h4>
+                      <h4>Thesis Topic</h4>
                     </td>
                     <td>
                       <h4>Start Year</h4>
