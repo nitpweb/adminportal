@@ -20,7 +20,7 @@ const handler: NextApiHandler = async (req, res) => {
     }
     let array = JSON.parse(JSON.stringify(results));
     array.forEach((element) => {
-      element.attachments = JSON.parse(element.attachments);
+      element.image = JSON.parse(element.image);
     });
     // console.log(array);
     return res.json(array.reverse());
