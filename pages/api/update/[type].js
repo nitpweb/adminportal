@@ -28,14 +28,14 @@ const handler = async (req, res) => {
         params.image = JSON.stringify(params.image);
         let result = await query(
           `UPDATE innovation SET title='${params.title}',timestamp='${params.timestamp}',openDate='${params.openDate}',closeDate='${params.closeDate}',description='${params.description}'` +
-            `,attachments='${params.image}',author='${params.author}',email='${params.email}' WHERE id=${params.id}`
+            `,image='${params.image}',author='${params.author}',email='${params.email}' WHERE id=${params.id}`
         );
         return res.json(result);
       } else if (type == "news") {
         params.image = JSON.stringify(params.image);
         let result = await query(
           `UPDATE news SET title='${params.title}',timestamp='${params.timestamp}',openDate='${params.openDate}',closeDate='${params.closeDate}',description='${params.description}'` +
-            `,attachments='${params.image}',author='${params.author}',email='${params.email}' WHERE id=${params.id}`
+            `,image='${params.image}',author='${params.author}',email='${params.email}' WHERE id=${params.id}`
         );
         return res.json(result);
       } else if (type == "user") {
