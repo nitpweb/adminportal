@@ -57,7 +57,7 @@ export const EditForm = ({ data, handleClose, modal }) => {
 		};
 
 		console.log(finaldata);
-		let result = await fetch("/api/update/news", {
+		let result = await fetch("/api/update/innovation", {
 			headers: {
 				Accept: "application/json",
 				"Content-Type": "application/json",
