@@ -9,8 +9,11 @@ import { useSession } from "next-auth/client";
 import React, { useState } from "react";
 import { dateformatter } from "./../common-props/date-formatter";
 import { ConfirmDelete } from "./confirm-delete";
+import { handleNewAttachments } from "./../common-props/add-attachment";
+import { AddAttachments } from "./../common-props/add-image";
 
 export const EditForm = ({ data, handleClose, modal }) => {
+	const limit = 2;
 	const [session, loading] = useSession();
 	const [content, setContent] = useState({
 		id: data.id,
@@ -25,8 +28,12 @@ export const EditForm = ({ data, handleClose, modal }) => {
 	const handleDelete = () => {
 		setVerifyDelete(false);
 	};
-
 	const [image, setImage] = useState(data.image);
+
+	const [newImages, setNewImages] = useState([
+		{ caption: "", url: "", value: "" },
+	]);
+
 	const handleChange = (e) => {
 		setContent({ ...content, [e.target.name]: e.target.value });
 		//console.log(content)
@@ -45,6 +52,8 @@ export const EditForm = ({ data, handleClose, modal }) => {
 		open = open.getTime();
 		close = close.getTime();
 		let now = Date.now();
+		let new_attach = [...newImages];
+		new_attach = await handleNewAttachments(new_attach);
 
 		let finaldata = {
 			...content,
@@ -53,7 +62,7 @@ export const EditForm = ({ data, handleClose, modal }) => {
 			timestamp: now,
 			email: session.user.email,
 			author: session.user.name,
-			image: [...image],
+			image: [...image, ...newImages],
 		};
 
 		console.log(finaldata);
@@ -169,6 +178,13 @@ export const EditForm = ({ data, handleClose, modal }) => {
 									);
 								})}
 							</>
+						)}
+						{limit > image.length && (
+							<AddAttachments
+								limit={limit - image.length}
+								attachments={newImages}
+								setAttachments={setNewImages}
+							/>
 						)}
 					</DialogContent>
 					<DialogActions>

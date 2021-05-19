@@ -32,7 +32,7 @@ export const AddAttachments = ({ attachments, setAttachments, limit }) => {
 	}
 
 	return (
-		<>
+		<div style={{ marginTop: `8px` }}>
 			<Button
 				variant="contained"
 				color="primary"
@@ -80,6 +80,6 @@ export const AddAttachments = ({ attachments, setAttachments, limit }) => {
 			{/* <button type="button" onClick={() => console.log(attachments)}>
 				Status
 			</button> */}
-		</>
+		</div>
 	);
 };

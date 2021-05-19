@@ -7,7 +7,10 @@ import TextField from "@material-ui/core/TextField";
 import { Delete, Link } from "@material-ui/icons";
 import { useSession } from "next-auth/client";
 import React, { useState } from "react";
-
+import {
+	AddAttachments,
+	handleNewAttachments,
+} from "./../common-props/add-attachment";
 import { dateformatter } from "./../common-props/date-formatter";
 import { ConfirmDelete } from "./confirm-delete";
 
@@ -28,6 +31,10 @@ export const EditForm = ({ data, handleClose, modal }) => {
 	};
 	const [attachments, setAttachments] = useState(data.attachments);
 	const [submitting, setSubmitting] = useState(false);
+
+	const [newAttachments, setNewAttachments] = useState([
+		{ caption: "", url: "", value: "" },
+	]);
 
 	const handleChange = (e) => {
 		if (e.target.name == "important" || e.target.name == "isVisible") {
@@ -52,6 +59,8 @@ export const EditForm = ({ data, handleClose, modal }) => {
 		open = open.getTime();
 		close = close.getTime();
 		let now = Date.now();
+		let new_attach = [...newAttachments];
+		new_attach = await handleNewAttachments(new_attach);
 
 		let finaldata = {
 			...content,
@@ -59,7 +68,7 @@ export const EditForm = ({ data, handleClose, modal }) => {
 			closeDate: close,
 			timestamp: now,
 			email: session.user.email,
-			attachments: [...attachments],
+			attachments: [...attachments, ...new_attach],
 		};
 
 		console.log(finaldata);
@@ -189,6 +198,11 @@ export const EditForm = ({ data, handleClose, modal }) => {
 								})}
 							</>
 						)}
+
+						<AddAttachments
+							attachments={newAttachments}
+							setAttachments={setNewAttachments}
+						/>
 					</DialogContent>
 					<DialogActions>
 						<Button type="submit" color="primary" disabled={submitting}>
