@@ -3,7 +3,7 @@ import TextField from "@material-ui/core/TextField";
 import { Delete } from "@material-ui/icons";
 import React from "react";
 
-export const AddAttachments = ({ attachments, setAttachments }) => {
+export const AddAttachments = ({ attachments, setAttachments, limit }) => {
 	// const [attachments, setAttachments] = useState([{ value: "", file: "" }]);
 
 	function handleChange(i, event) {
@@ -38,6 +38,7 @@ export const AddAttachments = ({ attachments, setAttachments }) => {
 				color="primary"
 				type="button"
 				onClick={() => handleAdd()}
+				disabled={limit ? (attachments.length < limit ? false : true) : false}
 			>
 				+ Add Image
 			</Button>

@@ -155,6 +155,7 @@ export const AddForm = ({ handleClose, modal }) => {
 						<AddAttachments
 							attachments={attachments}
 							setAttachments={setAttachments}
+							limit={1}
 						/>
 						{/* <a href={data.attachments} target="_blank">
 							<FontAwesomeIcon icon={faExternalLinkAlt} />

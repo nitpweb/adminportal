@@ -1,12 +1,9 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import {
-	Delete,
-	
-} from "@material-ui/icons";
+import { Delete } from "@material-ui/icons";
 
-export const AddAttachments = ({ attachments, setAttachments }) => {
+export const AddAttachments = ({ attachments, setAttachments, limit }) => {
 	// const [attachments, setAttachments] = useState([{ value: "", file: "" }]);
 
 	function handleChange(i, event) {
@@ -41,6 +38,7 @@ export const AddAttachments = ({ attachments, setAttachments }) => {
 				color="primary"
 				type="button"
 				onClick={() => handleAdd()}
+				disabled={limit ? (attachments.length < limit ? false : true) : false}
 			>
 				+ Add Attachments
 			</Button>
