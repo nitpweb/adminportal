@@ -18,9 +18,7 @@ export const AddForm = ({ handleClose, modal }) => {
 	});
 	const [submitting, setSubmitting] = useState(false);
 
-	const [attachments, setAttachments] = useState([
-		{ caption: "", url: "", value: "" },
-	]);
+	const [attachments, setAttachments] = useState([]);
 	const handleChange = (e) => {
 		setContent({ ...content, [e.target.name]: e.target.value });
 		//console.log(content)

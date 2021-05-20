@@ -19,9 +19,7 @@ export const AddForm = ({ handleClose, modal }) => {
 		important: false,
 	});
 
-	const [attachments, setAttachments] = useState([
-		{ caption: "", url: "", value: "" },
-	]);
+	const [attachments, setAttachments] = useState([]);
 	const [submitting, setSubmitting] = useState(false);
 
 	const handleChange = (e) => {
