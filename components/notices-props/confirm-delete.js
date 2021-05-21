@@ -4,8 +4,9 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import React from "react";
 
-export const ConfirmDelete = ({ handleClose, modal, id,attachments }) => {
-	const deleteArray = [];
+export const ConfirmDelete = ({ handleClose, modal, id,delArray }) => {
+			const deleteArray = [...delArray];
+
 
 		if (attachments.length) {
 			for (let i = 0; i < attachments.length; i++) {

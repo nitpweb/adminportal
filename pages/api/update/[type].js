@@ -11,7 +11,7 @@ const handler = async (req, res) => {
 			const params = req.body;
 
 			if (
-				session.usr.role === 1 ||
+				session.user.role === 1 ||
 				(session.user.role === 2 && session.user.email == params.email)
 			) {
 				if (type == "notice") {

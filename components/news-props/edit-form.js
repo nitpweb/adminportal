@@ -130,6 +130,7 @@ export const EditForm = ({ data, handleClose, modal }) => {
 						handleClose={handleDelete}
 						id={content.id}
 						attachments={image}
+						delArray={deleteArray.current}
 					/>
 					<DialogContent>
 						<TextField

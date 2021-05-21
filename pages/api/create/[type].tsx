@@ -6,7 +6,7 @@ const handler = async (req, res) => {
   const session = await getSession({ req });
   // let session = true;
   
-  if (session) {
+  if (session) {  
     const { type } = req.query;
     try {
       let params = req.body;

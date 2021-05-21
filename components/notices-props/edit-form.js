@@ -144,6 +144,7 @@ export const EditForm = ({ data, handleClose, modal }) => {
 						modal={verifyDelete}
 						handleClose={handleDelete}
 						id={content.id}
+						delArray={deleteArray.current}
 						attachments={attachments}
 					/>
 					<DialogContent>
