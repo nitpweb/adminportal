@@ -4,8 +4,31 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import React from "react";
 
-export const ConfirmDelete = ({ handleClose, modal, id }) => {
+export const ConfirmDelete = ({ handleClose, modal, id, attachments }) => {
 	const deleteEvent = async () => {
+		const deleteArray = [];
+
+		if (attachments.length) {
+			for (let i = 0; i < attachments.length; i++) {
+				const element = attachments[i];
+				if (element.url) deleteArray.push(element.url.split("/")[5]);
+			}
+			if (deleteArray.length) {
+				let result = await fetch("/api/gdrive/deletefiles", {
+					method: "DELETE",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(deleteArray),
+				});
+				result = await result.json();
+				if (result instanceof Error) {
+					console.log("Error Occured");
+				}
+				console.log(result);
+			}
+		}
+
 		let result = await fetch("/api/delete/innovation", {
 			method: "DELETE",
 			body: id.toString(),
