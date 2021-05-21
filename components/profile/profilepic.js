@@ -13,24 +13,19 @@ export const AddPic = ({ handleClose, modal }) => {
 
 	const [submitting, setSubmitting] = useState(false);
 
-	const [attachments, setAttachments] = useState([
-		{  url: "", value:"" },
-	]);
+	const [attachments, setAttachments] = useState([{ url: "", value: "" }]);
 
-
-    const handleSubmit = async (e) => {
+	const handleSubmit = async (e) => {
 		setSubmitting(true);
 		e.preventDefault();
-		
+
 		let data = {
-		
-		
 			email: session.user.email,
-		
+
 			image: [...attachments],
 		};
 		for (let i = 0; i < data.image.length; i++) {
-			delete data.image[i].value
+			delete data.image[i].value;
 			// if (data.image[i].url === undefined) {
 			// 	data.image[i].url = "";
 			// }
@@ -44,11 +39,13 @@ export const AddPic = ({ handleClose, modal }) => {
 					method: "POST",
 					body: file,
 				});
-                // https://drive.google.com/uc?export=view&id=${props.id}
+				// https://drive.google.com/uc?export=view&id=${props.id}
 				viewLink = await viewLink.json();
 				// console.log("Client side link");
 				console.log(viewLink);
-				data.image[i].url = `https://drive.google.com/thumbnail?authuser=0&sz=w320&id=${viewLink[0].id}` ;
+				data.image[
+					i
+				].url = `https://drive.google.com/thumbnail?authuser=0&sz=w320&id=${viewLink[0].id}`;
 			} else {
 				console.log("Request Not Sent");
 			}
@@ -72,8 +69,6 @@ export const AddPic = ({ handleClose, modal }) => {
 		window.location.reload();
 	};
 
-
-
 	return (
 		<>
 			<Dialog open={modal} onClose={handleClose}>
@@ -86,22 +81,15 @@ export const AddPic = ({ handleClose, modal }) => {
 						Add Pic
 					</DialogTitle>
 					<DialogContent>
-
 						<AddAttachments
 							attachments={attachments}
 							setAttachments={setAttachments}
 						/>
 					</DialogContent>
 					<DialogActions>
-						{submitting ? (
-							<Button type="submit" color="primary" disabled>
-								Submitting
-							</Button>
-						) : (
-							<Button type="submit" color="primary">
-								Submit
-							</Button>
-						)}
+						<Button type="submit" color="primary" disabled={submitting}>
+							{submitting ? "Submitting" : "Submit"}
+						</Button>
 					</DialogActions>
 				</form>
 			</Dialog>

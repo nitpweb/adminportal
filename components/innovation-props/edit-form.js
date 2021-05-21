@@ -6,11 +6,15 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 import { Delete, Link } from "@material-ui/icons";
 import { useSession } from "next-auth/client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { dateformatter } from "./../common-props/date-formatter";
 import { ConfirmDelete } from "./confirm-delete";
+import { handleNewAttachments } from "./../common-props/add-attachment";
+import { AddAttachments } from "./../common-props/add-image";
 
 export const EditForm = ({ data, handleClose, modal }) => {
+	const limit = 2;
+	const deleteArray = useRef([]);
 	const [session, loading] = useSession();
 	const [content, setContent] = useState({
 		id: data.id,
@@ -25,8 +29,10 @@ export const EditForm = ({ data, handleClose, modal }) => {
 	const handleDelete = () => {
 		setVerifyDelete(false);
 	};
-
 	const [image, setImage] = useState(data.image);
+
+	const [newImages, setNewImages] = useState([]);
+
 	const handleChange = (e) => {
 		setContent({ ...content, [e.target.name]: e.target.value });
 		//console.log(content)
@@ -37,6 +43,14 @@ export const EditForm = ({ data, handleClose, modal }) => {
 		setImage(attach);
 	};
 
+	const deleteAttachment = (idx) => {
+		deleteArray.current.push(image[idx].url.split("/")[5]);
+		console.log(deleteArray.current);
+		let atch = [...image];
+		atch.splice(idx, 1);
+		setImage(atch);
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setSubmitting(true);
@@ -45,6 +59,8 @@ export const EditForm = ({ data, handleClose, modal }) => {
 		open = open.getTime();
 		close = close.getTime();
 		let now = Date.now();
+		let new_attach = [...newImages];
+		new_attach = await handleNewAttachments(new_attach);
 
 		let finaldata = {
 			...content,
@@ -53,8 +69,23 @@ export const EditForm = ({ data, handleClose, modal }) => {
 			timestamp: now,
 			email: session.user.email,
 			author: session.user.name,
-			image: [...image],
+			image: [...image, ...newImages],
 		};
+
+		if (deleteArray.current.length) {
+			let result = await fetch("/api/gdrive/deletefiles", {
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(deleteArray.current),
+			});
+			result = await result.json();
+			if (result instanceof Error) {
+				console.log("Error Occured");
+			}
+			console.log(result);
+		}
 
 		console.log(finaldata);
 		let result = await fetch("/api/update/innovation", {
@@ -165,22 +196,37 @@ export const EditForm = ({ data, handleClose, modal }) => {
 											<a href={img.url} target="_blank">
 												<Link />
 											</a>
+											<i
+												style={{
+													position: `absolute`,
+													right: `15px`,
+													cursor: `pointer`,
+												}}
+											>
+												<Delete
+													type="button"
+													onClick={() => deleteAttachment(idx)}
+													style={{ height: `2rem`, width: `auto` }}
+													color="secondary"
+												/>
+											</i>
 										</div>
 									);
 								})}
 							</>
 						)}
+						{limit > image.length && (
+							<AddAttachments
+								limit={limit - image.length}
+								attachments={newImages}
+								setAttachments={setNewImages}
+							/>
+						)}
 					</DialogContent>
 					<DialogActions>
-						{submitting ? (
-							<Button type="submit" color="primary" disabled>
-								Submitting
-							</Button>
-						) : (
-							<Button type="submit" color="primary">
-								Submit
-							</Button>
-						)}
+						<Button type="submit" color="primary" disabled={submitting}>
+							{submitting ? "Submitting" : "Submit"}
+						</Button>
 					</DialogActions>
 				</form>
 			</Dialog>

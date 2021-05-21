@@ -6,12 +6,16 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 import { Delete, Link } from "@material-ui/icons";
 import { useSession } from "next-auth/client";
-import React, { useState } from "react";
-
+import React, { useRef, useState } from "react";
+import {
+	AddAttachments,
+	handleNewAttachments,
+} from "./../common-props/add-attachment";
 import { dateformatter } from "./../common-props/date-formatter";
 import { ConfirmDelete } from "./confirm-delete";
 
 export const EditForm = ({ data, handleClose, modal }) => {
+	const deleteArray = useRef([]);
 	const [session, loading] = useSession();
 	const [content, setContent] = useState({
 		id: data.id,
@@ -29,6 +33,8 @@ export const EditForm = ({ data, handleClose, modal }) => {
 	const [attachments, setAttachments] = useState(data.attachments);
 	const [submitting, setSubmitting] = useState(false);
 
+	const [newAttachments, setNewAttachments] = useState([]);
+
 	const handleChange = (e) => {
 		if (e.target.name == "important" || e.target.name == "isVisible") {
 			setContent({ ...content, [e.target.name]: e.target.checked });
@@ -44,6 +50,14 @@ export const EditForm = ({ data, handleClose, modal }) => {
 		setAttachments(attach);
 	};
 
+	const deleteAttachment = (idx) => {
+		deleteArray.current.push(attachments[idx].url.split("/")[5]);
+		console.log(deleteArray.current);
+		let atch = [...attachments];
+		atch.splice(idx, 1);
+		setAttachments(atch);
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setSubmitting(true);
@@ -52,6 +66,8 @@ export const EditForm = ({ data, handleClose, modal }) => {
 		open = open.getTime();
 		close = close.getTime();
 		let now = Date.now();
+		let new_attach = [...newAttachments];
+		new_attach = await handleNewAttachments(new_attach);
 
 		let finaldata = {
 			...content,
@@ -59,8 +75,23 @@ export const EditForm = ({ data, handleClose, modal }) => {
 			closeDate: close,
 			timestamp: now,
 			email: session.user.email,
-			attachments: [...attachments],
+			attachments: [...attachments, ...new_attach],
 		};
+
+		if (deleteArray.current.length) {
+			let result = await fetch("/api/gdrive/deletefiles", {
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(deleteArray.current),
+			});
+			result = await result.json();
+			if (result instanceof Error) {
+				console.log("Error Occured");
+			}
+			console.log(result);
+		}
 
 		console.log(finaldata);
 		let result = await fetch("/api/update/event", {
@@ -184,22 +215,35 @@ export const EditForm = ({ data, handleClose, modal }) => {
 											<a href={attachment.url} target="_blank">
 												<Link />
 											</a>
+											<i
+												style={{
+													position: `absolute`,
+													right: `15px`,
+													cursor: `pointer`,
+												}}
+											>
+												<Delete
+													type="button"
+													onClick={() => deleteAttachment(idx)}
+													style={{ height: `2rem`, width: `auto` }}
+													color="secondary"
+												/>
+											</i>
 										</div>
 									);
 								})}
 							</>
 						)}
+
+						<AddAttachments
+							attachments={newAttachments}
+							setAttachments={setNewAttachments}
+						/>
 					</DialogContent>
 					<DialogActions>
-						{submitting ? (
-							<Button type="submit" color="primary" disabled>
-								Submitting
-							</Button>
-						) : (
-							<Button type="submit" color="primary">
-								Submit
-							</Button>
-						)}
+						<Button type="submit" color="primary" disabled={submitting}>
+							{submitting ? "Submitting" : "Submit"}
+						</Button>
 					</DialogActions>
 				</form>
 			</Dialog>

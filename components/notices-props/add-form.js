@@ -15,13 +15,11 @@ export const AddForm = ({ handleClose, modal }) => {
 		title: "",
 		openDate: "",
 		closeDate: "",
-		isVisible: false,
+		isVisible: true,
 		important: false,
 	});
 
-	const [attachments, setAttachments] = useState([
-		{ caption: "", url: "", value: "" },
-	]);
+	const [attachments, setAttachments] = useState([]);
 	const [submitting, setSubmitting] = useState(false);
 
 	const handleChange = (e) => {
@@ -177,15 +175,9 @@ export const AddForm = ({ handleClose, modal }) => {
 						</a> */}
 					</DialogContent>
 					<DialogActions>
-						{submitting ? (
-							<Button type="submit" color="primary" disabled>
-								Submitting
-							</Button>
-						) : (
-							<Button type="submit" color="primary">
-								Submit
-							</Button>
-						)}
+						<Button type="submit" color="primary" disabled={submitting}>
+							{submitting ? "Submitting" : "Submit"}
+						</Button>
 					</DialogActions>
 				</form>
 			</Dialog>

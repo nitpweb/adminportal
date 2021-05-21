@@ -1,12 +1,9 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
-import {
-	Delete,
-	
-} from "@material-ui/icons";
+import { Delete } from "@material-ui/icons";
 
-export const AddAttachments = ({ attachments, setAttachments }) => {
+export const AddAttachments = ({ attachments, setAttachments, limit }) => {
 	// const [attachments, setAttachments] = useState([{ value: "", file: "" }]);
 
 	function handleChange(i, event) {
@@ -35,12 +32,13 @@ export const AddAttachments = ({ attachments, setAttachments }) => {
 	}
 
 	return (
-		<>
+		<div style={{ marginTop: `8px` }}>
 			<Button
 				variant="contained"
 				color="primary"
 				type="button"
 				onClick={() => handleAdd()}
+				disabled={limit ? (attachments.length < limit ? false : true) : false}
 			>
 				+ Add Attachments
 			</Button>
@@ -81,6 +79,31 @@ export const AddAttachments = ({ attachments, setAttachments }) => {
 			{/* <button type="button" onClick={() => console.log(attachments)}>
 				Status
 			</button> */}
-		</>
+		</div>
 	);
+};
+
+export const handleNewAttachments = async (new_attach) => {
+	for (let i = 0; i < new_attach.length; i++) {
+		delete new_attach[i].value;
+
+		console.log(new_attach[i]);
+
+		if (new_attach[i].url) {
+			let file = new FormData();
+			file.append("files", new_attach[i].url);
+			// console.log(file.get("files"));
+			let viewLink = await fetch("/api/gdrive/uploadfiles", {
+				method: "POST",
+				body: file,
+			});
+			viewLink = await viewLink.json();
+			// console.log("Client side link");
+			// console.log(viewLink);
+			new_attach[i].url = viewLink[0].webViewLink;
+		} else {
+			console.log("Request Not Sent");
+		}
+	}
+	return new_attach;
 };
