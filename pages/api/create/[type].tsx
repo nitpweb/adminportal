@@ -11,7 +11,7 @@ const handler = async (req, res) => {
     try {
       let params = req.body;
 
-      if (type == "notice") {
+     if(session.user.role==1 || session.user.role==2){ if (type == "notice") {
         params.attachments = JSON.stringify(params.attachments)
         let result = await query(
           `INSERT INTO notices (id,title,timestamp,openDate,closeDate,important,attachments,email,isVisible) VALUES ` +
@@ -44,7 +44,9 @@ const handler = async (req, res) => {
         );
         res.json(result)
 
-      } else if (type == "user") {
+      }}
+     else if (session.user.email == params.email) {
+         if (type == "user") {
       
         let result = await query(
           `INSERT INTO users (name,email,role,department,designation,ext_no,research_interest,image) values (`+
@@ -111,7 +113,11 @@ const handler = async (req, res) => {
           `INSERT INTO phd_candidates (id,email,phd_student_name,thesis_topic,start_year,completion_year) VALUES` + `(${params.id},'${params.email}','${params.phd_student_name}','${params.thesis_topic}','${params.start_year}','${params.completion_year}')`
         );
         res.json(result);
-      } else {
+     }
+      }
+     
+     
+     else {
         res.json({ message: "Could not find matching requests" });
       }
     } catch (e) {
