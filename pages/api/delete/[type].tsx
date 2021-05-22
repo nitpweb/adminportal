@@ -9,7 +9,8 @@ const handler = async (req, res) => {
     const { type } = req.query;
     try {
       const params = req.body;
-      if (type == "notice") {
+      if (session.user.role == 1 || session.user.role == 2) {
+          if (type == "notice") {
         
         let result = await query(`DELETE from notices WHERE id = ${params}`);
       res.json(result)
@@ -26,7 +27,11 @@ const handler = async (req, res) => {
         
         let result = await query(`delete from news WHERE id = ${params}`);
       res.json(result)
-      } else if (type == "user") {
+      }
+      }
+    
+      
+      else if (type == "user" && session.user.role==1) {
         let result = await query(`delete from users WHERE id = ${params}`);
            res.json(result)
       } else if (type == "memberships") {
