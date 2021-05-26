@@ -1,17 +1,10 @@
 import Layout from "@/components/layout";
-import styled from "styled-components";
-import Image from "next/image";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import { signIn, signout, useSession } from "next-auth/client";
-import CardActions from "@material-ui/core/CardActions";
 import Profilepage from "@/components/profile";
-import { getSession } from "next-auth/client";
 import { query } from "@/lib/db";
+import { getSession, useSession } from "next-auth/client";
 import { useEffect } from "react";
-import Loading from "../components/loading"
+import styled from "styled-components";
+import Loading from "../components/loading";
 import Sign from "../components/signin";
 
 const Home = styled.div`
@@ -37,9 +30,7 @@ const Home = styled.div`
 
 export default function Page({ result }) {
   const [session, loading] = useSession();
-  useEffect(() => {
-    if (session) { fetch("/api/gdrive/authorize") }
-  }, [session])
+  
   if (typeof window !== 'undefined' && loading) return <Loading/>
 
   if (!session) {
@@ -103,10 +94,9 @@ export async function getServerSideProps({ req, res }) {
     //   console.log(tmp);
     //   details={...details,element:tmp};
     // });
-    // console.log(details);
     let result = JSON.parse(JSON.stringify(details));
     // console.log(result);
-
+ 
     return {
       props: { result }, // will be passed to the page component as props
     };

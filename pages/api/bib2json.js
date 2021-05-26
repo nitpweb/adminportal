@@ -49,10 +49,10 @@ function conference(title, authors, booktitle, year, citation_key) {
 }
 
 export default async function (request, response) {
-	const session = await getSession({ request });
-
-	if (session) {
-		if (request.method == "POST") {
+	if (request.method == "POST" || request.method == "PUT") {
+		const session = await getSession({ req: request });
+		if (session) {
+			console.log(request.body);
 			upload.single("bib-file")(request, response, async (result) => {
 				if (result instanceof Error) {
 					return console.log(result);
@@ -103,14 +103,36 @@ export default async function (request, response) {
 				console.log(session.user);
 				var parser = new BibtexParser(entryCallback);
 				parser.parse(text);
-				data = JSON.stringify(data);
-				let final = await query(
-					"INSERT INTO publications (email,publication_id,publications) VALUES (?,?,?) ;",
-					[session.user.email, `${Date.now()}`, data],
-					(err) => console.log(err)
-				);
-				response.json(final);
+
+				if (request.method == "POST") {
+					data = JSON.stringify(data);
+					console.log("Hit POST");
+					let final = await query(
+						"INSERT INTO publications (email,publication_id,publications) VALUES (?,?,?);",
+						[session.user.email, `${Date.now()}`, data],
+						(err) => console.log(err)
+					);
+					return response.json(final);
+				} else if (request.method == "PUT") {
+					console.log("Hit PUT");
+					let previous = await query(
+						"SELECT publications FROM publications WHERE email=?",
+						[session.user.email]
+					);
+					previous = JSON.parse(JSON.stringify(previous));
+					previous = JSON.parse(previous[0].publications);
+
+					data = JSON.stringify(previous.concat(data));
+
+					let final = await query(
+						"UPDATE publications SET publications = ?",
+						[data],
+						(err) => console.log(err)
+					);
+					return response.json(final);
+				}
 			});
-		}
+		} else return response.status(400).json({ message: "Session Not found" });
 	}
 }
+// "ON DUPLICATE KEY UPDATE publications=VALUES(?) ; ",
