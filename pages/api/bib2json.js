@@ -1,0 +1,116 @@
+import BibtexParser from "bib2json";
+import multer from "multer";
+import { getSession } from "next-auth/client";
+import { query } from "../../lib/db";
+
+export const config = {
+	api: {
+		bodyParser: false,
+	},
+};
+
+const upload = multer();
+
+function journal(title, authors, journal_name, year, citation_key) {
+	this.type = "article";
+	this.title = title || "";
+	this.authors = authors || "";
+	this.journal_name = journal_name || "";
+	this.year = year || "";
+	this.citation_key = citation_key || "";
+}
+
+function book(title, authors, editors, publisher, year, citation_key) {
+	this.type = "book";
+	this.title = title || "";
+	this.editors = editors || "";
+	this.authors = authors || "";
+	this.publisher = publisher || "";
+	this.year = year || "";
+	this.citation_key = citation_key || "";
+}
+
+function patent(year, yearfiled, nationality, number, citation_key) {
+	this.type = "patent";
+	this.year = year || "";
+	this.yearfiled = yearfiled || "";
+	this.nationality = nationality || "";
+	this.number = number || "";
+	this.citation_key = citation_key || "";
+}
+
+function conference(title, authors, booktitle, year, citation_key) {
+	this.type = "conference";
+	this.title = title || "";
+	this.authors = authors || "";
+	this.booktitle = booktitle || "";
+	this.year = year || "";
+	this.citation_key = citation_key || "";
+}
+
+export default async function (request, response) {
+	const session = await getSession({ request });
+
+	if (session) {
+		if (request.method == "POST") {
+			upload.single("bib-file")(request, response, async (result) => {
+				if (result instanceof Error) {
+					return console.log(result);
+				}
+				let data = [];
+
+				const text = request.file.buffer.toString();
+				var entryCallback = function (entry) {
+					var field = entry.Fields;
+					if (entry.EntryType == "article") {
+						data.push(
+							new journal(
+								field.title,
+								field.author,
+								field.journal,
+								field.year,
+								entry.EntryKey
+							)
+						);
+					} else if (entry.EntryType == "book") {
+						data.push(
+							new book(
+								field.title,
+								field.author,
+								field.editor,
+								field.publisher,
+								field.year,
+								entry.EntryKey
+							)
+						);
+					} else if (
+						entry.EntryType == "proceedings" ||
+						entry.EntryType == "conference" ||
+						entry.EntryType == "inproceedings"
+					) {
+						data.push(
+							new conference(
+								field.title,
+								field.author,
+								field.booktitle,
+								field.year,
+								entry.EntryKey
+							)
+						);
+					}
+					// else if(entry.EntryType == 'book')
+				};
+				console.log(session.user);
+				var parser = new BibtexParser(entryCallback);
+				parser.parse(text);
+				data = JSON.stringify(data);
+				let final = await query(
+					"INSERT INTO publications (email,publication_id,publications) VALUES (?,?,?) ;",
+					[session.user.email, `${Date.now()}`, data],
+					(err) => console.log(err)
+				);
+				response.json(final);
+			});
+		}
+	}
+}
