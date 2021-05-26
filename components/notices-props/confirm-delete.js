@@ -4,9 +4,15 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import React from "react";
 
-export const ConfirmDelete = ({ handleClose, modal, id,delArray }) => {
-			const deleteArray = [...delArray];
-
+export const ConfirmDelete = ({
+	handleClose,
+	modal,
+	id,
+	attachments,
+	delArray,
+}) => {
+	const deleteEvent = async () => {
+		const deleteArray = [...delArray];
 
 		if (attachments.length) {
 			for (let i = 0; i < attachments.length; i++) {
@@ -27,9 +33,8 @@ export const ConfirmDelete = ({ handleClose, modal, id,delArray }) => {
 				}
 				console.log(result);
 			}
-	}
-	
-	const deleteEvent = async () => {
+		}
+
 		let result = await fetch("/api/delete/notice", {
 			method: "DELETE",
 			body: id.toString(),

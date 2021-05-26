@@ -17,8 +17,7 @@ const handler = async (req, res) => {
           let result = await query(`DELETE from notices WHERE id = ${params}`);
           res.json(result);
         } else if (type == "event") {
-          console.log(params);
-
+          // console.log(params);
           let result = await query(`DELETE from events WHERE id = ${params}`);
           res.json(result);
         } else if (type == "innovation") {
