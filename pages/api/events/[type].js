@@ -1,7 +1,6 @@
-import { NextApiHandler } from "next";
 import { query } from "../../../lib/db";
 
-const handler: NextApiHandler = async (req, res) => {
+const handler = async (req, res) => {
   const { type } = req.query;
 
   try {
