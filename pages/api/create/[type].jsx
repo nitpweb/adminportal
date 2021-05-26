@@ -26,7 +26,7 @@ const handler = async (req, res) => {
               params.research_interest,
             ]
           );
-          res.json(result);
+          return res.json(result);
         } else if (type == "notice") {
           params.attachments = JSON.stringify(params.attachments);
           let result = await query(
@@ -44,7 +44,7 @@ const handler = async (req, res) => {
               params.isVisible,
             ]
           );
-          res.json(result);
+          return res.json(result);
         } else if (type == "event") {
           params.attachments = JSON.stringify(params.attachments);
           let result = await query(
@@ -62,7 +62,7 @@ const handler = async (req, res) => {
               params.email,
             ]
           );
-          res.json(result);
+          return res.json(result);
         } else if (type == "innovation") {
           params.image = JSON.stringify(params.image);
           let result = await query(
@@ -80,7 +80,7 @@ const handler = async (req, res) => {
               params.email,
             ]
           );
-          res.json(result);
+          return res.json(result);
         } else if (type == "news") {
           params.image = JSON.stringify(params.image);
           let result = await query(
@@ -98,7 +98,7 @@ const handler = async (req, res) => {
               params.email,
             ]
           );
-          res.json(result);
+          return res.json(result);
         }
       }
       if (session.user.email == params.email) {
@@ -110,14 +110,14 @@ const handler = async (req, res) => {
           let result = await query(
             `UPDATE users SET	image='${params.image[0].url}' WHERE email='${params.email}'`
           );
-          res.json(result);
+          return res.json(result);
         } else if (type == "current-responsibility") {
           let result = await query(
             `INSERT INTO curr_admin_responsibility (id,email,curr_responsibility) VALUES` +
               `(?,?,?)`,
             [params.id, params.email, params.curr_responsibility]
           );
-          res.json(result);
+          return res.json(result);
         } else if (type == "memberships") {
           let result = await query(
             `insert into memberships (id,email,membership_id,membership_society) values (` +
@@ -129,21 +129,21 @@ const handler = async (req, res) => {
               params.membership_society,
             ]
           );
-          res.json(result);
+          return res.json(result);
         } else if (type == "past-responsibility") {
           let result = await query(
             `INSERT INTO past_admin_responsibility (id,email,past_responsibility) VALUES` +
               `(?,?,?)`,
             [params.id, params.email, params.past_responsibility]
           );
-          res.json(result);
+          return res.json(result);
         } else if (type == "workexperience") {
           let result = await query(
             `INSERT INTO work_experience (id,email,work_experiences) VALUES` +
               `(?,?,?)`,
             [params.id, params.email, params.work_experiences]
           );
-          res.json(result);
+          return res.json(result);
         } else if (type == "subjects") {
           let result = await query(
             `INSERT INTO subjects_teaching (id,email,subject) VALUES` +
@@ -152,27 +152,27 @@ const handler = async (req, res) => {
           ).catch((e) => {
             console.log(e);
           });
-          res.json(result);
+          return res.json(result);
         } else if (type == "publications") {
           let result = await query(
             `INSERT INTO publications (id,email,publications) VALUES` +
               `(?,?,?)`,
             [params.id, params.email, params.publications]
           );
-          res.json(result);
+          return res.json(result);
         } else if (type == "project") {
           let result = await query(
             `INSERT INTO project (id,email,project) VALUES` + `(?,?,?)`,
             [params.id, params.email, params.project]
           );
-          res.json(result);
+          return res.json(result);
         } else if (type == "professionalservice") {
           let result = await query(
             `INSERT INTO professional_service (id,email,services) VALUES` +
               `(?,?,?)`,
             [params.id, params.email, params.services]
           );
-          res.json(result);
+          return res.json(result);
         } else if (type == "education") {
           let result = await query(
             `INSERT INTO education (id,email,certification,institution,passing_year) VALUES` +
@@ -185,7 +185,7 @@ const handler = async (req, res) => {
               params.passing_year,
             ]
           );
-          res.json(result);
+          return res.json(result);
         } else if (type == "phdcandidates") {
           let result = await query(
             `INSERT INTO phd_candidates (id,email,phd_student_name,thesis_topic,start_year,completion_year) VALUES` +
@@ -199,10 +199,10 @@ const handler = async (req, res) => {
               params.completion_year,
             ]
           );
-          res.json(result);
+          return res.json(result);
         }
       } else {
-        res.json({ message: "Could not find matching requests" });
+        return res.json({ message: "Could not find matching requests" });
       }
     } catch (e) {
       res.status(500).json({ message: e.message });
