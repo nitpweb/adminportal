@@ -33,7 +33,7 @@ export const AddFaculty = ({ handleClose, modal }) => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		// setSubmitting(true);
+		setSubmitting(true);
 
 		// console.log(content);
 		let result = await fetch("/api/create/user", {
