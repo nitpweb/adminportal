@@ -49,18 +49,22 @@ const options = {
       let data = await db
         .query(`SELECT * FROM users WHERE email="${profile.email}";`)
         .then((a) => {
-          const s = JSON.parse(JSON.stringify(a))[0];
+          const s = JSON.parse(JSON.stringify(a));
+          if (s.length == 0) {
+            return false;
+          }
           role = s.role;
           user.role = role;
           return true;
         })
         .catch((e) => {
           console.log(e);
+          return false;
         });
+      return data;
     },
     // async redirect(url, baseUrl) { return baseUrl },
     async session(session, user, profile) {
-
       const data = user;
       data.role = role;
       session.user = data;
@@ -72,6 +76,9 @@ const options = {
         .query(`SELECT * FROM users WHERE email="${token.email}";`)
         .then((a) => {
           const s = JSON.parse(JSON.stringify(a))[0];
+          if (!s) {
+            return token;
+          }
           role = s.role;
           token.role = role;
           // console.log(token);
@@ -81,8 +88,8 @@ const options = {
         });
       token.role = role;
       // console.log(token);
-      return token
-    }
+      return token;
+    },
   },
 
   // Events are useful for logging
@@ -93,5 +100,4 @@ const options = {
   debug: false,
 };
 
-export default (req, res) =>
-  NextAuth(req, res, options);
+export default (req, res) => NextAuth(req, res, options);
