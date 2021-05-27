@@ -1,11 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid } from "@material-ui/data-grid";
+import { Button } from "@material-ui/core";
 
-const ShowPublications = ({ publications }) => {
+const ShowPublications = ({ publications, setPublications }) => {
 	const [articles, setArticles] = useState([]);
 	const [books, setBooks] = useState([]);
 	const [conferences, setConferences] = useState([]);
 	const [patents, setPatents] = useState([]);
+	// const [selected, setSelected] = useState([]);
+	const deleteSelected = async (idArr) => {
+		let new_pubs = [...publications];
+		new_pubs = new_pubs.filter((entry) => !idArr.includes(entry.id));
+
+		let res = await fetch("/api/delete/publications", {
+			method: "DELETE",
+			body: new_pubs,
+		}).catch((err) => console.log(err));
+
+		res = await res.json();
+		console.log(res);
+		setPublications(new_pubs);
+		console.log(new_pubs);
+	};
 
 	useEffect(() => {
 		let _articles = [],
@@ -29,33 +45,37 @@ const ShowPublications = ({ publications }) => {
 
 	return (
 		<>
-			{articles.length && (
+			{articles.length > 0 && (
 				<div style={{ marginTop: `50px`, marginBottom: `50px` }}>
-					<Articles articles={articles} />
+					<Articles articles={articles} deleteSelected={deleteSelected} />
 				</div>
 			)}
-			{books.length && (
+			{books.length > 0 && (
 				<div style={{ marginTop: `50px`, marginBottom: `50px` }}>
-					<Books books={books} />
+					<Books books={books} deleteSelected={deleteSelected} />
 				</div>
 			)}
-			{conferences.length && (
+			{conferences.length > 0 && (
 				<div style={{ marginTop: `50px`, marginBottom: `50px` }}>
-					<Conferences conferences={conferences} />
+					<Conferences
+						conferences={conferences}
+						deleteSelected={deleteSelected}
+					/>
 				</div>
 			)}
-			{patents.length && (
+			{patents.length > 0 && (
 				<div style={{ marginTop: `50px`, marginBottom: `50px` }}>
-					<Patents patents={patents} />
+					<Patents patents={patents} deleteSelected={deleteSelected} />
 				</div>
 			)}
 		</>
 	);
 };
 
-const Articles = ({ articles }) => {
+const Articles = ({ articles, deleteSelected }) => {
+	const [selectionModel, setSelectionModel] = React.useState([]);
 	const columns = [
-		{ field: "id", headerName: "ID", width: 80 },
+		{ field: "id", headerName: "ID", width: 100 },
 
 		{ field: "title", headerName: "Title", width: 300 },
 		{ field: "authors", headerName: "Authors", width: 300 },
@@ -74,6 +94,19 @@ const Articles = ({ articles }) => {
 	return (
 		<>
 			<h1>Articles</h1>
+			{selectionModel.length > 0 && (
+				<Button
+					variant="contained"
+					color="secondary"
+					type="button"
+					onClick={() => {
+						deleteSelected(selectionModel);
+						setSelectionModel([]);
+					}}
+				>
+					Delete Selected
+				</Button>
+			)}
 			<div
 				style={{
 					width: "95%",
@@ -86,6 +119,10 @@ const Articles = ({ articles }) => {
 					pagination
 					autoHeight
 					rowsPerPageOptions={false}
+					onSelectionModelChange={(newSelection) => {
+						setSelectionModel(newSelection.selectionModel);
+					}}
+					selectionModel={selectionModel}
 					checkboxSelection
 					disableSelectionOnClick
 				/>
@@ -94,9 +131,10 @@ const Articles = ({ articles }) => {
 	);
 };
 
-const Books = ({ books }) => {
+const Books = ({ books, deleteSelected }) => {
+	const [selectionModel, setSelectionModel] = React.useState([]);
 	const columns = [
-		{ field: "id", headerName: "ID", width: 80 },
+		{ field: "id", headerName: "ID", width: 100 },
 		{ field: "title", headerName: "Title", width: 300 },
 		{ field: "authors", headerName: "Authors", width: 300 },
 		{
@@ -124,6 +162,19 @@ const Books = ({ books }) => {
 				}}
 			>
 				<h1>Books</h1>
+				{selectionModel.length > 0 && (
+					<Button
+						variant="contained"
+						color="secondary"
+						type="button"
+						onClick={() => {
+							deleteSelected(selectionModel);
+							setSelectionModel([]);
+						}}
+					>
+						Delete Selected
+					</Button>
+				)}
 				<DataGrid
 					rows={rows}
 					columns={columns}
@@ -131,6 +182,10 @@ const Books = ({ books }) => {
 					pagination
 					autoHeight
 					rowsPerPageOptions={false}
+					onSelectionModelChange={(newSelection) => {
+						setSelectionModel(newSelection.selectionModel);
+					}}
+					selectionModel={selectionModel}
 					checkboxSelection
 					disableSelectionOnClick
 				/>
@@ -139,9 +194,10 @@ const Books = ({ books }) => {
 	);
 };
 
-const Conferences = ({ conferences }) => {
+const Conferences = ({ conferences, deleteSelected }) => {
+	const [selectionModel, setSelectionModel] = React.useState([]);
 	const columns = [
-		{ field: "id", headerName: "ID", width: 80 },
+		{ field: "id", headerName: "ID", width: 100 },
 		{ field: "title", headerName: "Title", width: 300 },
 		{ field: "authors", headerName: "Authors", width: 300 },
 		{
@@ -163,6 +219,19 @@ const Conferences = ({ conferences }) => {
 					width: "95%",
 				}}
 			>
+				{selectionModel.length > 0 && (
+					<Button
+						variant="contained"
+						color="secondary"
+						type="button"
+						onClick={() => {
+							deleteSelected(selectionModel);
+							setSelectionModel([]);
+						}}
+					>
+						Delete Selected
+					</Button>
+				)}
 				<DataGrid
 					rows={rows}
 					columns={columns}
@@ -170,6 +239,10 @@ const Conferences = ({ conferences }) => {
 					pagination
 					autoHeight
 					rowsPerPageOptions={false}
+					onSelectionModelChange={(newSelection) => {
+						setSelectionModel(newSelection.selectionModel);
+					}}
+					selectionModel={selectionModel}
 					checkboxSelection
 					disableSelectionOnClick
 				/>
@@ -178,9 +251,10 @@ const Conferences = ({ conferences }) => {
 	);
 };
 
-const Patents = ({ patents }) => {
+const Patents = ({ patents, deleteSelected }) => {
+	const [selectionModel, setSelectionModel] = React.useState([]);
 	const columns = [
-		{ field: "id", headerName: "ID", width: 80 },
+		{ field: "id", headerName: "ID", width: 100 },
 		{ field: "year", headerName: "Year", type: "number", width: 130 },
 		{
 			field: "yearfiled",
@@ -202,6 +276,19 @@ const Patents = ({ patents }) => {
 					width: "95%",
 				}}
 			>
+				{selectionModel.length > 0 && (
+					<Button
+						variant="contained"
+						color="secondary"
+						type="button"
+						onClick={() => {
+							deleteSelected(selectionModel);
+							setSelectionModel([]);
+						}}
+					>
+						Delete Selected
+					</Button>
+				)}
 				<DataGrid
 					rows={rows}
 					columns={columns}
@@ -209,6 +296,10 @@ const Patents = ({ patents }) => {
 					pagination
 					autoHeight
 					rowsPerPageOptions={false}
+					onSelectionModelChange={(newSelection) => {
+						setSelectionModel(newSelection.selectionModel);
+					}}
+					selectionModel={selectionModel}
 					checkboxSelection
 					disableSelectionOnClick
 				/>
@@ -216,4 +307,5 @@ const Patents = ({ patents }) => {
 		</>
 	);
 };
+
 export default ShowPublications;

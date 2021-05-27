@@ -4,6 +4,7 @@ import React, { useState } from "react";
 export default function Bib({ published }) {
 	const [bibFile, setBibFile] = useState(null);
 	const [modal, setModal] = useState(false);
+	const [loading, setLoading] = useState(false);
 
 	const handleChange = (e) => {
 		setBibFile(e.target.files[0]);
@@ -11,6 +12,7 @@ export default function Bib({ published }) {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setLoading(true);
 		console.log(bibFile);
 		let data = new FormData();
 		data.append("bib-file", bibFile);
@@ -51,7 +53,12 @@ export default function Bib({ published }) {
 						/>
 
 						<label>
-							<Button variant="contained" color="primary" type="submit">
+							<Button
+								variant="contained"
+								color="primary"
+								type="submit"
+								disabled={loading}
+							>
 								Upload BIB
 							</Button>
 						</label>

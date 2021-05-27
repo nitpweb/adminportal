@@ -107,7 +107,7 @@ export default function Profilepage(props) {
 			? JSON.parse(props.details.publications[0].publications)
 			: []
 	);
-	console.log(publications);
+	// console.log(publications);
 	const [session, loading] = useSession();
 	const [addModal, setAddModal] = useState(false);
 	const addModalOpen = () => {
@@ -708,7 +708,10 @@ export default function Profilepage(props) {
 								modal={addModal10}
 							/>
 							{publications.length && (
-								<ShowPublications publications={publications} />
+								<ShowPublications
+									publications={publications}
+									setPublications={setPublications}
+								/>
 							)}
 						</div>
 

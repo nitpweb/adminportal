@@ -135,4 +135,3 @@ export default async function (request, response) {
 		} else return response.status(400).json({ message: "Session Not found" });
 	}
 }
-// "ON DUPLICATE KEY UPDATE publications=VALUES(?) ; ",
