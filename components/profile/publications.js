@@ -3,87 +3,270 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
 import { useSession } from "next-auth/client";
-import React, { useState } from "react";
-import { AddAttachments } from "./../common-props/add-attachment";
+import React, { useEffect, useState } from "react";
 
-export const AddPublications = ({ handleClose, modal }) => {
-  const [session, loading] = useSession();
-  const [content, setContent] = useState({
-    publications: "",
-  });
-  const [submitting, setSubmitting] = useState(false);
+export const AddPublications = ({ handleClose, modal, published }) => {
+	const [session, loading] = useSession();
+	const [content, setContent] = useState({});
+	const [submitting, setSubmitting] = useState(false);
+	const [type, setType] = useState("");
 
-  const handleChange = (e) => {
-    setContent({ ...content, [e.target.name]: e.target.value });
-    //console.log(content)
-  };
+	const handleSubmit = async (e) => {
+		setSubmitting(true);
+		e.preventDefault();
+		let new_data = [];
 
-  const handleSubmit = async (e) => {
-    setSubmitting(true);
-    e.preventDefault();
-    let data = {
-      ...content,
-      id: Date.now(),
-      email: session.user.email,
-    };
-    // data.attachments = JSON.stringify(data.attachments);
+		if (published.length) {
+			new_data = [...published, { ...content }];
+		} else {
+			new_data = [{ ...content }];
+		}
+		let data = {
+			data: new_data,
+			email: session.user.email,
+		};
 
-    let result = await fetch("/api/create/publications", {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify(data),
-    });
-    result = await result.json();
-    if (result instanceof Error) {
-      console.log("Error Occured");
-      console.log(result);
-    }
-    console.log(result);
-    window.location.reload();
-  };
+		console.log(new_data);
 
-  return (
-    <>
-      <Dialog open={modal} onClose={handleClose}>
-        <form
-          onSubmit={(e) => {
-            handleSubmit(e);
-          }}
-        >
-          <DialogTitle disableTypography style={{ fontSize: `2rem` }}>
-            Add Your Publications
-          </DialogTitle>
-          <DialogContent>
-            <TextField
-              margin="dense"
-              id="label"
-              label="publications"
-              name="publications"
-              type="text"
-              required
-              fullWidth
-              onChange={(e) => handleChange(e)}
-              value={content.publications}
-            />
-          </DialogContent>
-          <DialogActions>
-            {submitting ? (
-              <Button type="submit" color="primary" disabled>
-                Submitting
-              </Button>
-            ) : (
-              <Button type="submit" color="primary">
-                Submit
-              </Button>
-            )}
-          </DialogActions>
-        </form>
-      </Dialog>
-    </>
-  );
+		let result = await fetch("/api/create/publications", {
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/json",
+			},
+			method: "POST",
+			body: JSON.stringify(data),
+		});
+		result = await result.json();
+		if (result instanceof Error) {
+			console.log("Error Occured");
+			console.log(result);
+		}
+		console.log(result);
+		window.location.reload();
+	};
+
+	return (
+		<>
+			<Dialog open={modal} onClose={handleClose}>
+				<DialogTitle disableTypography style={{ fontSize: `2rem` }}>
+					Add Your Publications
+				</DialogTitle>
+
+				<form onSubmit={handleSubmit}>
+					<DialogContent>
+						<FormControl style={{ margin: `10px auto`, width: `100%` }}>
+							<InputLabel id="demo-simple-select-label">
+								Type of Publication
+							</InputLabel>
+							<Select
+								labelId="demo-simple-select-label"
+								id="demo-simple-select"
+								fullWidth
+								value={type}
+								onChange={(e) => setType(e.target.value)}
+							>
+								<MenuItem value={"article"}>Article</MenuItem>
+								<MenuItem value={"book"}>Book</MenuItem>
+								<MenuItem value={"conference"}>
+									Conference\Proceedings\Inproceedings
+								</MenuItem>
+								<MenuItem value={"patent"}>Patent</MenuItem>
+							</Select>
+						</FormControl>
+
+						{type == "article" && (
+							<Article content={content} setContent={setContent} />
+						)}
+						{type == "patent" && (
+							<Patent content={content} setContent={setContent} />
+						)}
+						{type == "book" && (
+							<Book content={content} setContent={setContent} />
+						)}
+						{type == "conference" && (
+							<Conference content={content} setContent={setContent} />
+						)}
+					</DialogContent>
+					<DialogActions>
+						{submitting ? (
+							<Button type="submit" color="primary" disabled>
+								Submitting
+							</Button>
+						) : (
+							<Button type="submit" color="primary">
+								Submit
+							</Button>
+						)}
+					</DialogActions>
+				</form>
+			</Dialog>
+		</>
+	);
+};
+
+const Article = ({ content, setContent }) => {
+	useEffect(() => {
+		setContent({
+			type: "article",
+			title: "",
+			authors: "",
+			journal_name: "",
+			year: "",
+			citation_key: "",
+		});
+	}, []);
+
+	const handleChange = (e) => {
+		setContent({ ...content, [e.target.name]: e.target.value });
+	};
+
+	return (
+		<>
+			{["title", "authors", "journal_name", "year", "citation_key"].map(
+				(field, key) => {
+					return (
+						<React.Fragment key={key}>
+							<TextField
+								margin="dense"
+								label={field.charAt(0).toUpperCase() + field.slice(1)}
+								type="text"
+								fullWidth
+								name={field}
+								type="text"
+								onChange={(e) => handleChange(e)}
+								value={content.field}
+							/>
+						</React.Fragment>
+					);
+				}
+			)}
+		</>
+	);
+};
+
+const Book = ({ content, setContent }) => {
+	useEffect(() => {
+		setContent({
+			type: "book",
+			title: "",
+			authors: "",
+			editors: "",
+			publisher: "",
+			year: "",
+			citation_key: "",
+		});
+	}, []);
+
+	const handleChange = (e) => {
+		setContent({ ...content, [e.target.name]: e.target.value });
+	};
+
+	return (
+		<>
+			{["title", "authors", "editors", "publisher", "year", "citation_key"].map(
+				(field, key) => {
+					return (
+						<React.Fragment key={key}>
+							<TextField
+								margin="dense"
+								label={field.charAt(0).toUpperCase() + field.slice(1)}
+								type="text"
+								fullWidth
+								name={field}
+								type="text"
+								onChange={(e) => handleChange(e)}
+								value={content.field}
+							/>
+						</React.Fragment>
+					);
+				}
+			)}
+		</>
+	);
+};
+
+const Conference = ({ content, setContent }) => {
+	useEffect(() => {
+		setContent({
+			type: "conference",
+			title: "",
+			authors: "",
+			booktitle: "",
+			year: "",
+			citation_key: "",
+		});
+	}, []);
+
+	const handleChange = (e) => {
+		setContent({ ...content, [e.target.name]: e.target.value });
+	};
+
+	return (
+		<>
+			{["title", "authors", "booktitle", "year", "citation_key"].map(
+				(field, key) => {
+					return (
+						<React.Fragment key={key}>
+							<TextField
+								margin="dense"
+								label={field.charAt(0).toUpperCase() + field.slice(1)}
+								type="text"
+								fullWidth
+								name={field}
+								type="text"
+								onChange={(e) => handleChange(e)}
+								value={content.field}
+							/>
+						</React.Fragment>
+					);
+				}
+			)}
+		</>
+	);
+};
+
+const Patent = ({ content, setContent }) => {
+	useEffect(() => {
+		setContent({
+			type: "patent",
+			year: "",
+			yearfiled: "",
+			nationality: "",
+			number: "",
+			citation_key: "",
+		});
+	}, []);
+
+	const handleChange = (e) => {
+		setContent({ ...content, [e.target.name]: e.target.value });
+	};
+
+	return (
+		<>
+			{["year", "yearfiled", "nationality", "number", "citation_key"].map(
+				(field, key) => {
+					return (
+						<React.Fragment key={key}>
+							<TextField
+								margin="dense"
+								label={field.charAt(0).toUpperCase() + field.slice(1)}
+								type="text"
+								fullWidth
+								name={field}
+								type="text"
+								onChange={(e) => handleChange(e)}
+								value={content.field}
+							/>
+						</React.Fragment>
+					);
+				}
+			)}
+		</>
+	);
 };

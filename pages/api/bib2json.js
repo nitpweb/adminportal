@@ -97,8 +97,17 @@ export default async function (request, response) {
 								entry.EntryKey
 							)
 						);
+					} else if (entry.EntryType == "patent") {
+						data.push(
+							new patent(
+								field.year,
+								field.yearfiled,
+								field.nationality,
+								field.number,
+								field.EntryKey
+							)
+						);
 					}
-					// else if(entry.EntryType == 'book')
 				};
 				console.log(session.user);
 				var parser = new BibtexParser(entryCallback);
@@ -107,11 +116,30 @@ export default async function (request, response) {
 				if (request.method == "POST") {
 					data = JSON.stringify(data);
 					console.log("Hit POST");
-					let final = await query(
-						"INSERT INTO publications (email,publication_id,publications) VALUES (?,?,?);",
-						[session.user.email, `${Date.now()}`, data],
-						(err) => console.log(err)
-					);
+					let final;
+					try {
+						final = await query(
+							"INSERT INTO publications (email,publication_id,publications) VALUES (?,?,?);",
+							[session.user.email, `${Date.now()}`, data],
+							(err) => console.log(err)
+						);
+					} catch (err) {
+						let previous = await query(
+							"SELECT publications FROM publications WHERE email=?",
+							[session.user.email]
+						);
+						previous = JSON.parse(JSON.stringify(previous));
+						previous = JSON.parse(previous[0].publications);
+
+						data = previous.concat(data);
+
+						final = await query(
+							"UPDATE publications SET publications = ? where email=?",
+							[data, session.user.email],
+							(err) => console.log(err)
+						);
+					}
+
 					return response.json(final);
 				} else if (request.method == "PUT") {
 					console.log("Hit PUT");
@@ -125,8 +153,8 @@ export default async function (request, response) {
 					data = JSON.stringify(previous.concat(data));
 
 					let final = await query(
-						"UPDATE publications SET publications = ?",
-						[data],
+						"UPDATE publications SET publications = ? where email=?",
+						[data, session.user.email],
 						(err) => console.log(err)
 					);
 					return response.json(final);

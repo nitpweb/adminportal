@@ -704,6 +704,7 @@ export default function Profilepage(props) {
 							</Button>
 							<AddBib published={publications} />
 							<AddPublications
+								published={publications}
 								handleClose={handleCloseAddModal10}
 								modal={addModal10}
 							/>

@@ -265,7 +265,7 @@ const Patents = ({ patents, deleteSelected }) => {
 			type: "number",
 			width: 180,
 		},
-		{ field: "nationality", headerName: "Nationality", width: 200 },
+		{ field: "nationality", headerName: "Nationality", width: 300 },
 		{ field: "number", headerName: "Number", width: 130 },
 		{ field: "citation_key", headerName: "Citation Key", width: 150 },
 	];

@@ -154,11 +154,14 @@ const handler = async (req, res) => {
           });
           return res.json(result);
         } else if (type == "publications") {
+          console.log(params.data)
+          params.data = JSON.stringify(params.data)
           let result = await query(
-            `INSERT INTO publications (id,email,publications) VALUES` +
-              `(?,?,?)`,
-            [params.id, params.email, params.publications]
-          );
+            ` INSERT INTO publications (email,publication_id,publications) VALUES (?,?,?)` +
+            ` ON DUPLICATE KEY UPDATE publications= ? ;`,
+            [ params.email,Date.now(), params.data, params.data],
+          ).catch((err)=>console.log(err));
+          console.log(result)
           return res.json(result);
         } else if (type == "project") {
           let result = await query(
