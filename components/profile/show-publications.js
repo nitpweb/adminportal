@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { DataGrid } from "@material-ui/data-grid";
 import { Button } from "@material-ui/core";
+import { useSession } from "next-auth/client";
 
 const ShowPublications = ({ publications, setPublications }) => {
+	const [session, loading] = useSession();
+
 	const [articles, setArticles] = useState([]);
 	const [books, setBooks] = useState([]);
 	const [conferences, setConferences] = useState([]);
@@ -11,10 +14,10 @@ const ShowPublications = ({ publications, setPublications }) => {
 	const deleteSelected = async (idArr) => {
 		let new_pubs = [...publications];
 		new_pubs = new_pubs.filter((entry) => !idArr.includes(entry.id));
-
+		let data = { new_data: new_pubs, email: session.user.email };
 		let res = await fetch("/api/delete/publications", {
 			method: "DELETE",
-			body: new_pubs,
+			body: JSON.stringify(data),
 		}).catch((err) => console.log(err));
 
 		res = await res.json();

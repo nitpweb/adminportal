@@ -31,6 +31,7 @@ const handler = async (req, res) => {
           return res.json(result);
         }
       }
+
       params=JSON.parse(req.body)
       if (session.user.email == params.email) {
         if (type == "memberships") {
@@ -64,8 +65,10 @@ const handler = async (req, res) => {
           );
           return res.json(result);
         } else if (type == "publications") {
+          console.log(params.new_data.length)
+          let data = JSON.stringify(params.new_data);
           let result = await query(
-            `delete from publications WHERE id = ${params.id}`
+            `UPDATE publications SET publications=? WHERE email=?`,[data,params.email],(err)=>console.log(err)
           );
           return res.json(result);
         } else if (type == "project") {
