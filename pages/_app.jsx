@@ -1,9 +1,15 @@
-import { Provider } from 'next-auth/client'
-import './styles.css'
+import { Provider, useSession } from 'next-auth/client';
+import { useEffect } from "react";
+import './styles.css';
 
 // Use the <Provider> to improve performance and allow components that call
 // `useSession()` anywhere in your application to access the `session` object.
-export default function App ({ Component, pageProps }) {
+export default function App({ Component, pageProps }) {
+  const [session, loading] = useSession();
+  useEffect(() => {
+    if (session) { fetch("/api/gdrive/authorize") }
+  }, [session])
+
   return (
     <Provider
       // Provider options are not required but can be useful in situations where
