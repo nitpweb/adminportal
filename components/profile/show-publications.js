@@ -29,40 +29,56 @@ const ShowPublications = ({ publications }) => {
 
 	return (
 		<>
-			<div style={{ marginTop: `50px`, marginBottom: `50px` }}>
-				{articles.length && <Articles articles={articles} />}
-			</div>
-			<div style={{ marginTop: `50px`, marginBottom: `50px` }}>
-				{books.length && <Books books={books} />}
-			</div>
+			{articles.length && (
+				<div style={{ marginTop: `50px`, marginBottom: `50px` }}>
+					<Articles articles={articles} />
+				</div>
+			)}
+			{books.length && (
+				<div style={{ marginTop: `50px`, marginBottom: `50px` }}>
+					<Books books={books} />
+				</div>
+			)}
+			{conferences.length && (
+				<div style={{ marginTop: `50px`, marginBottom: `50px` }}>
+					<Conferences conferences={conferences} />
+				</div>
+			)}
+			{patents.length && (
+				<div style={{ marginTop: `50px`, marginBottom: `50px` }}>
+					<Patents patents={patents} />
+				</div>
+			)}
 		</>
 	);
 };
 
 const Articles = ({ articles }) => {
 	const columns = [
-		{ field: "id", headerName: "ID", flex: 0.4 },
+		{ field: "id", headerName: "ID", width: 80 },
 
-		{ field: "title", headerName: "Title", flex: 1 },
-		{ field: "authors", headerName: "Authors", flex: 1 },
+		{ field: "title", headerName: "Title", width: 300 },
+		{ field: "authors", headerName: "Authors", width: 300 },
 		{
 			field: "journal_name",
 			headerName: "Journal Name",
 			sortable: false,
+			width: 250,
 		},
-		{ field: "year", headerName: "Year", type: "number" },
-		{ field: "citation_key", headerName: "Citation Key" },
+		{ field: "year", headerName: "Year", type: "number", width: 130 },
+		{ field: "citation_key", headerName: "Citation Key", width: 150 },
 	];
-	const rows = articles;
 
-	let style = {
-		width: "95%",
-	};
+	const rows = articles;
 
 	return (
 		<>
 			<h1>Articles</h1>
-			<div style={style}>
+			<div
+				style={{
+					width: "95%",
+				}}
+			>
 				<DataGrid
 					rows={rows}
 					columns={columns}
@@ -80,21 +96,23 @@ const Articles = ({ articles }) => {
 
 const Books = ({ books }) => {
 	const columns = [
-		{ field: "id", headerName: "ID", flex: 0.4 },
-		{ field: "title", headerName: "Title", flex: 1 },
-		{ field: "authors", headerName: "Authors", flex: 1 },
+		{ field: "id", headerName: "ID", width: 80 },
+		{ field: "title", headerName: "Title", width: 300 },
+		{ field: "authors", headerName: "Authors", width: 300 },
 		{
 			field: "editors",
 			headerName: "Editors",
 			sortable: false,
+			width: 200,
 		},
 		{
 			field: "publisher",
 			headerName: "Publisher",
 			sortable: false,
+			width: 200,
 		},
-		{ field: "year", headerName: "Year", type: "number" },
-		{ field: "citation_key", headerName: "Citation Key" },
+		{ field: "year", headerName: "Year", type: "number", width: 130 },
+		{ field: "citation_key", headerName: "Citation Key", width: 150 },
 	];
 	const rows = books;
 
@@ -121,4 +139,81 @@ const Books = ({ books }) => {
 	);
 };
 
+const Conferences = ({ conferences }) => {
+	const columns = [
+		{ field: "id", headerName: "ID", width: 80 },
+		{ field: "title", headerName: "Title", width: 300 },
+		{ field: "authors", headerName: "Authors", width: 300 },
+		{
+			field: "booktitle",
+			headerName: "BookTitle",
+			sortable: false,
+			width: 250,
+		},
+		{ field: "year", headerName: "Year", type: "number", width: 130 },
+		{ field: "citation_key", headerName: "Citation Key", width: 150 },
+	];
+	const rows = conferences;
+
+	return (
+		<>
+			<h1>Conferences</h1>
+			<div
+				style={{
+					width: "95%",
+				}}
+			>
+				<DataGrid
+					rows={rows}
+					columns={columns}
+					pageSize={5}
+					pagination
+					autoHeight
+					rowsPerPageOptions={false}
+					checkboxSelection
+					disableSelectionOnClick
+				/>
+			</div>
+		</>
+	);
+};
+
+const Patents = ({ patents }) => {
+	const columns = [
+		{ field: "id", headerName: "ID", width: 80 },
+		{ field: "year", headerName: "Year", type: "number", width: 130 },
+		{
+			field: "yearfiled",
+			headerName: "Year Filed",
+			type: "number",
+			width: 180,
+		},
+		{ field: "nationality", headerName: "Nationality", width: 200 },
+		{ field: "number", headerName: "Number", width: 130 },
+		{ field: "citation_key", headerName: "Citation Key", width: 150 },
+	];
+	const rows = patents;
+
+	return (
+		<>
+			<h1>Patents</h1>
+			<div
+				style={{
+					width: "95%",
+				}}
+			>
+				<DataGrid
+					rows={rows}
+					columns={columns}
+					pageSize={5}
+					pagination
+					autoHeight
+					rowsPerPageOptions={false}
+					checkboxSelection
+					disableSelectionOnClick
+				/>
+			</div>
+		</>
+	);
+};
 export default ShowPublications;
