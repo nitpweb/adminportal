@@ -100,7 +100,7 @@ const Profile = styled.div`
 `;
 
 export default function Profilepage(props) {
-	const [detail, useDetail] = useState({ profile: props.details["profile"] });
+	const [detail, useDetail] = useState(props.details);
 
 	const [publications, setPublications] = useState(
 		props.details.publications
