@@ -51,14 +51,16 @@ export const AddForm = ({ handleClose, modal }) => {
 			email: session.user.email,
 			attachments: [...attachments],
 		};
+
 		for (let i = 0; i < data.attachments.length; i++) {
 			delete data.attachments[i].value;
+
 			// if (data.attachments[i].url === undefined) {
 			// 	data.attachments[i].url = "";
 			// }
 			console.log(data.attachments[i]);
 
-			if (data.attachments[i].url) {
+			if (data.attachments[i].typeLink == false && data.attachments[i].url) {
 				let file = new FormData();
 				file.append("files", data.attachments[i].url);
 				// console.log(file.get("files"));
@@ -71,10 +73,11 @@ export const AddForm = ({ handleClose, modal }) => {
 				// console.log(viewLink);
 				data.attachments[i].url = viewLink[0].webViewLink;
 			} else {
-				console.log("Request Not Sent");
+				console.log("NOT A FILE");
 			}
 		}
 		// data.attachments = JSON.stringify(data.attachments);
+		// console.log(data);
 
 		let result = await fetch("/api/create/notice", {
 			headers: {

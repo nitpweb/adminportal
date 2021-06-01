@@ -51,7 +51,7 @@ export const AddForm = ({ handleClose, modal }) => {
 			// }
 			console.log(data.attachments[i]);
 
-			if (data.attachments[i].url) {
+			if (data.attachments[i].typeLink == false && data.attachments[i].url) {
 				let file = new FormData();
 				file.append("files", data.attachments[i].url);
 				// console.log(file.get("files"));
@@ -64,7 +64,7 @@ export const AddForm = ({ handleClose, modal }) => {
 				// console.log(viewLink);
 				data.attachments[i].url = viewLink[0].webViewLink;
 			} else {
-				console.log("Request Not Sent");
+				console.log("NOT A FILE");
 			}
 		}
 		// data.attachments = JSON.stringify(data.attachments);
