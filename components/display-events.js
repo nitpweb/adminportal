@@ -139,7 +139,7 @@ const DataDisplay = (props) => {
 								>
 									<a href={detail.doclink} style={{ textDecoration: `none` }}>
 										<Link className={classes.icon} />
-										<span>Reg Link</span>
+										<span>Event Attach/Link</span>
 									</a>
 								</Paper>{" "}
 							</Grid>
