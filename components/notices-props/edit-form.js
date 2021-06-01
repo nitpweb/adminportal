@@ -23,6 +23,7 @@ export const EditForm = ({ data, handleClose, modal }) => {
 		id: data.id,
 		title: data.title,
 		openDate: dateformatter(data.openDate),
+		main_attachment: JSON.parse(data.notice_link) || {},
 		closeDate: dateformatter(data.closeDate),
 		isVisible: data.isVisible ? true : false,
 		important: data.important ? true : false,
@@ -79,6 +80,7 @@ export const EditForm = ({ data, handleClose, modal }) => {
 			openDate: open,
 			closeDate: close,
 			timestamp: now,
+			main_attachment: { ...content.main_attachment },
 			email: session.user.email,
 			attachments: [...attachments, ...new_attach],
 		};
@@ -208,6 +210,37 @@ export const EditForm = ({ data, handleClose, modal }) => {
 							}
 							label="Visibility"
 						/>
+
+						{content.main_attachment && (
+							<>
+								<h2>Main Attachment</h2>
+
+								<div>
+									<TextField
+										id="attachments"
+										margin="dense"
+										type="text"
+										value={content.main_attachment.caption}
+										onChange={(e) =>
+											setContent({
+												...content,
+												main_attachment: {
+													...content.main_attachment,
+													caption: e.target.value,
+												},
+											})
+										}
+										InputLabelProps={{
+											shrink: true,
+										}}
+									/>
+									<a href={content.main_attachment.url} target="_blank">
+										<Link />
+									</a>
+								</div>
+							</>
+						)}
+
 						{data.attachments && (
 							<>
 								<h2>Attachments</h2>

@@ -23,6 +23,7 @@ export const EditForm = ({ data, handleClose, modal }) => {
 		openDate: dateformatter(data.openDate),
 		closeDate: dateformatter(data.closeDate),
 		doclink: data.doclink,
+		main_attachment: JSON.parse(data.event_link) || {},
 		venue: data.venue,
 	});
 
@@ -73,6 +74,7 @@ export const EditForm = ({ data, handleClose, modal }) => {
 			...content,
 			openDate: open,
 			closeDate: close,
+			main_attachment: { ...content.main_attachment },
 			timestamp: now,
 			email: session.user.email,
 			attachments: [...attachments, ...new_attach],
@@ -197,6 +199,36 @@ export const EditForm = ({ data, handleClose, modal }) => {
 							onChange={(e) => handleChange(e)}
 							value={content.doclink}
 						/>
+
+						{content.main_attachment && (
+							<>
+								<h2>Main Attachment</h2>
+
+								<div>
+									<TextField
+										id="attachments"
+										margin="dense"
+										type="text"
+										value={content.main_attachment.caption}
+										onChange={(e) =>
+											setContent({
+												...content,
+												main_attachment: {
+													...content.main_attachment,
+													caption: e.target.value,
+												},
+											})
+										}
+										InputLabelProps={{
+											shrink: true,
+										}}
+									/>
+									<a href={content.main_attachment.url} target="_blank">
+										<Link />
+									</a>
+								</div>
+							</>
+						)}
 
 						{data.attachments && (
 							<>

@@ -80,6 +80,9 @@ const DataDisplay = (props) => {
 					openDate = dd + "/" + mm + "/" + yyyy;
 
 					const [editModal, setEditModal] = useState(false);
+					const [notice_link, setNotice_link] = useState(
+						JSON.parse(detail.notice_link)
+					);
 
 					const editModalOpen = () => {
 						setEditModal(true);
@@ -98,6 +101,20 @@ const DataDisplay = (props) => {
 								>
 									<span className={classes.truncate}>{detail.title}</span>
 									<div className={classes.attached}>
+										{notice_link && (
+											<span
+												style={{
+													display: `inline-flex`,
+													margin: `5px 0 `,
+												}}
+											>
+												<Flag color="secondary" />
+												<a href={notice_link.url} target="_blank">
+													{notice_link.caption}
+												</a>
+											</span>
+										)}
+
 										{detail.attachments &&
 											detail.attachments.map((attachment, idx) => {
 												return (

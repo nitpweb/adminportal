@@ -72,6 +72,9 @@ const DataDisplay = (props) => {
 					let mm = openDate.getMonth() + 1;
 					let yyyy = openDate.getFullYear();
 					openDate = dd + "/" + mm + "/" + yyyy;
+					const [event_link, setEvent_link] = useState(
+						JSON.parse(detail.event_link)
+					);
 
 					const [editModal, setEditModal] = useState(false);
 
@@ -92,6 +95,20 @@ const DataDisplay = (props) => {
 								>
 									<span className={classes.truncate}>{detail.title}</span>
 									<div className={classes.attached}>
+										{event_link && (
+											<span
+												style={{
+													display: `inline-flex`,
+													margin: `5px 0 `,
+												}}
+											>
+												<Flag color="secondary" />
+												<a href={event_link.url} target="_blank">
+													{event_link.caption}
+												</a>
+											</span>
+										)}
+
 										{detail.attachments &&
 											detail.attachments.map((attachment, idx) => {
 												return (
