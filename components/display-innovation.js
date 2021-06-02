@@ -9,6 +9,7 @@ import { AddForm } from "./innovation-props/add-form";
 import { EditForm } from "./innovation-props/edit-form";
 import { useSession } from "next-auth/client";
 import { DescriptionModal } from "./common-props/description-modal";
+import Filter from "./common-props/filter";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -53,6 +54,112 @@ const DataDisplay = (props) => {
 		setAddModal(false);
 	};
 
+	const Innovation = ({ detail }) => {
+		let openDate = new Date(detail.timestamp);
+		let dd = openDate.getDate();
+		let mm = openDate.getMonth() + 1;
+		let yyyy = openDate.getFullYear();
+		openDate = dd + "/" + mm + "/" + yyyy;
+
+		const [editModal, setEditModal] = useState(false);
+		const [descriptionModal, setDescriptionModal] = useState(false);
+
+		const editModalOpen = () => {
+			setEditModal(true);
+		};
+
+		const handleCloseEditModal = () => {
+			setEditModal(false);
+		};
+
+		const descModalOpen = () => {
+			setDescriptionModal(true);
+		};
+
+		const handleCloseDescModal = () => {
+			setDescriptionModal(false);
+		};
+
+		return (
+			<React.Fragment key={detail.id}>
+				<Grid item xs={12} sm={8} lg={10}>
+					<Paper
+						className={classes.paper}
+						style={{ minHeight: `50px`, position: `relative` }}
+					>
+						<span className={classes.truncate}>{detail.title}</span>
+						<div className={classes.attached}>
+							{detail.image &&
+								detail.image.map((img, idx) => {
+									return (
+										<span
+											key={idx}
+											style={{ display: `inline-flex`, margin: `5px 0 ` }}
+										>
+											<Flag />
+											<a href={img.url} target="_blank">
+												{img.caption}
+											</a>
+										</span>
+									);
+								})}
+						</div>{" "}
+						<span
+							style={{
+								position: `absolute`,
+								right: `12px`,
+								bottom: `12px`,
+							}}
+						>
+							{openDate}
+						</span>
+					</Paper>
+				</Grid>
+
+				<Grid item xs={6} sm={2} lg={1}>
+					<Paper
+						className={classes.paper}
+						style={{ textAlign: `center`, cursor: `pointer` }}
+						onClick={descModalOpen}
+					>
+						<Description className={classes.icon} />
+						<span>Description</span>
+					</Paper>
+					<DescriptionModal
+						data={detail}
+						handleClose={handleCloseDescModal}
+						modal={descriptionModal}
+					/>
+				</Grid>
+				{session.user.role == 1 || session.user.email === detail.email ? (
+					<Grid item xs={6} sm={2} lg={1}>
+						<Paper
+							className={classes.paper}
+							style={{ textAlign: `center`, cursor: `pointer` }}
+							onClick={editModalOpen}
+						>
+							<Edit className={classes.icon} /> <span>Edit</span>
+						</Paper>{" "}
+						<EditForm
+							data={detail}
+							modal={editModal}
+							handleClose={handleCloseEditModal}
+						/>
+					</Grid>
+				) : (
+					<Grid item xs={6} sm={2} lg={1}>
+						<Paper
+							className={classes.paper}
+							style={{ textAlign: `center`, cursor: `pointer` }}
+						>
+							Not Authorized
+						</Paper>{" "}
+					</Grid>
+				)}
+			</React.Fragment>
+		);
+	};
+
 	return (
 		<div>
 			<header>
@@ -62,116 +169,15 @@ const DataDisplay = (props) => {
 				<Button variant="contained" color="primary" onClick={addModalOpen}>
 					ADD +
 				</Button>
+				<Filter type="innovation" setEntries={setDetails} />
 			</header>
 
 			<AddForm handleClose={handleCloseAddModal} modal={addModal} />
 
 			<Grid container spacing={2} className={classes.root}>
-				{details.map((detail) => {
-					let openDate = new Date(detail.timestamp);
-					let dd = openDate.getDate();
-					let mm = openDate.getMonth() + 1;
-					let yyyy = openDate.getFullYear();
-					openDate = dd + "/" + mm + "/" + yyyy;
-
-					const [editModal, setEditModal] = useState(false);
-					const [descriptionModal, setDescriptionModal] = useState(false);
-
-					const editModalOpen = () => {
-						setEditModal(true);
-					};
-
-					const handleCloseEditModal = () => {
-						setEditModal(false);
-					};
-
-					const descModalOpen = () => {
-						setDescriptionModal(true);
-					};
-
-					const handleCloseDescModal = () => {
-						setDescriptionModal(false);
-					};
-
-					return (
-						<React.Fragment key={detail.id}>
-							<Grid item xs={12} sm={8} lg={10}>
-								<Paper
-									className={classes.paper}
-									style={{ minHeight: `50px`, position: `relative` }}
-								>
-									<span className={classes.truncate}>{detail.title}</span>
-									<div className={classes.attached}>
-										{detail.image &&
-											detail.image.map((img, idx) => {
-												return (
-													<span
-														key={idx}
-														style={{ display: `inline-flex`, margin: `5px 0 ` }}
-													>
-														<Flag />
-														<a href={img.url} target="_blank">
-															{img.caption}
-														</a>
-													</span>
-												);
-											})}
-									</div>{" "}
-									<span
-										style={{
-											position: `absolute`,
-											right: `12px`,
-											bottom: `12px`,
-										}}
-									>
-										{openDate}
-									</span>
-								</Paper>
-							</Grid>
-
-							<Grid item xs={6} sm={2} lg={1}>
-								<Paper
-									className={classes.paper}
-									style={{ textAlign: `center`, cursor: `pointer` }}
-									onClick={descModalOpen}
-								>
-									<Description className={classes.icon} />
-									<span>Description</span>
-								</Paper>
-								<DescriptionModal
-									data={detail}
-									handleClose={handleCloseDescModal}
-									modal={descriptionModal}
-								/>
-							</Grid>
-							{session.user.role == 1 || session.user.email === detail.email ? (
-								<Grid item xs={6} sm={2} lg={1}>
-									<Paper
-										className={classes.paper}
-										style={{ textAlign: `center`, cursor: `pointer` }}
-										onClick={editModalOpen}
-									>
-										<Edit className={classes.icon} /> <span>Edit</span>
-									</Paper>{" "}
-									<EditForm
-										data={detail}
-										modal={editModal}
-										handleClose={handleCloseEditModal}
-									/>
-								</Grid>
-							) : (
-								<Grid item xs={6} sm={2} lg={1}>
-									<Paper
-										className={classes.paper}
-										style={{ textAlign: `center`, cursor: `pointer` }}
-									>
-										Not Authorized
-									</Paper>{" "}
-								</Grid>
-							)}
-						</React.Fragment>
-					);
-				})}
+				{details.map((detail) => (
+					<Innovation detail={detail} />
+				))}
 				{/* <Grid >
             <Paper xs={12} sm={9}>{detail.title}</Paper>
          </Grid> */}

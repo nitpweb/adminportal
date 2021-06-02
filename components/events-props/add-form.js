@@ -3,10 +3,12 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import { MainAttachment } from "./../common-props/main-attachment";
 import TextField from "@material-ui/core/TextField";
 import { useSession } from "next-auth/client";
 import React, { useState } from "react";
 import { AddAttachments } from "./../common-props/add-attachment";
+import { fileUploader } from "./../common-props/useful-functions";
 
 export const AddForm = ({ handleClose, modal }) => {
 	const [session, loading] = useSession();
@@ -20,6 +22,13 @@ export const AddForm = ({ handleClose, modal }) => {
 	const [submitting, setSubmitting] = useState(false);
 
 	const [attachments, setAttachments] = useState([]);
+	const [mainAttachment, setMainAttachment] = useState({
+		caption: "",
+		url: "",
+		value: "",
+		typeLink: false,
+	});
+
 	const handleChange = (e) => {
 		setContent({ ...content, [e.target.name]: e.target.value });
 		//console.log(content)
@@ -41,6 +50,7 @@ export const AddForm = ({ handleClose, modal }) => {
 			closeDate: close,
 			timestamp: now,
 			email: session.user.email,
+			main_attachment: mainAttachment,
 			author: session.user.name,
 			attachments: [...attachments],
 		};
@@ -51,24 +61,20 @@ export const AddForm = ({ handleClose, modal }) => {
 			// }
 			console.log(data.attachments[i]);
 
-			if (data.attachments[i].url) {
-				let file = new FormData();
-				file.append("files", data.attachments[i].url);
-				// console.log(file.get("files"));
-				let viewLink = await fetch("/api/gdrive/uploadfiles", {
-					method: "POST",
-					body: file,
-				});
-				viewLink = await viewLink.json();
-				// console.log("Client side link");
-				// console.log(viewLink);
-				data.attachments[i].url = viewLink[0].webViewLink;
+			if (data.attachments[i].typeLink == false && data.attachments[i].url) {
+				delete data.attachments[i].typeLink;
+				data.attachments[i].url = await fileUploader(data.attachments[i]);
 			} else {
-				console.log("Request Not Sent");
+				delete data.attachments[i].typeLink;
+				console.log("NOT A FILE");
 			}
 		}
+		delete data.main_attachment.value;
+		if (!data.main_attachment.typeLink) {
+			data.main_attachment.url = await fileUploader(data.main_attachment);
+		}
 		// data.attachments = JSON.stringify(data.attachments);
-
+		console.log(data);
 		let result = await fetch("/api/create/event", {
 			headers: {
 				Accept: "application/json",
@@ -162,6 +168,11 @@ export const AddForm = ({ handleClose, modal }) => {
 							type="text"
 							onChange={(e) => handleChange(e)}
 							value={content.doclink}
+						/>
+						<MainAttachment
+							mainAttachment={mainAttachment}
+							setMainAttachment={setMainAttachment}
+							placeholder="Main Event Link/Attach"
 						/>
 
 						<h2>Attachments</h2>

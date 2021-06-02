@@ -1,3 +1,4 @@
+import { Checkbox, FormControlLabel } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { Delete } from "@material-ui/icons";
@@ -21,13 +22,25 @@ export const AddAttachments = ({ attachments, setAttachments, limit }) => {
 
 	function handleAdd() {
 		const values = [...attachments];
-		values.push({ caption: "", url: "", value: "" });
+		values.push({ caption: "", url: "", value: "", typeLink: false });
 		setAttachments(values);
 	}
 
 	function handleRemove(i) {
 		const values = [...attachments];
 		values.splice(i, 1);
+		setAttachments(values);
+	}
+
+	function handleType(i) {
+		const values = [...attachments];
+		values[i].typeLink = !values[i].typeLink;
+		setAttachments(values);
+	}
+
+	function handleLink(i, event) {
+		const values = [...attachments];
+		values[i].url = event.target.value;
 		setAttachments(values);
 	}
 
@@ -40,41 +53,64 @@ export const AddAttachments = ({ attachments, setAttachments, limit }) => {
 				onClick={() => handleAdd()}
 				disabled={limit ? (attachments.length < limit ? false : true) : false}
 			>
-				+ Add Image
+				+ Title Thumbnail Image
 			</Button>
 			{attachments.map((attachment, idx) => {
 				return (
-					<React.Fragment key={`${attachment}-${idx}`}>
+					<div key={`${attachment}-${idx}`}>
+						<FormControlLabel
+							control={
+								<Checkbox
+									checked={attachment.typeLink}
+									onChange={() => handleType(idx)}
+									name="typeLink"
+									color="primary"
+								/>
+							}
+							style={{ width: `20%` }}
+							label="Link"
+						/>
 						<TextField
 							placeholder="SubTitle"
-							fullWidth
 							name="caption"
 							value={attachment.caption}
+							fullWidth
 							onChange={(e) => handleChange(idx, e)}
-							style={{ margin: `8px` }}
+							style={{ margin: `8px`, display: "inline" }}
 						/>
+						<div style={{ display: "flex" }}>
+							{attachment.typeLink ? (
+								<TextField
+									placeholder="File Link"
+									name="url"
+									value={attachment.url}
+									onChange={(e) => handleLink(idx, e)}
+									style={{ margin: `8px`, width: `90%` }}
+								/>
+							) : (
+								<TextField
+									type="file"
+									name="url"
+									value={attachment.value}
+									style={{ margin: `8px` }}
+									onChange={(e) => {
+										handleChangeFile(idx, e);
+									}}
+									inputProps={{ accept: "image/*" }}
+								/>
+							)}
 
-						<TextField
-							type="file"
-							name="url"
-							value={attachment.value}
-							style={{ margin: `8px` }}
-							inputProps={{ accept: "image/*" }}
-							onChange={(e) => {
-								handleChangeFile(idx, e);
-							}}
-						/>
-
-						<Button
-							type="button"
-							onClick={() => {
-								handleRemove(idx);
-							}}
-							style={{ display: `inline-block`, fontSize: `1.5rem` }}
-						>
-							<Delete color="secondary" />{" "}
-						</Button>
-					</React.Fragment>
+							<Button
+								type="button"
+								onClick={() => {
+									handleRemove(idx);
+								}}
+								style={{ display: `inline-block`, fontSize: `1.5rem` }}
+							>
+								<Delete color="secondary" />{" "}
+							</Button>
+						</div>
+					</div>
 				);
 			})}
 			{/* <button type="button" onClick={() => console.log(attachments)}>
