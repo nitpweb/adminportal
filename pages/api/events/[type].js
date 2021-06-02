@@ -16,6 +16,14 @@ const handler = async (req, res) => {
 			results = await query(`
         SELECT * from events where openDate<${now} and closeDate>${now};
         `);
+		} else if (type == "range") {
+			const start = req.body.start_date;
+			const end = req.body.end_date;
+
+			results = await query(`
+			SELECT * from events where closeDate<=${end} and openDate>=${start}`).catch(
+				(err) => console.log(err)
+			);
 		}
 		let array = JSON.parse(JSON.stringify(results));
 		array.forEach((element) => {
