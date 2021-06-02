@@ -101,6 +101,11 @@ const Profile = styled.div`
 
 export default function Profilepage(props) {
   const [detail, useDetail] = useState(props.details);
+  const [publications, setPublications] = useState(
+		props.details.publications
+			? JSON.parse(props.details.publications[0].publications)
+			: []
+	);
   console.log(props.details);
   const [session, loading] = useSession();
   const [addModal, setAddModal] = useState(false);
