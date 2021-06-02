@@ -81,9 +81,9 @@ export const AddPast = ({ handleClose, modal }) => {
              <TextField
               margin="dense"
               id="pastStart"
-              label="start"
+              label="Start Date"
               name="start"
-              type="month"
+              type="date"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
@@ -95,9 +95,9 @@ export const AddPast = ({ handleClose, modal }) => {
             <TextField
               margin="dense"
               id="pastEnd"
-              label="end"
+              label="End Date"
               name="end"
-              type="month"
+              type="date"
               required
               fullWidth
               onChange={(e) => handleChange(e)}

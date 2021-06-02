@@ -107,9 +107,9 @@ export const Addproject = ({ handleClose, modal }) => {
 			            <TextField
               margin="dense"
               id="labelprojectS"
-              label="start"
+              label="Start Date"
               name="start"
-              type="month"
+              type="date"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
@@ -121,9 +121,9 @@ export const Addproject = ({ handleClose, modal }) => {
             <TextField
               margin="dense"
               id="labelprojectE"
-              label="end"
+              label="End Date"
               name="end"
-              type="month"
+              type="date"
               required
               fullWidth
               onChange={(e) => handleChange(e)}

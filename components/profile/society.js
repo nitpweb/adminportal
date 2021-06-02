@@ -72,7 +72,7 @@ export const AddSociety = ({ handleClose, modal }) => {
             <TextField
               margin="dense"
               id="label"
-              label="membership"
+              label="Membership Id"
               name="membership_id"
               type="text"
               required
@@ -83,7 +83,7 @@ export const AddSociety = ({ handleClose, modal }) => {
             <TextField
               margin="dense"
               id="label"
-              label="society"
+              label="Society"
               name="membership_society"
               type="text"
               required
@@ -94,9 +94,9 @@ export const AddSociety = ({ handleClose, modal }) => {
             <TextField
               margin="dense"
               id="societyStart"
-              label="start"
+              label="Start Date"
               name="start"
-              type="month"
+              type="date"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
@@ -108,9 +108,9 @@ export const AddSociety = ({ handleClose, modal }) => {
             <TextField
               margin="dense"
               id="societyEnd"
-              label="end"
+              label="End Date"
               name="end"
-              type="month"
+              type="date"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
