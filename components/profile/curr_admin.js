@@ -12,7 +12,7 @@ export const AddCurrent = ({ handleClose, modal }) => {
   const [session, loading] = useSession();
   const [content, setContent] = useState({
     curr_responsibility: "",
-    start:""
+    start: "",
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -25,10 +25,10 @@ export const AddCurrent = ({ handleClose, modal }) => {
     setSubmitting(true);
     e.preventDefault();
     let start = new Date(content.start);
-		start = start.getTime();
+    start = start.getTime();
     let data = {
       ...content,
-      start:start,
+      start: start,
       id: Date.now(),
       email: session.user.email,
     };
@@ -74,19 +74,19 @@ export const AddCurrent = ({ handleClose, modal }) => {
               onChange={(e) => handleChange(e)}
               value={content.curr_responsibility}
             />
-                        <TextField
+            <TextField
               margin="dense"
               id="labelstart"
-              label="start"
+              label="Start Date"
               name="start"
-              type="month"
+              type="date"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.start}
               InputLabelProps={{
-								shrink: true,
-							}}
+                shrink: true,
+              }}
             />
           </DialogContent>
           <DialogActions>

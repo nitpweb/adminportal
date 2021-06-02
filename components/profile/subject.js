@@ -94,9 +94,9 @@ export const AddForm = ({ handleClose, modal }) => {
             <TextField
               margin="dense"
               id="labelsession"
-              label="start"
+              label="Session Start Date"
               name="start"
-              type="month"
+              type="date"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
@@ -108,9 +108,9 @@ export const AddForm = ({ handleClose, modal }) => {
             <TextField
               margin="dense"
               id="labelsession"
-              label="end"
+              label="Session End Date"
               name="end"
-              type="month"
+              type="date"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
