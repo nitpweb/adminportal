@@ -11,8 +11,10 @@ import { AddAttachments } from "./../common-props/add-attachment";
 export const AddSociety = ({ handleClose, modal }) => {
   const [session, loading] = useSession();
   const [content, setContent] = useState({
-  membership_id: "",
-	membership_society: "",
+    membership_id: "",
+    membership_society: "",
+    start:"",
+    end:"",
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -24,8 +26,14 @@ export const AddSociety = ({ handleClose, modal }) => {
   const handleSubmit = async (e) => {
     setSubmitting(true);
     e.preventDefault();
+    let start = new Date(content.start);
+		let end = new Date(content.end);
+		start = start.getTime();
+		end = end.getTime();
     let data = {
       ...content,
+      start:start,
+      end:end,
       id: Date.now(),
       email: session.user.email,
     };
@@ -39,7 +47,7 @@ export const AddSociety = ({ handleClose, modal }) => {
       method: "POST",
       body: JSON.stringify(data),
     });
-    
+
     result = await result.json();
     if (result instanceof Error) {
       console.log("Error Occured");
@@ -72,7 +80,7 @@ export const AddSociety = ({ handleClose, modal }) => {
               onChange={(e) => handleChange(e)}
               value={content.membership_id}
             />
-             <TextField
+            <TextField
               margin="dense"
               id="label"
               label="society"
@@ -82,6 +90,34 @@ export const AddSociety = ({ handleClose, modal }) => {
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.membership_society}
+            />
+            <TextField
+              margin="dense"
+              id="societyStart"
+              label="start"
+              name="start"
+              type="month"
+              required
+              fullWidth
+              onChange={(e) => handleChange(e)}
+              value={content.start}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <TextField
+              margin="dense"
+              id="societyEnd"
+              label="end"
+              name="end"
+              type="month"
+              required
+              fullWidth
+              onChange={(e) => handleChange(e)}
+              value={content.end}
+              InputLabelProps={{
+                shrink: true,
+              }}
             />
           </DialogContent>
           <DialogActions>

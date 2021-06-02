@@ -12,6 +12,8 @@ export const AddPast = ({ handleClose, modal }) => {
   const [session, loading] = useSession();
   const [content, setContent] = useState({
     past_responsibility: "",
+    start:"",
+    end:"",
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -23,8 +25,14 @@ export const AddPast = ({ handleClose, modal }) => {
   const handleSubmit = async (e) => {
     setSubmitting(true);
     e.preventDefault();
+    let start = new Date(content.start);
+		let end = new Date(content.end);
+		start = start.getTime();
+		end = end.getTime();
     let data = {
       ...content,
+      start:start,
+      end:end,
       id: Date.now(),
       email: session.user.email,
     };
@@ -69,6 +77,34 @@ export const AddPast = ({ handleClose, modal }) => {
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.past_responsibility}
+            />
+             <TextField
+              margin="dense"
+              id="pastStart"
+              label="start"
+              name="start"
+              type="month"
+              required
+              fullWidth
+              onChange={(e) => handleChange(e)}
+              value={content.start}
+              InputLabelProps={{
+								shrink: true,
+							}}
+            />
+            <TextField
+              margin="dense"
+              id="pastEnd"
+              label="end"
+              name="end"
+              type="month"
+              required
+              fullWidth
+              onChange={(e) => handleChange(e)}
+              value={content.end}
+              InputLabelProps={{
+								shrink: true,
+							}}
             />
           </DialogContent>
           <DialogActions>

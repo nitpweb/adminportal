@@ -11,7 +11,8 @@ import { AddAttachments } from "./../common-props/add-attachment";
 export const AddCurrent = ({ handleClose, modal }) => {
   const [session, loading] = useSession();
   const [content, setContent] = useState({
-    curr_responsibility: ""
+    curr_responsibility: "",
+    start:""
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -23,8 +24,11 @@ export const AddCurrent = ({ handleClose, modal }) => {
   const handleSubmit = async (e) => {
     setSubmitting(true);
     e.preventDefault();
+    let start = new Date(content.start);
+		start = start.getTime();
     let data = {
       ...content,
+      start:start,
       id: Date.now(),
       email: session.user.email,
     };
@@ -69,6 +73,20 @@ export const AddCurrent = ({ handleClose, modal }) => {
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.curr_responsibility}
+            />
+                        <TextField
+              margin="dense"
+              id="labelstart"
+              label="start"
+              name="start"
+              type="month"
+              required
+              fullWidth
+              onChange={(e) => handleChange(e)}
+              value={content.start}
+              InputLabelProps={{
+								shrink: true,
+							}}
             />
           </DialogContent>
           <DialogActions>
