@@ -79,6 +79,10 @@ async function migrate() {
             id bigint NOT NULL,
             email varchar(100),
             project text NOT NULL,
+            sponsor text NOT NULL,
+            amount text NOT NULL,
+            start bigint,
+            end bigint,
             PRIMARY KEY(id)
     );`).catch((e) => console.log(e));
 
@@ -109,7 +113,10 @@ async function migrate() {
 	await query(`create table if not exists subjects_teaching(
                 id bigint NOT NULL,
                 email varchar(100),
-                subject text NOT NULL,
+                code text NOT NULL,
+                name text NOT NULL,
+                start bigint,
+                end bigint,
                 PRIMARY KEY(id)
             );`).catch((e) => console.log(e));
 
@@ -132,6 +139,9 @@ async function migrate() {
             id bigint NOT NULL,
             email varchar(100),
             work_experiences text NOT NULL,
+            institute text NOT NULL,
+            start bigint,
+            end bigint,
             PRIMARY KEY(id)
         );`).catch((e) => console.log(e));
 
@@ -139,6 +149,7 @@ async function migrate() {
                 id bigint NOT NULL,
                 email varchar(100),
                 curr_responsibility text NOT NULL,
+                start bigint,
                 PRIMARY KEY(id)
             );`).catch((e) => console.log(e));
 
@@ -146,6 +157,8 @@ async function migrate() {
                 id bigint NOT NULL,
                 email varchar(100),
                 past_responsibility text NOT NULL,
+                start bigint,
+                end bigint,
                 PRIMARY KEY(id)
             );`).catch((e) => console.log(e));
 
@@ -175,6 +188,8 @@ async function migrate() {
                 email varchar(100),
                 membership_id varchar(20) NOT NULL,
                 membership_society text NOT NULL,
+                start bigint,
+                end bigint,
                 PRIMARY KEY(id)
             );`).catch((e) => console.log(e));
 

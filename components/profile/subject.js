@@ -11,7 +11,10 @@ import { AddAttachments } from "./../common-props/add-attachment";
 export const AddForm = ({ handleClose, modal }) => {
   const [session, loading] = useSession();
   const [content, setContent] = useState({
-    subject: "",
+    code: "",
+    name: "",
+    start: "",
+    end: "",
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -23,8 +26,15 @@ export const AddForm = ({ handleClose, modal }) => {
   const handleSubmit = async (e) => {
     setSubmitting(true);
     e.preventDefault();
+    let start = new Date(content.start);
+		let end = new Date(content.end);
+		start = start.getTime();
+		end = end.getTime();
+	
     let data = {
       ...content,
+      start:start,
+      end:end,
       id: Date.now(),
       email: session.user.email,
     };
@@ -61,14 +71,53 @@ export const AddForm = ({ handleClose, modal }) => {
           <DialogContent>
             <TextField
               margin="dense"
-              id="label"
-              label="Subjects"
-              name="subject"
+              id="labelcode"
+              label="code"
+              name="code"
               type="text"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
-              value={content.subject}
+              value={content.code}
+            />
+            <TextField
+              margin="dense"
+              id="labelname"
+              label="name"
+              name="name"
+              type="text"
+              required
+              fullWidth
+              onChange={(e) => handleChange(e)}
+              value={content.name}
+            />
+            <TextField
+              margin="dense"
+              id="labelsession"
+              label="start"
+              name="start"
+              type="month"
+              required
+              fullWidth
+              onChange={(e) => handleChange(e)}
+              value={content.start}
+              InputLabelProps={{
+								shrink: true,
+							}}
+            />
+            <TextField
+              margin="dense"
+              id="labelsession"
+              label="end"
+              name="end"
+              type="month"
+              required
+              fullWidth
+              onChange={(e) => handleChange(e)}
+              value={content.end}
+              InputLabelProps={{
+								shrink: true,
+							}}
             />
           </DialogContent>
           <DialogActions>

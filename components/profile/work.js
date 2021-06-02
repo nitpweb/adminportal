@@ -12,6 +12,9 @@ export const AddWork = ({ handleClose, modal }) => {
   const [session, loading] = useSession();
   const [content, setContent] = useState({
     work_experiences: "",
+    institute:"",
+    start:"",
+    end:"",
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -23,8 +26,16 @@ export const AddWork = ({ handleClose, modal }) => {
   const handleSubmit = async (e) => {
     setSubmitting(true);
     e.preventDefault();
+
+    let start = new Date(content.start);
+		let end = new Date(content.end);
+		start = start.getTime();
+		end = end.getTime();
+
     let data = {
       ...content,
+      start:start,
+      end:end,
       id: Date.now(),
       email: session.user.email,
     };
@@ -62,13 +73,52 @@ export const AddWork = ({ handleClose, modal }) => {
             <TextField
               margin="dense"
               id="label"
-              label="Work Experience"
+              label="Designation"
               name="work_experiences"
               type="text"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.work_experiences}
+            />
+            <TextField
+              margin="dense"
+              id="label"
+              label="Institute/Company"
+              name="institute"
+              type="text"
+              required
+              fullWidth
+              onChange={(e) => handleChange(e)}
+              value={content.institute}
+            />
+             <TextField
+              margin="dense"
+              id="workStart"
+              label="start"
+              name="start"
+              type="month"
+              required
+              fullWidth
+              onChange={(e) => handleChange(e)}
+              value={content.start}
+              InputLabelProps={{
+								shrink: true,
+							}}
+            />
+            <TextField
+              margin="dense"
+              id="workEnd"
+              label="end"
+              name="end"
+              type="month"
+              required
+              fullWidth
+              onChange={(e) => handleChange(e)}
+              value={content.end}
+              InputLabelProps={{
+								shrink: true,
+							}}
             />
           </DialogContent>
           <DialogActions>

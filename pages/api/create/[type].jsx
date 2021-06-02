@@ -117,42 +117,64 @@ const handler = async (req, res) => {
           return res.json(result);
         } else if (type == "current-responsibility") {
           let result = await query(
-            `INSERT INTO curr_admin_responsibility (id,email,curr_responsibility) VALUES` +
-              `(?,?,?)`,
-            [params.id, params.email, params.curr_responsibility]
+            `INSERT INTO curr_admin_responsibility (id,email,curr_responsibility,start) VALUES` +
+              `(?,?,?,?)`,
+            [params.id, params.email, params.curr_responsibility, params.start]
           );
           return res.json(result);
         } else if (type == "memberships") {
           let result = await query(
-            `insert into memberships (id,email,membership_id,membership_society) values (` +
-              `?,?,?,?)`,
+            `insert into memberships (id,email,membership_id,membership_society,start,end) values (` +
+              `?,?,?,?,?,?)`,
             [
               params.id,
               params.email,
               params.membership_id,
               params.membership_society,
+              params.start,
+              params.end,
             ]
           );
           return res.json(result);
         } else if (type == "past-responsibility") {
           let result = await query(
-            `INSERT INTO past_admin_responsibility (id,email,past_responsibility) VALUES` +
-              `(?,?,?)`,
-            [params.id, params.email, params.past_responsibility]
+            `INSERT INTO past_admin_responsibility (id,email,past_responsibility,start,end) VALUES` +
+              `(?,?,?,?,?)`,
+            [
+              params.id,
+              params.email,
+              params.past_responsibility,
+              params.start,
+              params.end,
+            ]
           );
           return res.json(result);
         } else if (type == "workexperience") {
           let result = await query(
-            `INSERT INTO work_experience (id,email,work_experiences) VALUES` +
-              `(?,?,?)`,
-            [params.id, params.email, params.work_experiences]
+            `INSERT INTO work_experience (id,email,work_experiences,institute,start,end) VALUES` +
+              `(?,?,?,?,?,?)`,
+            [
+              params.id,
+              params.email,
+              params.work_experiences,
+              params.institute,
+              params.start,
+              params.end,
+            ]
           );
           return res.json(result);
         } else if (type == "subjects") {
           let result = await query(
-            `INSERT INTO subjects_teaching (id,email,subject) VALUES` +
-              `(?,?,?)`,
-            [params.id, params.email, params.subject]
+            `INSERT INTO subjects_teaching (id,email,code,name,start,end) VALUES` +
+              `(?,?,?,?,?,?)`,
+            [
+              params.id,
+              params.email,
+              params.code,
+              params.name,
+              params.start,
+              params.end,
+            ]
           ).catch((e) => {
             console.log(e);
           });
@@ -169,8 +191,17 @@ const handler = async (req, res) => {
           return res.json(result);
         } else if (type == "project") {
           let result = await query(
-            `INSERT INTO project (id,email,project) VALUES` + `(?,?,?)`,
-            [params.id, params.email, params.project]
+            `INSERT INTO project (id,email,project,sponsor,amount,start,end) VALUES` +
+              `(?,?,?,?,?,?,?)`,
+            [
+              params.id,
+              params.email,
+              params.project,
+              params.sponsor,
+              params.amount,
+              params.start,
+              params.end,
+            ]
           );
           return res.json(result);
         } else if (type == "professionalservice") {
