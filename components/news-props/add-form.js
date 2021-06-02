@@ -7,6 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import { useSession } from "next-auth/client";
 import React, { useState } from "react";
 import { AddAttachments } from "./../common-props/add-image";
+import { fileUploader } from "./../common-props/useful-functions";
 
 export const AddForm = ({ handleClose, modal }) => {
 	const [session, loading] = useSession();
@@ -23,6 +24,7 @@ export const AddForm = ({ handleClose, modal }) => {
 		setContent({ ...content, [e.target.name]: e.target.value });
 		//console.log(content)
 	};
+
 	const handleSubmit = async (e) => {
 		setSubmitting(true);
 		e.preventDefault();
@@ -49,23 +51,15 @@ export const AddForm = ({ handleClose, modal }) => {
 			// }
 			console.log(data.image[i]);
 
-			if (data.image[i].url) {
-				let file = new FormData();
-				file.append("files", data.image[i].url);
-				// console.log(file.get("files"));
-				let viewLink = await fetch("/api/gdrive/uploadfiles", {
-					method: "POST",
-					body: file,
-				});
-				viewLink = await viewLink.json();
-				// console.log("Client side link");
-				// console.log(viewLink);
-				data.image[i].url = viewLink[0].webViewLink;
+			if (data.image[i].typeLink == false && data.image[i].url) {
+				delete data.image[i].typeLink;
+
+				data.image[i].url = await fileUploader(data.image[i]);
 			} else {
-				console.log("Request Not Sent");
+				delete data.image[i].typeLink;
+				console.log("NOT A FILE");
 			}
 		}
-		// data.attachments = JSON.stringify(data.attachments);
 
 		let result = await fetch("/api/create/news", {
 			headers: {
