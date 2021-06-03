@@ -5,6 +5,7 @@ import NextAuthDynamodb from "next-auth-dynamodb";
 import { db } from "../../../lib/db";
 
 var role = 0;
+var department = null;
 const options = {
   providers: [
     Providers.Google({
@@ -54,7 +55,9 @@ const options = {
             return false;
           }
           role = s.role;
+          department = s.department;
           user.role = role;
+          user.department = department;
           return true;
         })
         .catch((e) => {
@@ -67,6 +70,7 @@ const options = {
     async session(session, user, profile) {
       const data = user;
       data.role = role;
+      data.department = department;
       session.user = data;
       // console.log(`Session user: ${session.user.role}`);
       return session;
@@ -80,6 +84,8 @@ const options = {
             return token;
           }
           role = s.role;
+          department = s.department;
+          token.department = s.department;
           token.role = role;
           // console.log(token);
         })
@@ -87,6 +93,7 @@ const options = {
           console.log(e);
         });
       token.role = role;
+      token.department = department;
       // console.log(token);
       return token;
     },

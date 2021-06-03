@@ -31,8 +31,8 @@ const handler = async (req, res) => {
           params.attachments = JSON.stringify(params.attachments);
           params.main_attachment = JSON.stringify(params.main_attachment)
           let result = await query(
-            `INSERT INTO notices (id,title,timestamp,openDate,closeDate,important,attachments,email,isVisible,notice_link) VALUES ` +
-              `(?,?,?,?,?,?,?,?,?,?)`,
+            `INSERT INTO notices (id,title,timestamp,openDate,closeDate,important,attachments,email,isVisible,notice_link,isDept,department) VALUES ` +
+              `(?,?,?,?,?,?,?,?,?,?,?,?)`,
             [
               params.id,
               params.title,
@@ -44,6 +44,8 @@ const handler = async (req, res) => {
               params.email,
               params.isVisible,
               params.main_attachment,
+              params.isDept,
+              params.department
             ]
           );
           return res.json(result);
