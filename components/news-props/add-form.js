@@ -29,7 +29,7 @@ export const AddForm = ({ handleClose, modal }) => {
 	};
 
 	const handleSubmit = async (e) => {
-		// setSubmitting(true);
+		setSubmitting(true);
 		e.preventDefault();
 		let open = new Date(content.openDate);
 		let close = new Date(content.closeDate);
@@ -92,7 +92,7 @@ export const AddForm = ({ handleClose, modal }) => {
 			console.log(result);
 		}
 		console.log(result);
-		// window.location.reload();
+		window.location.reload();
 	};
 
 	return (
