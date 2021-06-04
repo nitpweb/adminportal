@@ -72,7 +72,7 @@ export const EditFaculty = ({ data, handleClose, modal }) => {
 					<ConfirmDelete
 						modal={verifyDelete}
 						handleClose={handleDelete}
-						id={content.id}
+						email={content.email}
 					/>
 					<DialogContent>
 						<TextField
