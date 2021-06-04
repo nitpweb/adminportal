@@ -13,11 +13,15 @@ export default async function DeleteFiles(request, response) {
 			console.log(files);
 			try {
 				for (let idx = 0; idx < files.length; idx++) {
-					const fileId = files[idx];
-					const result = await drive.files.delete({
-						fileId: fileId,
-					});
-					console.log(result);
+					try {
+						const fileId = files[idx];
+						const result = await drive.files.delete({
+							fileId: fileId,
+						});
+						console.log(result);
+					} catch (error) {
+						console.log(error);
+					}
 				}
 				response.json({ message: "Files Deleted Successfully" });
 			} catch (error) {

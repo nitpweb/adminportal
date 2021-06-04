@@ -99,13 +99,30 @@ const DataDisplay = (props) => {
 												margin: `5px 0 `,
 											}}
 										>
-											<Flag />
+											<Flag color="secondary" />
 											<a href={img.url} target="_blank">
 												{img.caption}
 											</a>{" "}
 										</span>
 									);
 								})}{" "}
+							{detail.attachments &&
+								detail.attachments.map((atch, idx) => {
+									return (
+										<span
+											key={idx}
+											style={{
+												display: `inline-flex`,
+												margin: `5px 0 `,
+											}}
+										>
+											<Flag />
+											<a href={atch.url} target="_blank">
+												{atch.caption}
+											</a>{" "}
+										</span>
+									);
+								})}
 						</div>
 						<span
 							style={{

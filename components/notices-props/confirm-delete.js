@@ -8,6 +8,7 @@ export const ConfirmDelete = ({
 	handleClose,
 	modal,
 	id,
+	main_notice,
 	attachments,
 	delArray,
 }) => {
@@ -17,22 +18,28 @@ export const ConfirmDelete = ({
 		if (attachments.length) {
 			for (let i = 0; i < attachments.length; i++) {
 				const element = attachments[i];
-				if (element.url) deleteArray.push(element.url.split("/")[5]);
+				if (element.url && element.url.split("/")[5])
+					deleteArray.push(element.url.split("/")[5]);
 			}
-			if (deleteArray.length) {
-				let result = await fetch("/api/gdrive/deletefiles", {
-					method: "DELETE",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(deleteArray),
-				});
-				result = await result.json();
-				if (result instanceof Error) {
-					console.log("Error Occured");
-				}
-				console.log(result);
+		}
+
+		if (main_notice && main_notice.url && main_notice.typeLink == false) {
+			deleteArray.push(main_notice.url.split("/")[5]);
+		}
+
+		if (deleteArray.length) {
+			let result = await fetch("/api/gdrive/deletefiles", {
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(deleteArray),
+			});
+			result = await result.json();
+			if (result instanceof Error) {
+				console.log("Error Occured");
 			}
+			console.log(result);
 		}
 
 		let result = await fetch("/api/delete/notice", {

@@ -12,8 +12,30 @@ const handler = async (req, res) => {
       // console.log(params);
       if (session.user.role == 1 || session.user.role == 2) {
         if (type == "user" && session.user.role == 1) {
-          let result = await query(`delete from users WHERE id = ${params}`);
-          return res.json(result);
+
+           let array = [
+        "curr_admin_responsibility",
+        "education",
+        "memberships",
+        "past_admin_responsibility",
+        "phd_candidates",
+        "professional_service",
+        "project",
+        "publications",
+        "subjects_teaching",
+             "work_experience",
+        "users"
+      ];
+      for (let i = 0; i < array.length; i++) {
+        let element = array[i];
+        let data = await query(
+          `DELETE FROM ${element} WHERE email="${params}";`
+        ).catch((e) => {
+          console.log(e);
+        });
+        
+      }     
+          return res.json({message:'USER DELETED SUCCESSFULLY .'});
         } else if (type == "notice") {
           let result = await query(`DELETE from notices WHERE id = ${params}`);
           return res.json(result);
