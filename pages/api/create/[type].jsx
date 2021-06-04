@@ -89,9 +89,10 @@ const handler = async (req, res) => {
           return res.json(result);
         } else if (type == "news") {
           params.image = JSON.stringify(params.image);
+          params.add_attach= JSON.stringify(params.add_attach)
           let result = await query(
-            `INSERT INTO news (id,title,timestamp,openDate,closeDate,description,image,author,email) VALUES ` +
-              `(?,?,?,?,?,?,?,?,?)`,
+            `INSERT INTO news (id,title,timestamp,openDate,closeDate,description,image,attachments,author,email) VALUES ` +
+              `(?,?,?,?,?,?,?,?,?,?)`,
             [
               params.id,
               params.title,
@@ -100,6 +101,7 @@ const handler = async (req, res) => {
               params.closeDate,
               params.description,
               params.image,
+              params.add_attach,
               params.author,
               params.email,
             ]

@@ -6,7 +6,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 import { useSession } from "next-auth/client";
 import React, { useState } from "react";
-import { AddAttachments } from "./../common-props/add-image";
+import { AddAttachments as AddImage } from "./../common-props/add-image";
+import { AddAttachments } from "./../common-props/add-attachment";
 import { fileUploader } from "./../common-props/useful-functions";
 
 export const AddForm = ({ handleClose, modal }) => {
@@ -20,13 +21,15 @@ export const AddForm = ({ handleClose, modal }) => {
 	const [submitting, setSubmitting] = useState(false);
 
 	const [attachments, setAttachments] = useState([]);
+	const [add_attach, setAdd_attach] = useState([]);
+
 	const handleChange = (e) => {
 		setContent({ ...content, [e.target.name]: e.target.value });
 		//console.log(content)
 	};
 
 	const handleSubmit = async (e) => {
-		setSubmitting(true);
+		// setSubmitting(true);
 		e.preventDefault();
 		let open = new Date(content.openDate);
 		let close = new Date(content.closeDate);
@@ -43,13 +46,11 @@ export const AddForm = ({ handleClose, modal }) => {
 			email: session.user.email,
 			author: session.user.name,
 			image: [...attachments],
+			add_attach: [...add_attach],
 		};
 		for (let i = 0; i < data.image.length; i++) {
 			delete data.image[i].value;
-			// if (data.image[i].url === undefined) {
-			// 	data.image[i].url = "";
-			// }
-			console.log(data.image[i]);
+			// console.log(data.image[i]);
 
 			if (data.image[i].typeLink == false && data.image[i].url) {
 				delete data.image[i].typeLink;
@@ -60,6 +61,22 @@ export const AddForm = ({ handleClose, modal }) => {
 				console.log("NOT A FILE");
 			}
 		}
+
+		for (let i = 0; i < data.add_attach.length; i++) {
+			delete data.add_attach[i].value;
+			// console.log(data.add_attach[i]);
+
+			if (data.add_attach[i].typeLink == false && data.add_attach[i].url) {
+				delete data.add_attach[i].typeLink;
+
+				data.add_attach[i].url = await fileUploader(data.add_attach[i]);
+			} else {
+				delete data.add_attach[i].typeLink;
+				console.log("NOT A FILE");
+			}
+		}
+
+		console.log(data);
 
 		let result = await fetch("/api/create/news", {
 			headers: {
@@ -75,7 +92,7 @@ export const AddForm = ({ handleClose, modal }) => {
 			console.log(result);
 		}
 		console.log(result);
-		window.location.reload();
+		// window.location.reload();
 	};
 
 	return (
@@ -144,10 +161,14 @@ export const AddForm = ({ handleClose, modal }) => {
 						/>
 
 						<h2>Attachments</h2>
-						<AddAttachments
+						<AddImage
 							attachments={attachments}
 							setAttachments={setAttachments}
 							limit={1}
+						/>
+						<AddAttachments
+							attachments={add_attach}
+							setAttachments={setAdd_attach}
 						/>
 						{/* <a href={data.attachments} target="_blank">
 							<FontAwesomeIcon icon={faExternalLinkAlt} />
