@@ -27,16 +27,16 @@ const handler = async (req, res) => {
     if (type in fdept) {
       results = await query(
         `
-      select * from users where department="${fdept[type]}"
-    `
+      select * from users where department=?`,
+        [fdept[type]]
       );
     } else {
       results = {};
-      let data = await query(
-        `SELECT * FROM users WHERE email="${type}";`
-      ).catch((e) => {
-        console.log(e);
-      });
+      let data = await query(`SELECT * FROM users WHERE email=?`, [type]).catch(
+        (e) => {
+          console.log(e);
+        }
+      );
       let profile = JSON.parse(JSON.stringify(data))[0];
       results["profile"] = profile;
       let array = [
@@ -53,9 +53,10 @@ const handler = async (req, res) => {
       ];
       for (let i = 0; i < array.length; i++) {
         let element = array[i];
-        let data = await query(
-          `SELECT * FROM ${element} WHERE email="${type}";`
-        ).catch((e) => {
+        let data = await query(`SELECT * FROM ? WHERE email=?`, [
+          element,
+          type,
+        ]).catch((e) => {
           console.log(e);
         });
         let tmp = JSON.parse(JSON.stringify(data));
