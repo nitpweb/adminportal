@@ -21,14 +21,14 @@ const handler = async (req, res) => {
     if (type === "all") {
       results = await query(
         `
-      SELECT * from notices
+      SELECT * from notices ORDER BY openDate DESC;
     `
       );
     } else if (type == "active") {
 
       results = await query(
         `
-        SELECT * from notices where openDate<? and closeDate>? and isVisible=1`,
+        SELECT * from notices where openDate<? and closeDate>? and isVisible=1 ORDER BY openDate DESC`,
         [now, now]
       );
 
@@ -39,13 +39,13 @@ const handler = async (req, res) => {
 
       results = await query(
         `
-			SELECT * from notices where closeDate<=? and openDate>=?`,
+			SELECT * from notices where closeDate<=? and openDate>=? ORDER BY openDate DESC`,
         [end, start]
       ).catch((err) => console.log(err));
     } else if (type in fdept) {
       results = await query(
         `
-      select * from notices where isDept=1 and department=?`,
+      select * from notices where isDept=1 and department=? ORDER BY openDate DESC`,
         [fdept[type]]
 
       );
@@ -55,7 +55,7 @@ const handler = async (req, res) => {
       element.attachments = JSON.parse(element.attachments);
     });
     // console.log(array);
-    return res.json(array.reverse());
+    return res.status(200).json(array);
   } catch (e) {
     res.status(500).json({ message: e.message });
   }

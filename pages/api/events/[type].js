@@ -9,12 +9,12 @@ const handler = async (req, res) => {
     if (type === "all") {
       results = await query(
         `
-      SELECT * from events
+      SELECT * from events ORDER BY openDate DESC
     `
       );
     } else if (type == "active") {
       results = await query(
-        `SELECT * from events where openDate<? and closeDate>?`,
+        `SELECT * from events where openDate<? and closeDate>? ORDER BY openDate DESC`,
         [now,now]
       );
     } else if (type == "range") {
@@ -23,7 +23,7 @@ const handler = async (req, res) => {
 
       results = await query(
         `
-			SELECT * from events where closeDate<=? and openDate>=?`,
+			SELECT * from events where closeDate<=? and openDate>=? ORDER BY openDate DESC`,
         [end, start]
       ).catch((err) => console.log(err));
     }
@@ -33,7 +33,7 @@ const handler = async (req, res) => {
     });
 
     // console.log(array);
-    return res.json(array.reverse());
+    return res.status(200).json(array);
   } catch (e) {
     res.status(500).json({ message: e.message });
   }

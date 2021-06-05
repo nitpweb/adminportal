@@ -32,7 +32,7 @@ const handler = async (req, res) => {
       );
     } else {
       results = {};
-      let data = await query(`SELECT * FROM users WHERE email=?`, [type]).catch(
+      let data = await query(`SELECT * FROM users WHERE email=?`, [String(type)]).catch(
         (e) => {
           console.log(e);
         }
@@ -53,9 +53,8 @@ const handler = async (req, res) => {
       ];
       for (let i = 0; i < array.length; i++) {
         let element = array[i];
-        let data = await query(`SELECT * FROM ? WHERE email=?`, [
-          element,
-          type,
+        let data = await query(`SELECT * FROM ${element} WHERE email=?`, [
+          String(type),
         ]).catch((e) => {
           console.log(e);
         });
@@ -68,7 +67,7 @@ const handler = async (req, res) => {
     }
     let array = JSON.parse(JSON.stringify(results));
     // console.log(array);
-    return res.json(array);
+    return res.status(200).json(array);
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
