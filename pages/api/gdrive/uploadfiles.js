@@ -46,7 +46,7 @@ export default async function UploadFiles(request, response) {
 						media: media,
 						fields: "id,name,webViewLink",
 					});
-					console.log(driveRes.data);
+
 					finalResult.push(driveRes.data);
 				}
 

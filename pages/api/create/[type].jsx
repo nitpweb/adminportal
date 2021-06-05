@@ -31,8 +31,8 @@ const handler = async (req, res) => {
           params.attachments = JSON.stringify(params.attachments);
           params.main_attachment = JSON.stringify(params.main_attachment)
           let result = await query(
-            `INSERT INTO notices (id,title,timestamp,openDate,closeDate,important,attachments,email,isVisible,notice_link) VALUES ` +
-              `(?,?,?,?,?,?,?,?,?,?)`,
+            `INSERT INTO notices (id,title,timestamp,openDate,closeDate,important,attachments,email,isVisible,notice_link,isDept,department) VALUES ` +
+              `(?,?,?,?,?,?,?,?,?,?,?,?)`,
             [
               params.id,
               params.title,
@@ -44,6 +44,8 @@ const handler = async (req, res) => {
               params.email,
               params.isVisible,
               params.main_attachment,
+              params.isDept,
+              params.department
             ]
           );
           return res.json(result);
@@ -87,9 +89,10 @@ const handler = async (req, res) => {
           return res.json(result);
         } else if (type == "news") {
           params.image = JSON.stringify(params.image);
+          params.add_attach= JSON.stringify(params.add_attach)
           let result = await query(
-            `INSERT INTO news (id,title,timestamp,openDate,closeDate,description,image,author,email) VALUES ` +
-              `(?,?,?,?,?,?,?,?,?)`,
+            `INSERT INTO news (id,title,timestamp,openDate,closeDate,description,image,attachments,author,email) VALUES ` +
+              `(?,?,?,?,?,?,?,?,?,?)`,
             [
               params.id,
               params.title,
@@ -98,6 +101,7 @@ const handler = async (req, res) => {
               params.closeDate,
               params.description,
               params.image,
+              params.add_attach,
               params.author,
               params.email,
             ]

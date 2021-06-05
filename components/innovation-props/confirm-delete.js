@@ -17,24 +17,24 @@ export const ConfirmDelete = ({
 		if (attachments.length) {
 			for (let i = 0; i < attachments.length; i++) {
 				const element = attachments[i];
-				if (element.url) deleteArray.push(element.url.split("/")[5]);
-			}
-			if (deleteArray.length) {
-				let result = await fetch("/api/gdrive/deletefiles", {
-					method: "DELETE",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(deleteArray),
-				});
-				result = await result.json();
-				if (result instanceof Error) {
-					console.log("Error Occured");
-				}
-				console.log(result);
+				if (element.url && element.url.split("/")[5])
+					deleteArray.push(element.url.split("/")[5]);
 			}
 		}
-
+		if (deleteArray.length) {
+			let result = await fetch("/api/gdrive/deletefiles", {
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(deleteArray),
+			});
+			result = await result.json();
+			if (result instanceof Error) {
+				console.log("Error Occured");
+			}
+			console.log(result);
+		}
 		let result = await fetch("/api/delete/innovation", {
 			method: "DELETE",
 			body: id.toString(),

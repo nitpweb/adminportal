@@ -4,11 +4,11 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import React from "react";
 
-export const ConfirmDelete = ({ handleClose, modal, id }) => {
+export const ConfirmDelete = ({ handleClose, modal, email }) => {
 	const deleteEvent = async () => {
 		let result = await fetch("/api/delete/user", {
 			method: "DELETE",
-			body: id.toString(),
+			body: email.toString(),
 		});
 		result = await result.json();
 		if (result instanceof Error) {

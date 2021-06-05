@@ -9,6 +9,7 @@ export const ConfirmDelete = ({
 	modal,
 	id,
 	attachments,
+	add_attach,
 	delArray,
 }) => {
 	const deleteEvent = async () => {
@@ -19,20 +20,29 @@ export const ConfirmDelete = ({
 				const element = attachments[i];
 				if (element.url) deleteArray.push(element.url.split("/")[5]);
 			}
-			if (deleteArray.length) {
-				let result = await fetch("/api/gdrive/deletefiles", {
-					method: "DELETE",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(deleteArray),
-				});
-				result = await result.json();
-				if (result instanceof Error) {
-					console.log("Error Occured");
-				}
-				console.log(result);
+		}
+
+		if (add_attach.length) {
+			for (let i = 0; i < add_attach.length; i++) {
+				const element = add_attach[i];
+				if (element.url && element.url.split("/")[5])
+					deleteArray.push(element.url.split("/")[5]);
 			}
+		}
+
+		if (deleteArray.length) {
+			let result = await fetch("/api/gdrive/deletefiles", {
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(deleteArray),
+			});
+			result = await result.json();
+			if (result instanceof Error) {
+				console.log("Error Occured");
+			}
+			console.log(result);
 		}
 
 		let result = await fetch("/api/delete/news", {
@@ -64,7 +74,7 @@ export const ConfirmDelete = ({
 					>
 						Delete
 					</Button>
-					<Button onClick={handleClose} color="primary" autoFocus>
+					<Button onClick={handleClose} color="primary">
 						Cancel
 					</Button>
 				</DialogActions>

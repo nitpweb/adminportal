@@ -28,6 +28,10 @@ const handler = async (req, res) => {
 		array.forEach((element) => {
 			element.image = JSON.parse(element.image);
 		});
+		array.forEach((element) => {
+			element.attachments = JSON.parse(element.attachments);
+		});
+
 		// console.log(array);
 		return res.json(array.reverse());
 	} catch (e) {

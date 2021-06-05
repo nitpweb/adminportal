@@ -10,7 +10,8 @@ import React, { useRef, useState } from "react";
 import { dateformatter } from "./../common-props/date-formatter";
 import { ConfirmDelete } from "./confirm-delete";
 import { handleNewAttachments } from "./../common-props/add-attachment";
-import { AddAttachments } from "./../common-props/add-image";
+import { AddAttachments as AddImages } from "./../common-props/add-image";
+import { AddAttachments } from "./../common-props/add-attachment";
 
 export const EditForm = ({ data, handleClose, modal }) => {
 	const limit = 1;
@@ -31,24 +32,14 @@ export const EditForm = ({ data, handleClose, modal }) => {
 	};
 
 	const [image, setImage] = useState(data.image);
-
 	const [newImages, setNewImages] = useState([]);
+
+	const [add_attach, setAdd_attach] = useState(data.attachments || []);
+	const [new_attach, setNew_attach] = useState([]);
 
 	const handleChange = (e) => {
 		setContent({ ...content, [e.target.name]: e.target.value });
 		//console.log(content)
-	};
-	const handleAttachments = (e, idx) => {
-		let attach = [...image];
-		attach[idx].caption = e.target.value;
-		setImage(attach);
-	};
-	const deleteAttachment = (idx) => {
-		deleteArray.current.push(image[idx].url.split("/")[5]);
-		console.log(deleteArray.current);
-		let atch = [...image];
-		atch.splice(idx, 1);
-		setImage(atch);
 	};
 
 	const handleSubmit = async (e) => {
@@ -59,8 +50,9 @@ export const EditForm = ({ data, handleClose, modal }) => {
 		open = open.getTime();
 		close = close.getTime();
 		let now = Date.now();
-		let new_attach = [...newImages];
-		new_attach = await handleNewAttachments(new_attach);
+		let new_image = [...newImages];
+		new_image = await handleNewAttachments(new_image);
+		let new_add_attach = await handleNewAttachments(new_attach);
 
 		let finaldata = {
 			...content,
@@ -69,7 +61,8 @@ export const EditForm = ({ data, handleClose, modal }) => {
 			timestamp: now,
 			email: session.user.email,
 			author: session.user.name,
-			image: [...image, ...newImages],
+			image: [...image, ...new_image],
+			add_attach: [...add_attach, ...new_add_attach],
 		};
 
 		if (deleteArray.current.length) {
@@ -130,6 +123,7 @@ export const EditForm = ({ data, handleClose, modal }) => {
 						handleClose={handleDelete}
 						id={content.id}
 						attachments={image}
+						add_attach={add_attach}
 						delArray={deleteArray.current}
 					/>
 					<DialogContent>
@@ -179,51 +173,29 @@ export const EditForm = ({ data, handleClose, modal }) => {
 							value={content.closeDate}
 							fullWidth
 						/>
-						{data.image && (
-							<>
-								<h2>Images</h2>
-								{image.map((img, idx) => {
-									return (
-										<div key={idx}>
-											<TextField
-												id="attachments"
-												margin="dense"
-												type="text"
-												value={img.caption}
-												onChange={(e) => handleAttachments(e, idx)}
-												InputLabelProps={{
-													shrink: true,
-												}}
-											/>
-											<a href={img.url} target="_blank">
-												<Link />
-											</a>
-											<i
-												style={{
-													position: `absolute`,
-													right: `15px`,
-													cursor: `pointer`,
-												}}
-											>
-												<Delete
-													type="button"
-													onClick={() => deleteAttachment(idx)}
-													style={{ height: `2rem`, width: `auto` }}
-													color="secondary"
-												/>
-											</i>
-										</div>
-									);
-								})}
-							</>
-						)}
+
+						<DisplayImages
+							deleteArray={deleteArray}
+							image={image}
+							setImage={setImage}
+						/>
+						<DisplayAdditionalAttach
+							deleteArray={deleteArray}
+							add_attach={add_attach}
+							setAdd_attach={setAdd_attach}
+						/>
+
 						{limit > image.length && (
-							<AddAttachments
+							<AddImages
 								limit={limit - image.length}
 								attachments={newImages}
 								setAttachments={setNewImages}
 							/>
 						)}
+						<AddAttachments
+							attachments={new_attach}
+							setAttachments={setNew_attach}
+						/>
 					</DialogContent>
 					<DialogActions>
 						<Button type="submit" color="primary" disabled={submitting}>
@@ -232,6 +204,126 @@ export const EditForm = ({ data, handleClose, modal }) => {
 					</DialogActions>
 				</form>
 			</Dialog>
+		</>
+	);
+};
+
+const DisplayImages = ({ image, setImage, deleteArray }) => {
+	const handleAttachments = (e, idx) => {
+		let attach = [...image];
+		attach[idx].caption = e.target.value;
+		setImage(attach);
+	};
+	const deleteAttachment = (idx) => {
+		deleteArray.current.push(image[idx].url.split("/")[5]);
+		console.log(deleteArray.current);
+		let atch = [...image];
+		atch.splice(idx, 1);
+		setImage(atch);
+	};
+
+	return (
+		<>
+			{image && (
+				<>
+					<h2>Images</h2>
+					{image.map((img, idx) => {
+						return (
+							<div key={idx}>
+								<TextField
+									id="attachments"
+									margin="dense"
+									type="text"
+									value={img.caption}
+									onChange={(e) => handleAttachments(e, idx)}
+									InputLabelProps={{
+										shrink: true,
+									}}
+								/>
+								<a href={img.url} target="_blank">
+									<Link />
+								</a>
+								<i
+									style={{
+										position: `absolute`,
+										right: `15px`,
+										cursor: `pointer`,
+									}}
+								>
+									<Delete
+										type="button"
+										onClick={() => deleteAttachment(idx)}
+										style={{ height: `2rem`, width: `auto` }}
+										color="secondary"
+									/>
+								</i>
+							</div>
+						);
+					})}
+				</>
+			)}
+		</>
+	);
+};
+
+const DisplayAdditionalAttach = ({
+	add_attach,
+	setAdd_attach,
+	deleteArray,
+}) => {
+	const handleAttachments = (e, idx) => {
+		let attach = [...add_attach];
+		attach[idx].caption = e.target.value;
+		setAdd_attach(attach);
+	};
+	const deleteAttachment = (idx) => {
+		deleteArray.current.push(add_attach[idx].url.split("/")[5]);
+		console.log(deleteArray.current);
+		let atch = [...add_attach];
+		atch.splice(idx, 1);
+		setAdd_attach(atch);
+	};
+
+	return (
+		<>
+			{add_attach.length > 0 && (
+				<>
+					<h2>Additional Attachments</h2>
+					{add_attach.map((img, idx) => {
+						return (
+							<div key={idx}>
+								<TextField
+									id="attachments"
+									margin="dense"
+									type="text"
+									value={img.caption}
+									onChange={(e) => handleAttachments(e, idx)}
+									InputLabelProps={{
+										shrink: true,
+									}}
+								/>
+								<a href={img.url} target="_blank">
+									<Link />
+								</a>
+								<i
+									style={{
+										position: `absolute`,
+										right: `15px`,
+										cursor: `pointer`,
+									}}
+								>
+									<Delete
+										type="button"
+										onClick={() => deleteAttachment(idx)}
+										style={{ height: `2rem`, width: `auto` }}
+										color="secondary"
+									/>
+								</i>
+							</div>
+						);
+					})}
+				</>
+			)}
 		</>
 	);
 };

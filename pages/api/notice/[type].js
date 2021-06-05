@@ -25,14 +25,17 @@ const handler = async (req, res) => {
     `
       );
     } else if (type == "active") {
+
       results = await query(
         `
         SELECT * from notices where openDate<? and closeDate>? and isVisible=1`,
         [now, now]
       );
+
     } else if (type == "range") {
       const start = req.body.start_date;
       const end = req.body.end_date;
+
 
       results = await query(
         `
@@ -44,6 +47,7 @@ const handler = async (req, res) => {
         `
       select * from notices where isDept=1 and department=?`,
         [fdept[type]]
+
       );
     }
     let array = JSON.parse(JSON.stringify(results));
