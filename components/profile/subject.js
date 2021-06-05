@@ -7,6 +7,12 @@ import TextField from "@material-ui/core/TextField";
 import { useSession } from "next-auth/client";
 import React, { useState } from "react";
 import { AddAttachments } from "./../common-props/add-attachment";
+import Grid from "@material-ui/core/Grid";
+import Select from "@material-ui/core/Select";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import DateFnsUtils from "@date-io/date-fns";
+import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
 
 export const AddForm = ({ handleClose, modal }) => {
   const [session, loading] = useSession();
@@ -14,7 +20,7 @@ export const AddForm = ({ handleClose, modal }) => {
     code: "",
     name: "",
     start: "",
-    end: "",
+    end:new Date(),
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -26,15 +32,13 @@ export const AddForm = ({ handleClose, modal }) => {
   const handleSubmit = async (e) => {
     setSubmitting(true);
     e.preventDefault();
-    let start = new Date(content.start);
-		let end = new Date(content.end);
-		start = start.getTime();
-		end = end.getTime();
-	
+
+    let end = new Date(content.end);
+    end = end.getTime();
+
     let data = {
       ...content,
-      start:start,
-      end:end,
+      end: end,
       id: Date.now(),
       email: session.user.email,
     };
@@ -72,7 +76,7 @@ export const AddForm = ({ handleClose, modal }) => {
             <TextField
               margin="dense"
               id="labelcode"
-              label="code"
+              label="Subject_Code"
               name="code"
               type="text"
               required
@@ -83,7 +87,7 @@ export const AddForm = ({ handleClose, modal }) => {
             <TextField
               margin="dense"
               id="labelname"
-              label="name"
+              label="Subject_Name"
               name="name"
               type="text"
               required
@@ -91,7 +95,7 @@ export const AddForm = ({ handleClose, modal }) => {
               onChange={(e) => handleChange(e)}
               value={content.name}
             />
-            <TextField
+            {/* <TextField
               margin="dense"
               id="labelsession"
               label="Session Start Date"
@@ -104,11 +108,25 @@ export const AddForm = ({ handleClose, modal }) => {
               InputLabelProps={{
 								shrink: true,
 							}}
-            />
-            <TextField
+            /> */}
+
+            <InputLabel id="select" shrink={true} margin="dense">Session</InputLabel>
+            <Select
+              variant="outlined"
+              labelId="select"
+              id="simple-select"
+              name="start"
+              value={content.start}
+              onChange={(e) => handleChange(e)}
+            >
+              <MenuItem value={"Spring"}>Spring</MenuItem>
+              <MenuItem value={"Summer"}>Summer</MenuItem>
+              <MenuItem value={"Autumn"}>Autumn</MenuItem>
+            </Select>
+            {/* <TextField
               margin="dense"
               id="labelsession"
-              label="Session End Date"
+              label="Year"
               name="end"
               type="date"
               required
@@ -116,9 +134,24 @@ export const AddForm = ({ handleClose, modal }) => {
               onChange={(e) => handleChange(e)}
               value={content.end}
               InputLabelProps={{
-								shrink: true,
-							}}
-            />
+                shrink: true,
+              }}
+            /> */}
+            
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <Grid container justify="flex-start">
+                <DatePicker
+                  openTo="year"
+                  name="end"
+                  format="yyyy"
+                  views={["year"]}
+                  label="Year"
+                  value={content.end}
+                  onChange={(e) => setContent({ ...content, end: e})}
+                />
+              </Grid>
+            </MuiPickersUtilsProvider>
+
           </DialogContent>
           <DialogActions>
             {submitting ? (

@@ -6,13 +6,15 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 import { useSession } from "next-auth/client";
 import React, { useState } from "react";
-import { AddAttachments } from "./../common-props/add-attachment";
+import DateFnsUtils from "@date-io/date-fns";
+import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
+import Grid from "@material-ui/core/Grid";
 
 export const AddCurrent = ({ handleClose, modal }) => {
   const [session, loading] = useSession();
   const [content, setContent] = useState({
     curr_responsibility: "",
-    start: "",
+    start: new Date(),
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -74,7 +76,7 @@ export const AddCurrent = ({ handleClose, modal }) => {
               onChange={(e) => handleChange(e)}
               value={content.curr_responsibility}
             />
-            <TextField
+            {/* <TextField
               margin="dense"
               id="labelstart"
               label="Start Date"
@@ -87,7 +89,21 @@ export const AddCurrent = ({ handleClose, modal }) => {
               InputLabelProps={{
                 shrink: true,
               }}
-            />
+            /> */}
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <Grid container justify="flex-start">
+                <DatePicker
+                  openTo="year"
+                  name="start"
+                  format="MM/yyyy"
+                  views={["year", "month"]}
+                  label="Start-Date"
+                  value={content.start}
+                  onChange={(e) => setContent({ ...content, start: e })}
+                />
+              </Grid>
+            </MuiPickersUtilsProvider>
+
           </DialogContent>
           <DialogActions>
             {submitting ? (

@@ -115,7 +115,7 @@ async function migrate() {
                 email varchar(100),
                 code text NOT NULL,
                 name text NOT NULL,
-                start bigint,
+                start text NOT NULL,
                 end bigint,
                 PRIMARY KEY(id)
             );`).catch((e) => console.log(e));

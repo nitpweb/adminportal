@@ -405,10 +405,10 @@ export default function Profilepage(props) {
                       <h4>Subject Name</h4>
                     </td>
                     <td>
-                      <h4>Start-Date</h4>
+                      <h4>Session</h4>
                     </td>
                     <td>
-                      <h4>End-Date</h4>
+                      <h4>Year</h4>
                     </td>
                   </tr>
                   {detail.subjects_teaching &&
@@ -423,13 +423,11 @@ export default function Profilepage(props) {
                           </td>
                           <td>
                             <p>
-                              {new Date(item.start).getMonth() + 1} /{" "}
-                              {new Date(item.start).getFullYear()}
+                              {item.start}
                             </p>
                           </td>
                           <td>
                             <p>
-                              {new Date(item.end).getMonth() + 1} /{" "}
                               {new Date(item.end).getFullYear()}
                             </p>
                           </td>
