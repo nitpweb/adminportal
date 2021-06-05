@@ -6,15 +6,17 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 import { useSession } from "next-auth/client";
 import React, { useState } from "react";
-import { AddAttachments } from "./../common-props/add-attachment";
+import DateFnsUtils from "@date-io/date-fns";
+import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
+import Grid from "@material-ui/core/Grid";
 
 export const AddSociety = ({ handleClose, modal }) => {
   const [session, loading] = useSession();
   const [content, setContent] = useState({
     membership_id: "",
     membership_society: "",
-    start:"",
-    end:"",
+    start: new Date(),
+    end: new Date(),
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -27,13 +29,13 @@ export const AddSociety = ({ handleClose, modal }) => {
     setSubmitting(true);
     e.preventDefault();
     let start = new Date(content.start);
-		let end = new Date(content.end);
-		start = start.getTime();
-		end = end.getTime();
+    let end = new Date(content.end);
+    start = start.getTime();
+    end = end.getTime();
     let data = {
       ...content,
-      start:start,
-      end:end,
+      start: start,
+      end: end,
       id: Date.now(),
       email: session.user.email,
     };
@@ -91,7 +93,7 @@ export const AddSociety = ({ handleClose, modal }) => {
               onChange={(e) => handleChange(e)}
               value={content.membership_society}
             />
-            <TextField
+            {/* <TextField
               margin="dense"
               id="societyStart"
               label="Start Date"
@@ -118,7 +120,36 @@ export const AddSociety = ({ handleClose, modal }) => {
               InputLabelProps={{
                 shrink: true,
               }}
-            />
+            /> */}
+
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <Grid container justify="flex-start">
+                <DatePicker
+                  openTo="year"
+                  name="start"
+                  format="MM/yyyy"
+                  views={["year", "month"]}
+                  label="Start-Date"
+                  value={content.start}
+                  onChange={(e) => setContent({ ...content, start: e })}
+                />
+              </Grid>
+            </MuiPickersUtilsProvider>
+
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <Grid container justify="flex-start">
+                <DatePicker
+                  openTo="year"
+                  name="end"
+                  format="MM/yyyy"
+                  views={[ "month","year"]}
+                  label="End-Date"
+                  value={content.end}
+                  onChange={(e) => setContent({ ...content, end: e })}
+                />
+              </Grid>
+            </MuiPickersUtilsProvider>
+
           </DialogContent>
           <DialogActions>
             {submitting ? (

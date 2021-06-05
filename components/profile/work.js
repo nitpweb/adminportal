@@ -6,15 +6,17 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 import { useSession } from "next-auth/client";
 import React, { useState } from "react";
-import { AddAttachments } from "./../common-props/add-attachment";
+import DateFnsUtils from "@date-io/date-fns";
+import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
+import Grid from "@material-ui/core/Grid";
 
 export const AddWork = ({ handleClose, modal }) => {
   const [session, loading] = useSession();
   const [content, setContent] = useState({
     work_experiences: "",
-    institute:"",
-    start:"",
-    end:"",
+    institute: "",
+    start: new Date(),
+    end: new Date(),
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -28,14 +30,14 @@ export const AddWork = ({ handleClose, modal }) => {
     e.preventDefault();
 
     let start = new Date(content.start);
-		let end = new Date(content.end);
-		start = start.getTime();
-		end = end.getTime();
+    let end = new Date(content.end);
+    start = start.getTime();
+    end = end.getTime();
 
     let data = {
       ...content,
-      start:start,
-      end:end,
+      start: start,
+      end: end,
       id: Date.now(),
       email: session.user.email,
     };
@@ -92,34 +94,33 @@ export const AddWork = ({ handleClose, modal }) => {
               onChange={(e) => handleChange(e)}
               value={content.institute}
             />
-             <TextField
-              margin="dense"
-              id="workStart"
-              label="Start Date"
-              name="start"
-              type="date"
-              required
-              fullWidth
-              onChange={(e) => handleChange(e)}
-              value={content.start}
-              InputLabelProps={{
-								shrink: true,
-							}}
-            />
-            <TextField
-              margin="dense"
-              id="workEnd"
-              label="End Date"
-              name="end"
-              type="date"
-              required
-              fullWidth
-              onChange={(e) => handleChange(e)}
-              value={content.end}
-              InputLabelProps={{
-								shrink: true,
-							}}
-            />
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <Grid container justify="flex-start">
+                <DatePicker
+                  openTo="year"
+                  name="start"
+                  format="MM/yyyy"
+                  views={["year", "month"]}
+                  label="Start-Date"
+                  value={content.start}
+                  onChange={(e) => setContent({ ...content, start: e })}
+                />
+              </Grid>
+            </MuiPickersUtilsProvider>
+
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+              <Grid container justify="flex-start">
+                <DatePicker
+                  openTo="year"
+                  name="end"
+                  format="MM/yyyy"
+                  views={["year", "month"]}
+                  label="End-Date"
+                  value={content.end}
+                  onChange={(e) => setContent({ ...content, end: e })}
+                />
+              </Grid>
+            </MuiPickersUtilsProvider>
           </DialogContent>
           <DialogActions>
             {submitting ? (
