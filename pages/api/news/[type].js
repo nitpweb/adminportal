@@ -14,14 +14,13 @@ const handler = async (req, res) => {
 			);
 		} else if (type == "active") {
 			results = await query(`
-        SELECT * from news where openDate<${now} and closeDate>${now};
-        `);
+        SELECT * from news where openDate<? and closeDate>?`,[now,now]);
 		} else if (type == "range") {
 			const start = req.body.start_date;
 			const end = req.body.end_date;
 
 			results = await query(`
-			SELECT * from news where closeDate<=${end} and openDate>=${start}`).catch(
+			SELECT * from news where closeDate<=? and openDate>=?`,[end, start]).catch(
 				(err) => console.log(err)
 			);
 		}
