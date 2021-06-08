@@ -22,6 +22,7 @@ export const AddFaculty = ({ handleClose, modal }) => {
 		designation: "",
 		department: "Developer",
 		ext_no: "0",
+		administration: "",
 		research_interest: "",
 		image: null,
 		role: 3,
@@ -100,6 +101,7 @@ export const AddFaculty = ({ handleClose, modal }) => {
 							onChange={(e) => handleChange(e)}
 							value={content.designation}
 						/>
+
 						<TextField
 							margin="dense"
 							id="research_interest"
@@ -129,6 +131,29 @@ export const AddFaculty = ({ handleClose, modal }) => {
 								<MenuItem value={1}>Admin</MenuItem>
 								<MenuItem value={2}>HOD</MenuItem>
 								<MenuItem value={3}>Faculty</MenuItem>
+							</Select>
+						</FormControl>
+
+						<FormControl
+							style={{ margin: `10px auto`, width: `100%` }}
+							required
+						>
+							<InputLabel id="demo-dialog-select-label2">
+								Administration Type
+							</InputLabel>
+
+							<Select
+								labelId="demo-dialog-select-label2"
+								id="demo-dialog-select2"
+								name="administration"
+								fullWidth
+								value={content.administration}
+								onChange={(e) => handleChange(e)}
+								input={<Input />}
+							>
+								<MenuItem value={"null"}>NULL</MenuItem>
+								<MenuItem value="academics">Academics</MenuItem>
+								<MenuItem value="tender">Tender</MenuItem>
 							</Select>
 						</FormControl>
 

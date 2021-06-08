@@ -100,7 +100,7 @@ const handler = async (req, res) => {
 				(session.user.role == 1 || session.user.email == params.email)
 			) {
 				let result = await query(
-					`UPDATE users SET name=?,email=?,role=?,department=?,designation=?,ext_no=?` +
+					`UPDATE users SET name=?,email=?,role=?,department=?,designation=?,ext_no=?,administration=?` +
 						`,research_interest=? WHERE id=?`,
 					[
 						params.name,
@@ -109,6 +109,7 @@ const handler = async (req, res) => {
 						params.department,
 						params.designation,
 						params.ext_no,
+						params.administration,
 						params.research_interest,
 						params.id,
 					]

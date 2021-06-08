@@ -146,6 +146,29 @@ export const EditFaculty = ({ data, handleClose, modal }) => {
 							style={{ margin: `10px auto`, width: `100%` }}
 							required
 						>
+							<InputLabel id="demo-dialog-select-label2">
+								Administration Type
+							</InputLabel>
+
+							<Select
+								labelId="demo-dialog-select-label2"
+								id="demo-dialog-select2"
+								name="administration"
+								fullWidth
+								value={content.administration}
+								onChange={(e) => handleChange(e)}
+								input={<Input />}
+							>
+								<MenuItem value={"NULL"}>NULL</MenuItem>
+								<MenuItem value="academics">Academics</MenuItem>
+								<MenuItem value="tender">Tender</MenuItem>
+							</Select>
+						</FormControl>
+
+						<FormControl
+							style={{ margin: `10px auto`, width: `100%` }}
+							required
+						>
 							<InputLabel id="department">Department</InputLabel>
 							<Select
 								labelId="branch"
