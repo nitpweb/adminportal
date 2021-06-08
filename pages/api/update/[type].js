@@ -19,7 +19,7 @@ const handler = async (req, res) => {
 					params.main_attachment = JSON.stringify(params.main_attachment);
 					let result = await query(
 						`UPDATE notices SET title=?,timestamp=?,openDate=?,closeDate=?,important=?,` +
-							`attachments=?,notice_link=?,isVisible=?,email=? WHERE id=?`,
+							`attachments=?,notice_link=?,isVisible=?,email=?,notice_type=? WHERE id=?`,
 						[
 							params.title,
 							params.timestamp,
@@ -30,6 +30,7 @@ const handler = async (req, res) => {
 							params.main_attachment,
 							params.isVisible,
 							params.email,
+							params.notice_type,
 							params.id,
 						]
 					);
