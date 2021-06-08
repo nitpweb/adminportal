@@ -151,9 +151,7 @@ const DataDisplay = (props) => {
 						<Paper
 							className={classes.paper}
 							style={{ textAlign: `center`, cursor: `pointer` }}
-						>
-							Not Authorized
-						</Paper>{" "}
+						></Paper>{" "}
 					</Grid>
 				)}
 			</React.Fragment>

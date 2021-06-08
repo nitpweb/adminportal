@@ -25,7 +25,7 @@ export const AddForm = ({ handleClose, modal }) => {
 		department: "",
 		isVisible: true,
 		important: false,
-		notice_type: "general",
+		notice_type: "department",
 	});
 
 	const [attachments, setAttachments] = useState([]);
@@ -202,10 +202,16 @@ export const AddForm = ({ handleClose, modal }) => {
 								onChange={(e) => handleChange(e)}
 								input={<Input />}
 							>
-								<MenuItem value="general">General</MenuItem>
+								{session.user.role == 1 && (
+									<MenuItem value="general">General</MenuItem>
+								)}
 								<MenuItem value="department">Department</MenuItem>
-								<MenuItem value="tender">Tender</MenuItem>
-								<MenuItem value="academics">Academics</MenuItem>
+								{(session.user.role == 1 || session.user.role == 4) && (
+									<MenuItem value="tender">Tender</MenuItem>
+								)}
+								{(session.user.role == 1 || session.user.role == 5) && (
+									<MenuItem value="academics">Academic</MenuItem>
+								)}
 							</Select>
 						</FormControl>
 

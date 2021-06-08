@@ -12,7 +12,10 @@ const handler = async (req, res) => {
 
 			if (
 				session.user.role === 1 ||
-				(session.user.role === 2 && session.user.email == params.email)
+				((session.user.role === 2 ||
+					session.user.role === 4 ||
+					session.user.role === 5) &&
+					session.user.email == params.email)
 			) {
 				if (type == "notice") {
 					params.attachments = JSON.stringify(params.attachments);
@@ -35,7 +38,14 @@ const handler = async (req, res) => {
 						]
 					);
 					return res.json(result);
-				} else if (type == "event") {
+				}
+			}
+
+			if (
+				session.user.role === 1 ||
+				(session.user.role === 2 && session.user.email == params.email)
+			) {
+				if (type == "event") {
 					params.attachments = JSON.stringify(params.attachments);
 					params.main_attachment = JSON.stringify(params.main_attachment);
 

@@ -5,11 +5,23 @@ import { getSession } from "next-auth/client";
 const handler = async (req, res) => {
   const session = await getSession({ req });
 
+
   if (session) {
     const { type } = req.query;
     try {
       let params =req.body; 
       // console.log(params);
+
+   	if (
+				session.user.role === 1 ||
+				(session.user.role === 2 ||
+					session.user.role === 4 ||
+					session.user.role === 5)
+			) {  if (type == "notice") {
+          let result = await query(`DELETE from notices WHERE id = ${params}`);
+          return res.json(result);
+        }}
+
       if (session.user.role == 1 || session.user.role == 2) {
         if (type == "user" && session.user.role == 1) {
 
@@ -36,10 +48,7 @@ const handler = async (req, res) => {
         
       }     
           return res.json({message:'USER DELETED SUCCESSFULLY .'});
-        } else if (type == "notice") {
-          let result = await query(`DELETE from notices WHERE id = ${params}`);
-          return res.json(result);
-        } else if (type == "event") {
+        }  else if (type == "event") {
           // console.log(params);
           let result = await query(`DELETE from events WHERE id = ${params}`);
           return res.json(result);

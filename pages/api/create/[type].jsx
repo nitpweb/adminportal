@@ -11,24 +11,13 @@ const handler = async (req, res) => {
     try {
       let params = req.body;
 
-      if (session.user.role == 1 || session.user.role == 2) {
-        if (session.user.role == 1 && type == "user") {
-          let result = await query(
-            `INSERT INTO users (name,email,role,department,designation,administration,ext_no,research_interest) values (` +
-            `?,?,?,?,?,?,?,?)`,
-            [
-              params.name,
-              params.email,
-              params.role,
-              params.department,
-              params.designation,
-              params.administration,
-              params.ext_no,
-              params.research_interest,
-            ]
-          ).catch(err => console.log(err));
-          return res.json(result);
-        } else if (type == "notice") {
+	if (
+				session.user.role === 1 ||
+				(session.user.role === 2 ||
+					session.user.role === 4 ||
+					session.user.role === 5)
+			)
+     { if (type == "notice") {
           params.attachments = JSON.stringify(params.attachments);
           params.main_attachment = JSON.stringify(params.main_attachment)
           let result = await query(
@@ -50,7 +39,26 @@ const handler = async (req, res) => {
             ],
           ).catch(err=>console.log(err));
           return res.json(result);
-        } else if (type == "event") {
+        }}
+
+      if (session.user.role == 1 || session.user.role == 2) {
+        if (session.user.role == 1 && type == "user") {
+          let result = await query(
+            `INSERT INTO users (name,email,role,department,designation,administration,ext_no,research_interest) values (` +
+            `?,?,?,?,?,?,?,?)`,
+            [
+              params.name,
+              params.email,
+              params.role,
+              params.department,
+              params.designation,
+              params.administration,
+              params.ext_no,
+              params.research_interest,
+            ]
+          ).catch(err => console.log(err));
+          return res.json(result);
+        }   else if (type == "event") {
           params.attachments = JSON.stringify(params.attachments);
              params.main_attachment = JSON.stringify(params.main_attachment)
           let result = await query(

@@ -128,8 +128,8 @@ export const AddFaculty = ({ handleClose, modal }) => {
 								onChange={(e) => handleChange(e)}
 								input={<Input />}
 							>
-								<MenuItem value={1}>Admin</MenuItem>
-								<MenuItem value={2}>HOD</MenuItem>
+								<MenuItem value={1}>Super Admin</MenuItem>
+								<MenuItem value={2}>Admin</MenuItem>
 								<MenuItem value={3}>Faculty</MenuItem>
 							</Select>
 						</FormControl>
