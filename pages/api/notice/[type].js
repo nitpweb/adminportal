@@ -24,6 +24,12 @@ const handler = async (req, res) => {
       SELECT * from notices where notice_type='general' ORDER BY openDate DESC;
     `
       );
+    }  if (type === "whole") {
+      results = await query(
+        `
+      SELECT * from notices ORDER BY openDate DESC;
+    `
+      );
     } else if (type == "tender") {
       results = await query(
         `
@@ -39,7 +45,7 @@ const handler = async (req, res) => {
     } else if (type == "active") {
       results = await query(
         `
-        SELECT * from notices where openDate<? and closeDate>? and isVisible=1 ORDER BY openDate DESC`,
+        SELECT * from notices where notice_type='general' and openDate<? and closeDate>? and isVisible=1 ORDER BY openDate DESC`,
         [now, now]
       );
     } else if (type == "range") {

@@ -16,7 +16,7 @@ const Wrap = styled.div`
 `;
 
 export default function Page() {
-	const { entries, isLoading } = useEntries('/api/notice/all');
+	const { entries, isLoading } = useEntries('/api/notice/whole');
 	const [session, loading] = useSession();
 	const router = useRouter();
 
