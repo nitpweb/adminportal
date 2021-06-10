@@ -21,21 +21,30 @@ const handler = async (req, res) => {
     if (type === "all") {
       results = await query(
         `
-      SELECT * from notices ORDER BY openDate DESC;
+      SELECT * from notices where notice_type='general' ORDER BY openDate DESC;
+    `
+      );
+    } else if (type == "tender") {
+      results = await query(
+        `
+      SELECT * from notices where notice_type='tender' ORDER BY openDate DESC;
+    `
+      );
+    } else if (type == "academics") {
+      results = await query(
+        `
+      SELECT * from notices where notice_type='academics' ORDER BY openDate DESC;
     `
       );
     } else if (type == "active") {
-
       results = await query(
         `
         SELECT * from notices where openDate<? and closeDate>? and isVisible=1 ORDER BY openDate DESC`,
         [now, now]
       );
-
     } else if (type == "range") {
       const start = req.body.start_date;
       const end = req.body.end_date;
-
 
       results = await query(
         `
@@ -45,11 +54,11 @@ const handler = async (req, res) => {
     } else if (type in fdept) {
       results = await query(
         `
-      select * from notices where isDept=1 and department=? ORDER BY openDate DESC`,
+      select * from notices where notice_type='department' and department=? ORDER BY openDate DESC`,
         [fdept[type]]
-
       );
     }
+
     let array = JSON.parse(JSON.stringify(results));
     array.forEach((element) => {
       element.attachments = JSON.parse(element.attachments);

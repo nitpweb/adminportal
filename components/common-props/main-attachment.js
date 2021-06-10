@@ -40,15 +40,6 @@ export const MainAttachment = ({
 					style={{ width: `20%` }}
 					label="Link"
 				/>
-				<TextField
-					placeholder={placeholder}
-					name="caption"
-					required
-					value={mainAttachment.caption}
-					fullWidth
-					onChange={(e) => handleChange(e)}
-					style={{ margin: `8px`, display: "inline" }}
-				/>
 				<div style={{ display: "flex" }}>
 					{mainAttachment.typeLink ? (
 						<TextField
