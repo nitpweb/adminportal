@@ -126,7 +126,7 @@ const useStyles = makeStyles({
 	},
 });
 
-const roles = [null, "Admin", "HOD", "Faculty"];
+const roles = [null, "Super Admin", "Admin", "Faculty", "Faculty", "Faculty"];
 
 const FacultyTableRow = ({ row }) => {
 	const [editModal, setEditModal] = useState(false);
@@ -149,6 +149,9 @@ const FacultyTableRow = ({ row }) => {
 				<StyledTableCell align="right">{row.designation}</StyledTableCell>
 				<StyledTableCell align="right">{row.department}</StyledTableCell>
 				<StyledTableCell align="right">{roles[row.role]}</StyledTableCell>
+				<StyledTableCell align="right">
+					{row.administration || "null"}
+				</StyledTableCell>
 				<StyledTableCell align="right">{row.ext_no}</StyledTableCell>
 				<StyledTableCell
 					align="right"
@@ -226,6 +229,7 @@ export const FacultyTable = ({ rows }) => {
 							<StyledTableCell align="right">Designation</StyledTableCell>
 							<StyledTableCell align="right">Department</StyledTableCell>
 							<StyledTableCell align="right">Role</StyledTableCell>
+							<StyledTableCell align="right">Administration</StyledTableCell>
 							<StyledTableCell align="right">Ext no.</StyledTableCell>
 							<StyledTableCell align="right">Modify</StyledTableCell>
 						</TableRow>

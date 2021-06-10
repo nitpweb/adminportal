@@ -12,14 +12,17 @@ const handler = async (req, res) => {
 
 			if (
 				session.user.role === 1 ||
-				(session.user.role === 2 && session.user.email == params.email)
+				((session.user.role === 2 ||
+					session.user.role === 4 ||
+					session.user.role === 5) &&
+					session.user.email == params.email)
 			) {
 				if (type == "notice") {
 					params.attachments = JSON.stringify(params.attachments);
 					params.main_attachment = JSON.stringify(params.main_attachment);
 					let result = await query(
 						`UPDATE notices SET title=?,timestamp=?,openDate=?,closeDate=?,important=?,` +
-							`attachments=?,notice_link=?,isVisible=?,email=? WHERE id=?`,
+							`attachments=?,notice_link=?,isVisible=?,email=?,notice_type=? WHERE id=?`,
 						[
 							params.title,
 							params.timestamp,
@@ -30,11 +33,19 @@ const handler = async (req, res) => {
 							params.main_attachment,
 							params.isVisible,
 							params.email,
+							params.notice_type,
 							params.id,
 						]
 					);
 					return res.json(result);
-				} else if (type == "event") {
+				}
+			}
+
+			if (
+				session.user.role === 1 ||
+				(session.user.role === 2 && session.user.email == params.email)
+			) {
+				if (type == "event") {
 					params.attachments = JSON.stringify(params.attachments);
 					params.main_attachment = JSON.stringify(params.main_attachment);
 
@@ -100,7 +111,7 @@ const handler = async (req, res) => {
 				(session.user.role == 1 || session.user.email == params.email)
 			) {
 				let result = await query(
-					`UPDATE users SET name=?,email=?,role=?,department=?,designation=?,ext_no=?` +
+					`UPDATE users SET name=?,email=?,role=?,department=?,designation=?,ext_no=?,administration=?` +
 						`,research_interest=? WHERE id=?`,
 					[
 						params.name,
@@ -109,6 +120,7 @@ const handler = async (req, res) => {
 						params.department,
 						params.designation,
 						params.ext_no,
+						params.administration,
 						params.research_interest,
 						params.id,
 					]

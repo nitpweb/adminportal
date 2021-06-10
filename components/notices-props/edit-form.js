@@ -12,6 +12,12 @@ import {
 	AddAttachments,
 	handleNewAttachments,
 } from "./../common-props/add-attachment";
+import { FormControl } from "@material-ui/core";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import Input from "@material-ui/core/Input";
+
 import { dateformatter } from "./../common-props/date-formatter";
 import { ConfirmDelete } from "./confirm-delete";
 
@@ -25,6 +31,7 @@ export const EditForm = ({ data, handleClose, modal }) => {
 		openDate: dateformatter(data.openDate),
 		main_attachment: JSON.parse(data.notice_link) || {},
 		closeDate: dateformatter(data.closeDate),
+		notice_type: data.notice_type,
 		isVisible: data.isVisible ? true : false,
 		important: data.important ? true : false,
 	});
@@ -211,6 +218,31 @@ export const EditForm = ({ data, handleClose, modal }) => {
 							}
 							label="Visibility"
 						/>
+
+						<FormControl
+							style={{ margin: `10px auto`, width: `100%` }}
+							required
+						>
+							<InputLabel id="demo-dialog-select-label30">
+								Notice Type
+							</InputLabel>
+
+							<Select
+								labelId="demo-dialog-select-label30"
+								id="demo-dialog-select30"
+								name="notice_type"
+								fullWidth
+								disabled
+								value={content.notice_type}
+								onChange={(e) => handleChange(e)}
+								input={<Input />}
+							>
+								<MenuItem value="general">General</MenuItem>
+								<MenuItem value="department">Department</MenuItem>
+								<MenuItem value="tender">Tender</MenuItem>
+								<MenuItem value="academics">Academics</MenuItem>
+							</Select>
+						</FormControl>
 
 						{content.main_attachment && (
 							<>
