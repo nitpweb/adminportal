@@ -41,7 +41,7 @@ const handler = async (req, res) => {
           return res.json(result);
         }}
 
-      if (session.user.role == 1 || session.user.role == 2) {
+      if (session.user.role == 1) {
         if (session.user.role == 1 && type == "user") {
           let result = await query(
             `INSERT INTO users (name,email,role,department,designation,administration,ext_no,research_interest) values (` +

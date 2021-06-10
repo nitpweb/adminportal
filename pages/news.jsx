@@ -4,7 +4,6 @@ import LoadAnimation from "@/components/loading";
 import styled from "styled-components";
 import DataDisplay from "@/components/display-news";
 import { useSession } from "next-auth/client";
-import { useRouter } from "next/router";
 import Loading from "../components/loading";
 import Sign from "../components/signin";
 import Unauthorise from "../components/unauthorise";
@@ -18,23 +17,22 @@ const Wrap = styled.div`
 export default function Page() {
 	const { entries, isLoading } = useEntries("/api/news/all");
 	const [session,loading] = useSession();
-	const router = useRouter();
 
 	if (typeof window !== 'undefined' && loading) return <Loading />
 
 
 
-	if (session && (session.user.role === 1 || session.user.role === 2)) {
-		return (
-			<Layout>
+	if (session) {
+		return (<>
+			{session.user.role == 1 ? <Layout>
 				<Wrap>
 					{isLoading ? <LoadAnimation /> : <DataDisplay data={entries} />}
 				</Wrap>
-			</Layout>
+			</Layout> : <Unauthorise />
+			}
+			</>
 		);
 	}
-	if (session && session.user.role === 3) {
-		return <Unauthorise />
-	}
+	
 	return <Sign />
 }

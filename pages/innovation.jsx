@@ -17,24 +17,27 @@ const Wrap = styled.div`
 
 export default function Page() {
 	const { entries, isLoading } = useEntries('/api/innovation/all');
-	const [session,loading] = useSession();
+	const [session, loading] = useSession();
 	const router = useRouter();
 
 	if (typeof window !== 'undefined' && loading) return <Loading />
 
 
 
-	if (session && (session.user.role === 1 || session.user.role === 2)) {
-		return (
-			<Layout>
-				<Wrap>
-					{isLoading ? <LoadAnimation /> : <DataDisplay data={entries} />}
-				</Wrap>
-			</Layout>
+	if (session) {
+		return (<>
+			{
+				session.user.role == 1 ?
+					<Layout>
+						<Wrap>
+							{isLoading ? <LoadAnimation /> : <DataDisplay data={entries} />}
+						</Wrap>
+					</Layout> : <Unauthorise />
+
+			}
+		</>
 		);
 	}
-	if (session && session.user.role === 3) {
-		return <Unauthorise />
-	}
+
 	return <Sign />
 }

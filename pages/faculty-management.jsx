@@ -23,17 +23,20 @@ export default function Page() {
 
 
 
-	if (session && session.user.role === 1) {
-		return (
-			<Layout>
-				<Wrap>
-					{isLoading ? <LoadAnimation /> : <FacultyTable rows={entries} />}
-				</Wrap>
-			</Layout>
+	if (session) {
+		return (<>
+			{session.user.role === 1 ?
+				<Layout>
+					<Wrap>
+						{isLoading ? <LoadAnimation /> : <FacultyTable rows={entries} />}
+					</Wrap>
+				</Layout>
+				:
+				<Unauthorise />
+			}
+		</>
 		);
 	}
-	if (session && (session.user.role === 2 || session.user.role === 3)) {
-		return <Unauthorise />
-	}
+
 	return <Sign />
 }

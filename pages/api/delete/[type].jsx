@@ -22,7 +22,7 @@ const handler = async (req, res) => {
           return res.json(result);
         }}
 
-      if (session.user.role == 1 || session.user.role == 2) {
+      if (session.user.role == 1) {
         if (type == "user" && session.user.role == 1) {
 
            let array = [
