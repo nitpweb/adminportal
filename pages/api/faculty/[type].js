@@ -1,4 +1,5 @@
 import { NextApiHandler } from "next";
+import { depList, facultyTables } from "../../../lib/const";
 import { query } from "../../../lib/db";
 
 const handler = async (req, res) => {
@@ -10,47 +11,25 @@ const handler = async (req, res) => {
     return res.json(array);
   }
   try {
-    const fdept = {
-      arch: "Architecture",
-      che: "Chemistry",
-      ce: "Civil Engineering",
-      cse: "Computer Science and Engineering",
-      ee: "Electrical Engineering",
-      ece: "Electronics and Communication Engineering",
-      hss: "Humanities & Social Sciences",
-      maths: "Mathematics",
-      me: "Mechanical Engineering",
-      phy: "Physics",
-    };
+    const fdept = depList;
     let results;
 
-    if (type in fdept) {
+    if (depList.has(type)) {
       results = await query(
         `
       select * from users where department=?`,
-        [fdept[type]]
+        [depList.get(type)]
       );
     } else {
       results = {};
-      let data = await query(`SELECT * FROM users WHERE email=?`, [String(type)]).catch(
-        (e) => {
-          console.log(e);
-        }
-      );
+      let data = await query(`SELECT * FROM users WHERE email=?`, [
+        String(type),
+      ]).catch((e) => {
+        console.log(e);
+      });
       let profile = JSON.parse(JSON.stringify(data))[0];
       results["profile"] = profile;
-      let array = [
-        "curr_admin_responsibility",
-        "education",
-        "memberships",
-        "past_admin_responsibility",
-        "phd_candidates",
-        "professional_service",
-        "project",
-        "publications",
-        "subjects_teaching",
-        "work_experience",
-      ];
+      let array = facultyTables;
       for (let i = 0; i < array.length; i++) {
         let element = array[i];
         let data = await query(`SELECT * FROM ${element} WHERE email=?`, [

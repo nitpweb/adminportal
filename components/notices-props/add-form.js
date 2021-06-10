@@ -15,6 +15,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
 import Input from "@material-ui/core/Input";
+import { administrationList } from "@/lib/const";
 
 export const AddForm = ({ handleClose, modal }) => {
   const [session, loading] = useSession();
@@ -59,7 +60,10 @@ export const AddForm = ({ handleClose, modal }) => {
       id: now,
       isVisible: content.isVisible ? 1 : 0,
       important: content.important ? 1 : 0,
-      notice_type: content.notice_type,
+      notice_type:
+        session.user.role == 4
+          ? session.user.administration
+          : content.notice_type,
       department:
         session.user.role == 1 ? content.department : session.user.department,
       openDate: open,
@@ -192,9 +196,7 @@ export const AddForm = ({ handleClose, modal }) => {
                 Notice Type
               </InputLabel>
 
-              {(session.user.role == 1 ||
-                session.user.role == 4 ||
-                session.user.role == 5) && (
+              {session.user.role == 1 && (
                 <Select
                   labelId="demo-dialog-select-label30"
                   id="demo-dialog-select30"
@@ -204,17 +206,11 @@ export const AddForm = ({ handleClose, modal }) => {
                   onChange={(e) => handleChange(e)}
                   input={<Input />}
                 >
-                  {session.user.role == 1 && (
-                    <MenuItem value="general">General</MenuItem>
-                  )}
-
+                  <MenuItem value="general">General</MenuItem>)
                   <MenuItem value="department">Department</MenuItem>
-                  {(session.user.role == 1 || session.user.role == 4) && (
-                    <MenuItem value="tender">Tender</MenuItem>
-                  )}
-                  {(session.user.role == 1 || session.user.role == 5) && (
-                    <MenuItem value="academics">Academic</MenuItem>
-                  )}
+                  {[...administrationList].map(([key, value]) => (
+                    <MenuItem value={key}>{value}</MenuItem>
+                  ))}
                 </Select>
               )}
             </FormControl>

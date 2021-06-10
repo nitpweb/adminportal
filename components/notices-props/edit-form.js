@@ -226,22 +226,6 @@ export const EditForm = ({ data, handleClose, modal }) => {
 							<InputLabel id="demo-dialog-select-label30">
 								Notice Type
 							</InputLabel>
-
-							<Select
-								labelId="demo-dialog-select-label30"
-								id="demo-dialog-select30"
-								name="notice_type"
-								fullWidth
-								disabled
-								value={content.notice_type}
-								onChange={(e) => handleChange(e)}
-								input={<Input />}
-							>
-								<MenuItem value="general">General</MenuItem>
-								<MenuItem value="department">Department</MenuItem>
-								<MenuItem value="tender">Tender</MenuItem>
-								<MenuItem value="academics">Academics</MenuItem>
-							</Select>
 						</FormControl>
 
 						{content.main_attachment && (

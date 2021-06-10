@@ -1,21 +1,10 @@
 import { query } from "../../../lib/db";
+import { administrationList, depList } from "../../../lib/const";
 
 const handler = async (req, res) => {
   const { type } = req.query;
 
   try {
-    const fdept = {
-      arch: "Architecture",
-      che: "Chemistry",
-      ce: "Civil Engineering",
-      cse: "Computer Science and Engineering",
-      ee: "Electrical Engineering",
-      ece: "Electronics and Communication Engineering",
-      hss: "Humanities & Social Sciences",
-      maths: "Mathematics",
-      me: "Mechanical Engineering",
-      phy: "Physics",
-    };
     let results;
     const now = new Date().getTime();
     if (type === "all") {
@@ -24,23 +13,19 @@ const handler = async (req, res) => {
       SELECT * from notices where notice_type='general' ORDER BY openDate DESC;
     `
       );
-    }  if (type === "whole") {
+    }
+    if (type === "whole") {
       results = await query(
         `
       SELECT * from notices ORDER BY openDate DESC;
     `
       );
-    } else if (type == "tender") {
+    } else if (administrationList.has(type)) {
       results = await query(
         `
-      SELECT * from notices where notice_type='tender' ORDER BY openDate DESC;
-    `
-      );
-    } else if (type == "academics") {
-      results = await query(
-        `
-      SELECT * from notices where notice_type='academics' ORDER BY openDate DESC;
-    `
+      SELECT * from notices where notice_type=? ORDER BY openDate DESC
+    `,
+        [type]
       );
     } else if (type == "active") {
       results = await query(
@@ -57,11 +42,11 @@ const handler = async (req, res) => {
 			SELECT * from notices where closeDate<=? and openDate>=? ORDER BY openDate DESC`,
         [end, start]
       ).catch((err) => console.log(err));
-    } else if (type in fdept) {
+    } else if (depList.has(type)) {
       results = await query(
         `
       select * from notices where notice_type='department' and department=? ORDER BY openDate DESC`,
-        [fdept[type]]
+        [depList.get(type)]
       );
     }
 

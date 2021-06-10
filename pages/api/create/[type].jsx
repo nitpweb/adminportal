@@ -11,18 +11,17 @@ const handler = async (req, res) => {
     try {
       let params = req.body;
 
-	if (
-				session.user.role === 1 ||
-				(session.user.role === 2 ||
-					session.user.role === 4 ||
-					session.user.role === 5)
-			)
-     { if (type == "notice") {
+      if (
+        session.user.role === 1 ||
+        (session.user.role === 2 ||
+          session.user.role === 4)
+      ) {
+        if (type == "notice") {
           params.attachments = JSON.stringify(params.attachments);
           params.main_attachment = JSON.stringify(params.main_attachment)
           let result = await query(
             `INSERT INTO notices (id,title,timestamp,openDate,closeDate,important,attachments,email,isVisible,notice_link,notice_type,department) VALUES ` +
-              `(?,?,?,?,?,?,?,?,?,?,?,?)`,
+            `(?,?,?,?,?,?,?,?,?,?,?,?)`,
             [
               params.id,
               params.title,
@@ -37,9 +36,10 @@ const handler = async (req, res) => {
               params.notice_type,
               params.department
             ],
-          ).catch(err=>console.log(err));
+          ).catch(err => console.log(err));
           return res.json(result);
-        }}
+        }
+      }
 
       if (session.user.role == 1) {
         if (session.user.role == 1 && type == "user") {
@@ -58,12 +58,12 @@ const handler = async (req, res) => {
             ]
           ).catch(err => console.log(err));
           return res.json(result);
-        }   else if (type == "event") {
+        } else if (type == "event") {
           params.attachments = JSON.stringify(params.attachments);
-             params.main_attachment = JSON.stringify(params.main_attachment)
+          params.main_attachment = JSON.stringify(params.main_attachment)
           let result = await query(
             `INSERT INTO events (id,title,timestamp,openDate,closeDate,venue,doclink,attachments,event_link,email) VALUES ` +
-              `(?,?,?,?,?,?,?,?,?,?)`,
+            `(?,?,?,?,?,?,?,?,?,?)`,
             [
               params.id,
               params.title,
@@ -82,7 +82,7 @@ const handler = async (req, res) => {
           params.image = JSON.stringify(params.image);
           let result = await query(
             `INSERT INTO innovation (id,title,timestamp,openDate,closeDate,description,image,author,email) VALUES ` +
-              `(?,?,?,?,?,?,?,?,?)`,
+            `(?,?,?,?,?,?,?,?,?)`,
             [
               params.id,
               params.title,
@@ -98,10 +98,10 @@ const handler = async (req, res) => {
           return res.json(result);
         } else if (type == "news") {
           params.image = JSON.stringify(params.image);
-          params.add_attach= JSON.stringify(params.add_attach)
+          params.add_attach = JSON.stringify(params.add_attach)
           let result = await query(
             `INSERT INTO news (id,title,timestamp,openDate,closeDate,description,image,attachments,author,email) VALUES ` +
-              `(?,?,?,?,?,?,?,?,?,?)`,
+            `(?,?,?,?,?,?,?,?,?,?)`,
             [
               params.id,
               params.title,
@@ -131,14 +131,14 @@ const handler = async (req, res) => {
         } else if (type == "current-responsibility") {
           let result = await query(
             `INSERT INTO curr_admin_responsibility (id,email,curr_responsibility,start) VALUES` +
-              `(?,?,?,?)`,
+            `(?,?,?,?)`,
             [params.id, params.email, params.curr_responsibility, params.start]
           );
           return res.json(result);
         } else if (type == "memberships") {
           let result = await query(
             `insert into memberships (id,email,membership_id,membership_society,start,end) values (` +
-              `?,?,?,?,?,?)`,
+            `?,?,?,?,?,?)`,
             [
               params.id,
               params.email,
@@ -152,7 +152,7 @@ const handler = async (req, res) => {
         } else if (type == "past-responsibility") {
           let result = await query(
             `INSERT INTO past_admin_responsibility (id,email,past_responsibility,start,end) VALUES` +
-              `(?,?,?,?,?)`,
+            `(?,?,?,?,?)`,
             [
               params.id,
               params.email,
@@ -165,7 +165,7 @@ const handler = async (req, res) => {
         } else if (type == "workexperience") {
           let result = await query(
             `INSERT INTO work_experience (id,email,work_experiences,institute,start,end) VALUES` +
-              `(?,?,?,?,?,?)`,
+            `(?,?,?,?,?,?)`,
             [
               params.id,
               params.email,
@@ -179,7 +179,7 @@ const handler = async (req, res) => {
         } else if (type == "subjects") {
           let result = await query(
             `INSERT INTO subjects_teaching (id,email,code,name,start,end) VALUES` +
-              `(?,?,?,?,?,?)`,
+            `(?,?,?,?,?,?)`,
             [
               params.id,
               params.email,
@@ -198,14 +198,14 @@ const handler = async (req, res) => {
           let result = await query(
             ` INSERT INTO publications (email,publication_id,publications) VALUES (?,?,?)` +
             ` ON DUPLICATE KEY UPDATE publications= ? ;`,
-            [ params.email,Date.now(), params.data, params.data],
-          ).catch((err)=>console.log(err));
+            [params.email, Date.now(), params.data, params.data],
+          ).catch((err) => console.log(err));
           console.log(result)
           return res.json(result);
         } else if (type == "project") {
           let result = await query(
             `INSERT INTO project (id,email,project,sponsor,amount,start,end) VALUES` +
-              `(?,?,?,?,?,?,?)`,
+            `(?,?,?,?,?,?,?)`,
             [
               params.id,
               params.email,
@@ -220,14 +220,14 @@ const handler = async (req, res) => {
         } else if (type == "professionalservice") {
           let result = await query(
             `INSERT INTO professional_service (id,email,services) VALUES` +
-              `(?,?,?)`,
+            `(?,?,?)`,
             [params.id, params.email, params.services]
           );
           return res.json(result);
         } else if (type == "education") {
           let result = await query(
             `INSERT INTO education (id,email,certification,institution,passing_year) VALUES` +
-              `(?,?,?,?,?)`,
+            `(?,?,?,?,?)`,
             [
               params.id,
               params.email,
@@ -240,7 +240,7 @@ const handler = async (req, res) => {
         } else if (type == "phdcandidates") {
           let result = await query(
             `INSERT INTO phd_candidates (id,email,phd_student_name,thesis_topic,start_year,completion_year) VALUES` +
-              `(?,?,?,?,?,?)`,
+            `(?,?,?,?,?,?)`,
             [
               params.id,
               params.email,

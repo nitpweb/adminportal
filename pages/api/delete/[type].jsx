@@ -9,46 +9,47 @@ const handler = async (req, res) => {
   if (session) {
     const { type } = req.query;
     try {
-      let params =req.body; 
+      let params = req.body;
       // console.log(params);
 
-   	if (
-				session.user.role === 1 ||
-				(session.user.role === 2 ||
-					session.user.role === 4 ||
-					session.user.role === 5)
-			) {  if (type == "notice") {
+      if (
+        session.user.role === 1 ||
+        session.user.role === 2 ||
+        session.user.role === 4
+      ) {
+        if (type == "notice") {
           let result = await query(`DELETE from notices WHERE id = ${params}`);
           return res.json(result);
-        }}
+        }
+      }
 
       if (session.user.role == 1) {
         if (type == "user" && session.user.role == 1) {
 
-           let array = [
-        "curr_admin_responsibility",
-        "education",
-        "memberships",
-        "past_admin_responsibility",
-        "phd_candidates",
-        "professional_service",
-        "project",
-        "publications",
-        "subjects_teaching",
-             "work_experience",
-        "users"
-      ];
-      for (let i = 0; i < array.length; i++) {
-        let element = array[i];
-        let data = await query(
-          `DELETE FROM ${element} WHERE email="${params}";`
-        ).catch((e) => {
-          console.log(e);
-        });
-        
-      }     
-          return res.json({message:'USER DELETED SUCCESSFULLY .'});
-        }  else if (type == "event") {
+          let array = [
+            "curr_admin_responsibility",
+            "education",
+            "memberships",
+            "past_admin_responsibility",
+            "phd_candidates",
+            "professional_service",
+            "project",
+            "publications",
+            "subjects_teaching",
+            "work_experience",
+            "users"
+          ];
+          for (let i = 0; i < array.length; i++) {
+            let element = array[i];
+            let data = await query(
+              `DELETE FROM ${element} WHERE email="${params}";`
+            ).catch((e) => {
+              console.log(e);
+            });
+
+          }
+          return res.json({ message: 'USER DELETED SUCCESSFULLY .' });
+        } else if (type == "event") {
           // console.log(params);
           let result = await query(`DELETE from events WHERE id = ${params}`);
           return res.json(result);
@@ -63,7 +64,7 @@ const handler = async (req, res) => {
         }
       }
 
-      params=JSON.parse(req.body)
+      params = JSON.parse(req.body)
       if (session.user.email == params.email) {
         if (type == "memberships") {
           let result = await query(
@@ -99,7 +100,7 @@ const handler = async (req, res) => {
           console.log(params.new_data.length)
           let data = JSON.stringify(params.new_data);
           let result = await query(
-            `UPDATE publications SET publications=? WHERE email=?`,[data,params.email],(err)=>console.log(err)
+            `UPDATE publications SET publications=? WHERE email=?`, [data, params.email], (err) => console.log(err)
           );
           return res.json(result);
         } else if (type == "project") {

@@ -135,17 +135,14 @@ export default function ButtonAppBar() {
               ))
             : null)}
 
-        {session &&
-          (session.user.role === 2 ||
-            session.user.role === 4 ||
-            session.user.role === 5) && (
-            <ListItem button key="Notice">
-              <ListItemIcon></ListItemIcon>
-              <Link href={`/notice`}>
-                <ListItemText primary={text} />
-              </Link>
-            </ListItem>
-          )}
+        {session && (session.user.role === 2 || session.user.role === 4) && (
+          <ListItem button key="Notice">
+            <ListItemIcon></ListItemIcon>
+            <Link href={`/notice`}>
+              <ListItemText primary={text} />
+            </Link>
+          </ListItem>
+        )}
 
         {session &&
           (session.user.role === 1 ? (
