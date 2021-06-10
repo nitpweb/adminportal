@@ -16,7 +16,7 @@ const handler = async (req, res) => {
       results = await query(
         `
         SELECT * from innovation where openDate<? and closeDate>? ORDER BY openDate DESC`,
-        [now,now]
+        [now, now]
       );
     } else if (type == "range") {
       const start = req.body.start_date;
@@ -27,6 +27,8 @@ const handler = async (req, res) => {
 			SELECT * from innovation where closeDate<=? and openDate>=? ORDER BY openDate DESC`,
         [end, start]
       ).catch((err) => console.log(err));
+    } else {
+      results = await query(`SELECT * from news WHERE id=?`, [String(type)]);
     }
     let array = JSON.parse(JSON.stringify(results));
     array.forEach((element) => {
