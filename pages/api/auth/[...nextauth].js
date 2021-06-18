@@ -96,7 +96,7 @@ const options = {
           department = s.department;
           administration = s.administration;
           token.department = s.department;
-          tokem.administration = s.administration;
+          token.administration = s.administration;
           token.role = role;
           // console.log(token);
         })

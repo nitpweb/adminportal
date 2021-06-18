@@ -139,7 +139,7 @@ export default function ButtonAppBar() {
           <ListItem button key="Notice">
             <ListItemIcon></ListItemIcon>
             <Link href={`/notice`}>
-              <ListItemText primary={text} />
+              <ListItemText primary="Notice" />
             </Link>
           </ListItem>
         )}
