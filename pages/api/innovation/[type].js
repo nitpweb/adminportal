@@ -28,7 +28,7 @@ const handler = async (req, res) => {
         [end, start]
       ).catch((err) => console.log(err));
     } else {
-      results = await query(`SELECT * from news WHERE id=?`, [String(type)]);
+      results = await query(`SELECT * from innovation WHERE id=?`, [String(type)]);
     }
     let array = JSON.parse(JSON.stringify(results));
     array.forEach((element) => {
