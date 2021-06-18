@@ -11,6 +11,16 @@ const handler = async (req, res) => {
     let array = JSON.parse(JSON.stringify(results));
     // console.log(array);
     return res.json(array);
+  } else if (type == "faculties") {
+    results = [];
+    let list = [...depList.values()];
+    for (let i = 0; i < list.length - 1; i++) {
+      let data = await query(`SELECT * FROM users where department=?`, [
+        list[i],
+      ]).catch((e) => console.log(e));
+      results = [...results, ...JSON.parse(JSON.stringify(data))];
+    }
+    return res.json(results);
   } else if (depList.has(type)) {
     results = await query(
       `
