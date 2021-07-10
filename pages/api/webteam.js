@@ -1,10 +1,8 @@
-import { query } from "../../../lib/db";
+import { query } from "../../lib/db";
 
 const handler = async (req, res) => {
-  const { type } = req.query;
   try {
     let results;
-    const now = new Date().getTime();
     results = await query(
       `
       SELECT * from webteam
