@@ -20,7 +20,7 @@ const handler = async (req, res) => {
       ]).catch((e) => console.log(e));
       results = [...results, ...JSON.parse(JSON.stringify(data))];
     }
-    return res.json(results);
+    return res.json(results.sort());
   } else if (depList.has(type)) {
     results = await query(
       `
