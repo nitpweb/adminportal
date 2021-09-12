@@ -101,7 +101,7 @@ async function migrate() {
 	await query(`create table if not exists professional_service (
             id bigint NOT NULL,
             email varchar(100),
-            services text NOT NULL,
+            services text,
             PRIMARY KEY(id)
         );`).catch((e) => console.log(e));
 
@@ -115,9 +115,9 @@ async function migrate() {
 	await query(`create table if not exists subjects_teaching(
                 id bigint NOT NULL,
                 email varchar(100),
-                code text NOT NULL,
+                code text,
                 name text NOT NULL,
-                start text NOT NULL,
+                start text,
                 end bigint,
                 PRIMARY KEY(id)
             );`).catch((e) => console.log(e));
@@ -140,8 +140,8 @@ async function migrate() {
 	await query(`create table if not exists work_experience (
             id bigint NOT NULL,
             email varchar(100),
-            work_experiences text NOT NULL,
-            institute text NOT NULL,
+            work_experiences text,
+            institute text,
             start bigint,
             end bigint,
             PRIMARY KEY(id)
@@ -150,7 +150,7 @@ async function migrate() {
 	await query(`create table if not exists curr_admin_responsibility (
                 id bigint NOT NULL,
                 email varchar(100),
-                curr_responsibility text NOT NULL,
+                curr_responsibility text,
                 start bigint,
                 PRIMARY KEY(id)
             );`).catch((e) => console.log(e));
@@ -158,7 +158,7 @@ async function migrate() {
 	await query(`CREATE TABLE if not exists past_admin_responsibility (
                 id bigint NOT NULL,
                 email varchar(100),
-                past_responsibility text NOT NULL,
+                past_responsibility text,
                 start bigint,
                 end bigint,
                 PRIMARY KEY(id)
@@ -167,8 +167,8 @@ async function migrate() {
 	await query(`CREATE TABLE if not exists education (
                 id bigint NOT NULL,
                 email varchar(100),
-                certification varchar(10) NOT NULL,
-                institution text NOT NULL,
+                certification varchar(10),
+                institution text,
                 passing_year varchar(10) DEFAULT NULL,
                 PRIMARY KEY(id)
             );`).catch((e) => console.log(e));
@@ -188,8 +188,8 @@ async function migrate() {
 	await query(`CREATE TABLE if not exists memberships (
                 id bigint NOT NULL,
                 email varchar(100),
-                membership_id varchar(20) NOT NULL,
-                membership_society text NOT NULL,
+                membership_id varchar(20),
+                membership_society text,
                 start bigint,
                 end bigint,
                 PRIMARY KEY(id)
