@@ -92,36 +92,44 @@ const DataDisplay = (props) => {
 							{detail.image &&
 								detail.image.map((img, idx) => {
 									return (
-										<span
-											key={idx}
-											style={{
-												display: `inline-flex`,
-												margin: `5px 0 `,
-											}}
-										>
-											<Flag color="secondary" />
-											<a href={img.url} target="_blank">
-												{img.caption}
-											</a>{" "}
-										</span>
-									);
+                    <span
+                      key={idx}
+                      style={{
+                        display: `inline-flex`,
+                        margin: `5px 0 `,
+                      }}
+                    >
+                      <Flag color="secondary" />
+                      <a
+                        href={img.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {img.caption}
+                      </a>{" "}
+                    </span>
+                  );
 								})}{" "}
 							{detail.attachments &&
 								detail.attachments.map((atch, idx) => {
 									return (
-										<span
-											key={idx}
-											style={{
-												display: `inline-flex`,
-												margin: `5px 0 `,
-											}}
-										>
-											<Flag />
-											<a href={atch.url} target="_blank">
-												{atch.caption}
-											</a>{" "}
-										</span>
-									);
+                    <span
+                      key={idx}
+                      style={{
+                        display: `inline-flex`,
+                        margin: `5px 0 `,
+                      }}
+                    >
+                      <Flag />
+                      <a
+                        href={atch.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {atch.caption}
+                      </a>{" "}
+                    </span>
+                  );
 								})}
 						</div>
 						<span

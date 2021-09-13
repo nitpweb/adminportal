@@ -80,120 +80,128 @@ const DataDisplay = (props) => {
 		};
 
 		return (
-			<React.Fragment key={detail.id}>
-				<Grid item xs={12} sm={6} lg={9}>
-					<Paper
-						className={classes.paper}
-						style={{ minHeight: `50px`, position: `relative` }}
-					>
-						<span className={classes.truncate}>{detail.title}</span>
-						<div className={classes.attached}>
-							{notice_link && (
-								<span
-									style={{
-										display: `inline-flex`,
-										margin: `5px 0 `,
-									}}
-								>
-									<Flag color="secondary" />
-									<a href={notice_link.url} target="_blank">
-										{notice_link.caption}
-									</a>
-								</span>
-							)}
+      <React.Fragment key={detail.id}>
+        <Grid item xs={12} sm={6} lg={9}>
+          <Paper
+            className={classes.paper}
+            style={{ minHeight: `50px`, position: `relative` }}
+          >
+            <span className={classes.truncate}>{detail.title}</span>
+            <div className={classes.attached}>
+              {notice_link && (
+                <span
+                  style={{
+                    display: `inline-flex`,
+                    margin: `5px 0 `,
+                  }}
+                >
+                  <Flag color="secondary" />
+                  <a
+                    href={notice_link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {notice_link.caption}
+                  </a>
+                </span>
+              )}
 
-							{detail.attachments &&
-								detail.attachments.map((attachment, idx) => {
-									return (
-										<span
-											key={idx}
-											style={{
-												display: `inline-flex`,
-												margin: `5px 0 `,
-											}}
-										>
-											<Flag />
-											<a href={attachment.url} target="_blank">
-												{attachment.caption}
-											</a>
-										</span>
-									);
-								})}
-						</div>
+              {detail.attachments &&
+                detail.attachments.map((attachment, idx) => {
+                  return (
+                    <span
+                      key={idx}
+                      style={{
+                        display: `inline-flex`,
+                        margin: `5px 0 `,
+                      }}
+                    >
+                      <Flag />
+                      <a
+                        href={attachment.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {attachment.caption}
+                      </a>
+                    </span>
+                  );
+                })}
+            </div>
 
-						<span
-							style={{
-								position: `absolute`,
-								right: `12px`,
-								bottom: `12px`,
-							}}
-						>
-							{openDate}
-						</span>
-					</Paper>
-				</Grid>
-				<Grid item xs={4} sm={2} lg={1}>
-					<Paper className={classes.paper} style={{ textAlign: `center` }}>
-						{detail.isVisible ? (
-							<>
-								<Visibility className={classes.icon} />
-								{/* <i className="fa fa-eye" style={{ color: "action" }}></i> */}
-								<span>Visible</span>
-							</>
-						) : (
-							<>
-								{/* <i
+            <span
+              style={{
+                position: `absolute`,
+                right: `12px`,
+                bottom: `12px`,
+              }}
+            >
+              {openDate}
+            </span>
+          </Paper>
+        </Grid>
+        <Grid item xs={4} sm={2} lg={1}>
+          <Paper className={classes.paper} style={{ textAlign: `center` }}>
+            {detail.isVisible ? (
+              <>
+                <Visibility className={classes.icon} />
+                {/* <i className="fa fa-eye" style={{ color: "action" }}></i> */}
+                <span>Visible</span>
+              </>
+            ) : (
+              <>
+                {/* <i
 												className="fa fa-eye-slash"
 												style={{ color: "secondary" }}
 											></i> */}
-								<VisibilityOff color="secondary" className={classes.icon} />
-								<span>Archive</span>
-							</>
-						)}
-					</Paper>
-				</Grid>
-				<Grid item xs={4} sm={2} lg={1}>
-					<Paper className={classes.paper} style={{ textAlign: `center` }}>
-						{detail.important ? (
-							<>
-								<Star className={classes.icon} />
-								{/* <i className="fa fa-star" style={{ color: "secondary" }}></i> */}
-								<span>Important</span>
-							</>
-						) : (
-							<>
-								{/* <i className="fa fa-star" style={{ color: "action" }}></i> */}
-								<StarBorder className={classes.icon} />
-								<span>Normal</span>
-							</>
-						)}
-					</Paper>{" "}
-				</Grid>
-				{session.user.role == 1 || session.user.email === detail.email ? (
-					<Grid item xs={4} sm={2} lg={1}>
-						<Paper
-							className={classes.paper}
-							style={{ textAlign: `center`, cursor: `pointer` }}
-							onClick={editModalOpen}
-						>
-							<Edit className={classes.icon} /> <span>Edit</span>
-						</Paper>{" "}
-						<EditForm
-							data={detail}
-							modal={editModal}
-							handleClose={handleCloseEditModal}
-						/>
-					</Grid>
-				) : (
-					<Grid item xs={6} sm={2} lg={1}>
-						<Paper
-							className={classes.paper}
-							style={{ textAlign: `center`, cursor: `pointer` }}
-						></Paper>{" "}
-					</Grid>
-				)}
-			</React.Fragment>
-		);
+                <VisibilityOff color="secondary" className={classes.icon} />
+                <span>Archive</span>
+              </>
+            )}
+          </Paper>
+        </Grid>
+        <Grid item xs={4} sm={2} lg={1}>
+          <Paper className={classes.paper} style={{ textAlign: `center` }}>
+            {detail.important ? (
+              <>
+                <Star className={classes.icon} />
+                {/* <i className="fa fa-star" style={{ color: "secondary" }}></i> */}
+                <span>Important</span>
+              </>
+            ) : (
+              <>
+                {/* <i className="fa fa-star" style={{ color: "action" }}></i> */}
+                <StarBorder className={classes.icon} />
+                <span>Normal</span>
+              </>
+            )}
+          </Paper>{" "}
+        </Grid>
+        {session.user.role == 1 || session.user.email === detail.email ? (
+          <Grid item xs={4} sm={2} lg={1}>
+            <Paper
+              className={classes.paper}
+              style={{ textAlign: `center`, cursor: `pointer` }}
+              onClick={editModalOpen}
+            >
+              <Edit className={classes.icon} /> <span>Edit</span>
+            </Paper>{" "}
+            <EditForm
+              data={detail}
+              modal={editModal}
+              handleClose={handleCloseEditModal}
+            />
+          </Grid>
+        ) : (
+          <Grid item xs={6} sm={2} lg={1}>
+            <Paper
+              className={classes.paper}
+              style={{ textAlign: `center`, cursor: `pointer` }}
+            ></Paper>{" "}
+          </Grid>
+        )}
+      </React.Fragment>
+    );
 	};
 
 	return (

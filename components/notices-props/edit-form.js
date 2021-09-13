@@ -126,188 +126,196 @@ export const EditForm = ({ data, handleClose, modal }) => {
 	};
 
 	return (
-		<>
-			<Dialog open={modal} onClose={handleClose}>
-				<form
-					onSubmit={(e) => {
-						handleSubmit(e);
-					}}
-				>
-					<DialogTitle
-						disableTypography
-						style={{ fontSize: `2rem`, position: "relative" }}
-					>
-						Edit Notice
-						<i
-							style={{ position: `absolute`, right: `15px`, cursor: `pointer` }}
-						>
-							<Delete
-								type="button"
-								onClick={() => setVerifyDelete(true)}
-								style={{ height: `2rem`, width: `auto` }}
-								color="secondary"
-							/>
-						</i>
-					</DialogTitle>
-					<ConfirmDelete
-						modal={verifyDelete}
-						handleClose={handleDelete}
-						id={content.id}
-						main_notice={content.main_attachment}
-						delArray={deleteArray.current}
-						attachments={attachments}
-					/>
-					<DialogContent>
-						<TextField
-							margin="dense"
-							id="label"
-							label="Title"
-							name="title"
-							type="text"
-							required
-							fullWidth
-							placeholder="Title"
-							onChange={(e) => handleChange(e)}
-							value={content.title}
-						/>
-						<TextField
-							margin="dense"
-							id="openDate"
-							label="Open Date"
-							name="openDate"
-							type="date"
-							required
-							value={content.openDate}
-							onChange={(e) => handleChange(e)}
-							fullWidth
-							InputLabelProps={{
-								shrink: true,
-							}}
-						/>
-						<TextField
-							id="closeDate"
-							label="Close Date"
-							name="closeDate"
-							margin="dense"
-							required
-							type="date"
-							onChange={(e) => handleChange(e)}
-							value={content.closeDate}
-							fullWidth
-							InputLabelProps={{
-								shrink: true,
-							}}
-						/>
-						<FormControlLabel
-							control={
-								<Checkbox
-									name="important"
-									checked={content.important}
-									onChange={(e) => handleChange(e)}
-								/>
-							}
-							label="Important"
-						/>
-						<FormControlLabel
-							control={
-								<Checkbox
-									name="isVisible"
-									checked={content.isVisible}
-									onChange={(e) => handleChange(e)}
-								/>
-							}
-							label="Visibility"
-						/>
+    <>
+      <Dialog open={modal} onClose={handleClose}>
+        <form
+          onSubmit={(e) => {
+            handleSubmit(e);
+          }}
+        >
+          <DialogTitle
+            disableTypography
+            style={{ fontSize: `2rem`, position: "relative" }}
+          >
+            Edit Notice
+            <i
+              style={{ position: `absolute`, right: `15px`, cursor: `pointer` }}
+            >
+              <Delete
+                type="button"
+                onClick={() => setVerifyDelete(true)}
+                style={{ height: `2rem`, width: `auto` }}
+                color="secondary"
+              />
+            </i>
+          </DialogTitle>
+          <ConfirmDelete
+            modal={verifyDelete}
+            handleClose={handleDelete}
+            id={content.id}
+            main_notice={content.main_attachment}
+            delArray={deleteArray.current}
+            attachments={attachments}
+          />
+          <DialogContent>
+            <TextField
+              margin="dense"
+              id="label"
+              label="Title"
+              name="title"
+              type="text"
+              required
+              fullWidth
+              placeholder="Title"
+              onChange={(e) => handleChange(e)}
+              value={content.title}
+            />
+            <TextField
+              margin="dense"
+              id="openDate"
+              label="Open Date"
+              name="openDate"
+              type="date"
+              required
+              value={content.openDate}
+              onChange={(e) => handleChange(e)}
+              fullWidth
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <TextField
+              id="closeDate"
+              label="Close Date"
+              name="closeDate"
+              margin="dense"
+              required
+              type="date"
+              onChange={(e) => handleChange(e)}
+              value={content.closeDate}
+              fullWidth
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="important"
+                  checked={content.important}
+                  onChange={(e) => handleChange(e)}
+                />
+              }
+              label="Important"
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="isVisible"
+                  checked={content.isVisible}
+                  onChange={(e) => handleChange(e)}
+                />
+              }
+              label="Visibility"
+            />
 
-						<FormControl
-							style={{ margin: `10px auto`, width: `100%` }}
-							required
-						>
-							<InputLabel id="demo-dialog-select-label30">
-								Notice Type
-							</InputLabel>
-						</FormControl>
+            <FormControl
+              style={{ margin: `10px auto`, width: `100%` }}
+              required
+            >
+              <InputLabel id="demo-dialog-select-label30">
+                Notice Type
+              </InputLabel>
+            </FormControl>
 
-						{content.main_attachment && (
-							<>
-								<h2>Main Attachment</h2>
+            {content.main_attachment && (
+              <>
+                <h2>Main Attachment</h2>
 
-								<div>
-									<TextField
-										id="attachments"
-										margin="dense"
-										type="text"
-										value={content.main_attachment.caption}
-										onChange={(e) =>
-											setContent({
-												...content,
-												main_attachment: {
-													...content.main_attachment,
-													caption: e.target.value,
-												},
-											})
-										}
-										InputLabelProps={{
-											shrink: true,
-										}}
-									/>
-									<a href={content.main_attachment.url} target="_blank">
-										<Link />
-									</a>
-								</div>
-							</>
-						)}
+                <div>
+                  <TextField
+                    id="attachments"
+                    margin="dense"
+                    type="text"
+                    value={content.main_attachment.caption}
+                    onChange={(e) =>
+                      setContent({
+                        ...content,
+                        main_attachment: {
+                          ...content.main_attachment,
+                          caption: e.target.value,
+                        },
+                      })
+                    }
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                  <a
+                    href={content.main_attachment.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Link />
+                  </a>
+                </div>
+              </>
+            )}
 
-						{data.attachments && (
-							<>
-								<h2>Attachments</h2>
-								{attachments.map((attachment, idx) => {
-									return (
-										<div key={idx}>
-											<TextField
-												id="attachments"
-												margin="dense"
-												type="text"
-												value={attachment.caption}
-												onChange={(e) => handleAttachments(e, idx)}
-												InputLabelProps={{
-													shrink: true,
-												}}
-											/>
-											<a href={attachment.url} target="_blank">
-												<Link />
-											</a>
-											<i
-												style={{
-													position: `absolute`,
-													right: `15px`,
-													cursor: `pointer`,
-												}}
-											>
-												<Delete
-													type="button"
-													onClick={() => deleteAttachment(idx)}
-													style={{ height: `2rem`, width: `auto` }}
-													color="secondary"
-												/>
-											</i>
-										</div>
-									);
-								})}
-							</>
-						)}
-						<AddAttachments
-							attachments={newAttachments}
-							setAttachments={setNewAttachments}
-						/>
-					</DialogContent>
-					<DialogActions>
-						<Button type="submit" color="primary" disabled={submitting}>
-							{submitting ? "Submitting" : "Submit"}
-						</Button>
-					</DialogActions>
-				</form>
-			</Dialog>
-		</>
-	);
+            {data.attachments && (
+              <>
+                <h2>Attachments</h2>
+                {attachments.map((attachment, idx) => {
+                  return (
+                    <div key={idx}>
+                      <TextField
+                        id="attachments"
+                        margin="dense"
+                        type="text"
+                        value={attachment.caption}
+                        onChange={(e) => handleAttachments(e, idx)}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                      />
+                      <a
+                        href={attachment.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Link />
+                      </a>
+                      <i
+                        style={{
+                          position: `absolute`,
+                          right: `15px`,
+                          cursor: `pointer`,
+                        }}
+                      >
+                        <Delete
+                          type="button"
+                          onClick={() => deleteAttachment(idx)}
+                          style={{ height: `2rem`, width: `auto` }}
+                          color="secondary"
+                        />
+                      </i>
+                    </div>
+                  );
+                })}
+              </>
+            )}
+            <AddAttachments
+              attachments={newAttachments}
+              setAttachments={setNewAttachments}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button type="submit" color="primary" disabled={submitting}>
+              {submitting ? "Submitting" : "Submit"}
+            </Button>
+          </DialogActions>
+        </form>
+      </Dialog>
+    </>
+  );
 };

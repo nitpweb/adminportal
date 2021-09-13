@@ -291,36 +291,36 @@ const DisplayAdditionalAttach = ({
 					<h2>Additional Attachments</h2>
 					{add_attach.map((img, idx) => {
 						return (
-							<div key={idx}>
-								<TextField
-									id="attachments"
-									margin="dense"
-									type="text"
-									value={img.caption}
-									onChange={(e) => handleAttachments(e, idx)}
-									InputLabelProps={{
-										shrink: true,
-									}}
-								/>
-								<a href={img.url} target="_blank">
-									<Link />
-								</a>
-								<i
-									style={{
-										position: `absolute`,
-										right: `15px`,
-										cursor: `pointer`,
-									}}
-								>
-									<Delete
-										type="button"
-										onClick={() => deleteAttachment(idx)}
-										style={{ height: `2rem`, width: `auto` }}
-										color="secondary"
-									/>
-								</i>
-							</div>
-						);
+              <div key={idx}>
+                <TextField
+                  id="attachments"
+                  margin="dense"
+                  type="text"
+                  value={img.caption}
+                  onChange={(e) => handleAttachments(e, idx)}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                />
+                <a href={img.url} target="_blank" rel="noopener noreferrer">
+                  <Link />
+                </a>
+                <i
+                  style={{
+                    position: `absolute`,
+                    right: `15px`,
+                    cursor: `pointer`,
+                  }}
+                >
+                  <Delete
+                    type="button"
+                    onClick={() => deleteAttachment(idx)}
+                    style={{ height: `2rem`, width: `auto` }}
+                    color="secondary"
+                  />
+                </i>
+              </div>
+            );
 					})}
 				</>
 			)}

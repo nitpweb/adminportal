@@ -113,175 +113,183 @@ export const EditForm = ({ data, handleClose, modal }) => {
 		window.location.reload();
 	};
 	return (
-		<>
-			<Dialog open={modal} onClose={handleClose}>
-				<form onSubmit={(e) => handleSubmit(e)}>
-					<DialogTitle
-						disableTypography
-						style={{ fontSize: `2rem`, position: `relative` }}
-					>
-						Edit Event
-						<i
-							style={{ position: `absolute`, right: `15px`, cursor: `pointer` }}
-						>
-							<Delete
-								type="button"
-								onClick={() => setVerifyDelete(true)}
-								style={{ height: `2rem`, width: `auto` }}
-								color="secondary"
-							/>
-						</i>
-					</DialogTitle>
-					<ConfirmDelete
-						modal={verifyDelete}
-						handleClose={handleDelete}
-						id={content.id}
-						attachments={attachments}
-						delArray={deleteArray.current}
-						main_event={content.main_attachment}
-					/>
-					<DialogContent>
-						<TextField
-							margin="dense"
-							id="label"
-							label="Title"
-							name="title"
-							type="text"
-							required
-							fullWidth
-							placeholder="Title"
-							onChange={(e) => handleChange(e)}
-							value={content.title}
-						/>
-						<TextField
-							margin="dense"
-							id="openDate"
-							label="Open Date"
-							name="openDate"
-							type="date"
-							required
-							value={content.openDate}
-							onChange={(e) => handleChange(e)}
-							fullWidth
-						/>
-						<TextField
-							id="closeDate"
-							label="Close Date"
-							name="closeDate"
-							margin="dense"
-							required
-							type="date"
-							onChange={(e) => handleChange(e)}
-							value={content.closeDate}
-							fullWidth
-						/>
-						<TextField
-							margin="dense"
-							id="venue"
-							label="Venue"
-							type="text"
-							fullWidth
-							placeholder={"Venue of Event"}
-							name="venue"
-							type="text"
-							required
-							onChange={(e) => handleChange(e)}
-							value={content.venue}
-						/>
-						<TextField
-							margin="dense"
-							id="Doclink"
-							label="Registration form link (like: Google Doc, etc.) "
-							type="text"
-							fullWidth
-							placeholder={"Leave it blank if not available"}
-							name="doclink"
-							type="text"
-							onChange={(e) => handleChange(e)}
-							value={content.doclink}
-						/>
+    <>
+      <Dialog open={modal} onClose={handleClose}>
+        <form onSubmit={(e) => handleSubmit(e)}>
+          <DialogTitle
+            disableTypography
+            style={{ fontSize: `2rem`, position: `relative` }}
+          >
+            Edit Event
+            <i
+              style={{ position: `absolute`, right: `15px`, cursor: `pointer` }}
+            >
+              <Delete
+                type="button"
+                onClick={() => setVerifyDelete(true)}
+                style={{ height: `2rem`, width: `auto` }}
+                color="secondary"
+              />
+            </i>
+          </DialogTitle>
+          <ConfirmDelete
+            modal={verifyDelete}
+            handleClose={handleDelete}
+            id={content.id}
+            attachments={attachments}
+            delArray={deleteArray.current}
+            main_event={content.main_attachment}
+          />
+          <DialogContent>
+            <TextField
+              margin="dense"
+              id="label"
+              label="Title"
+              name="title"
+              type="text"
+              required
+              fullWidth
+              placeholder="Title"
+              onChange={(e) => handleChange(e)}
+              value={content.title}
+            />
+            <TextField
+              margin="dense"
+              id="openDate"
+              label="Open Date"
+              name="openDate"
+              type="date"
+              required
+              value={content.openDate}
+              onChange={(e) => handleChange(e)}
+              fullWidth
+            />
+            <TextField
+              id="closeDate"
+              label="Close Date"
+              name="closeDate"
+              margin="dense"
+              required
+              type="date"
+              onChange={(e) => handleChange(e)}
+              value={content.closeDate}
+              fullWidth
+            />
+            <TextField
+              margin="dense"
+              id="venue"
+              label="Venue"
+              type="text"
+              fullWidth
+              placeholder={"Venue of Event"}
+              name="venue"
+              type="text"
+              required
+              onChange={(e) => handleChange(e)}
+              value={content.venue}
+            />
+            <TextField
+              margin="dense"
+              id="Doclink"
+              label="Registration form link (like: Google Doc, etc.) "
+              type="text"
+              fullWidth
+              placeholder={"Leave it blank if not available"}
+              name="doclink"
+              type="text"
+              onChange={(e) => handleChange(e)}
+              value={content.doclink}
+            />
 
-						{content.main_attachment && (
-							<>
-								<h2>Main Attachment</h2>
+            {content.main_attachment && (
+              <>
+                <h2>Main Attachment</h2>
 
-								<div>
-									<TextField
-										id="attachments"
-										margin="dense"
-										type="text"
-										value={content.main_attachment.caption}
-										onChange={(e) =>
-											setContent({
-												...content,
-												main_attachment: {
-													...content.main_attachment,
-													caption: e.target.value,
-												},
-											})
-										}
-										InputLabelProps={{
-											shrink: true,
-										}}
-									/>
-									<a href={content.main_attachment.url} target="_blank">
-										<Link />
-									</a>
-								</div>
-							</>
-						)}
+                <div>
+                  <TextField
+                    id="attachments"
+                    margin="dense"
+                    type="text"
+                    value={content.main_attachment.caption}
+                    onChange={(e) =>
+                      setContent({
+                        ...content,
+                        main_attachment: {
+                          ...content.main_attachment,
+                          caption: e.target.value,
+                        },
+                      })
+                    }
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                  />
+                  <a
+                    href={content.main_attachment.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Link />
+                  </a>
+                </div>
+              </>
+            )}
 
-						{data.attachments && (
-							<>
-								<h2>Attachments</h2>
-								{attachments.map((attachment, idx) => {
-									return (
-										<div key={idx}>
-											<TextField
-												id="attachments"
-												margin="dense"
-												type="text"
-												value={attachment.caption}
-												onChange={(e) => handleAttachments(e, idx)}
-												InputLabelProps={{
-													shrink: true,
-												}}
-											/>
-											<a href={attachment.url} target="_blank">
-												<Link />
-											</a>
-											<i
-												style={{
-													position: `absolute`,
-													right: `15px`,
-													cursor: `pointer`,
-												}}
-											>
-												<Delete
-													type="button"
-													onClick={() => deleteAttachment(idx)}
-													style={{ height: `2rem`, width: `auto` }}
-													color="secondary"
-												/>
-											</i>
-										</div>
-									);
-								})}
-							</>
-						)}
+            {data.attachments && (
+              <>
+                <h2>Attachments</h2>
+                {attachments.map((attachment, idx) => {
+                  return (
+                    <div key={idx}>
+                      <TextField
+                        id="attachments"
+                        margin="dense"
+                        type="text"
+                        value={attachment.caption}
+                        onChange={(e) => handleAttachments(e, idx)}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                      />
+                      <a
+                        href={attachment.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Link />
+                      </a>
+                      <i
+                        style={{
+                          position: `absolute`,
+                          right: `15px`,
+                          cursor: `pointer`,
+                        }}
+                      >
+                        <Delete
+                          type="button"
+                          onClick={() => deleteAttachment(idx)}
+                          style={{ height: `2rem`, width: `auto` }}
+                          color="secondary"
+                        />
+                      </i>
+                    </div>
+                  );
+                })}
+              </>
+            )}
 
-						<AddAttachments
-							attachments={newAttachments}
-							setAttachments={setNewAttachments}
-						/>
-					</DialogContent>
-					<DialogActions>
-						<Button type="submit" color="primary" disabled={submitting}>
-							{submitting ? "Submitting" : "Submit"}
-						</Button>
-					</DialogActions>
-				</form>
-			</Dialog>
-		</>
-	);
+            <AddAttachments
+              attachments={newAttachments}
+              setAttachments={setNewAttachments}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button type="submit" color="primary" disabled={submitting}>
+              {submitting ? "Submitting" : "Submit"}
+            </Button>
+          </DialogActions>
+        </form>
+      </Dialog>
+    </>
+  );
 };

@@ -72,101 +72,109 @@ const DataDisplay = (props) => {
 		};
 
 		return (
-			<React.Fragment key={detail.id}>
-				<Grid item xs={12} sm={8} lg={10}>
-					<Paper
-						className={classes.paper}
-						style={{ minHeight: `50px`, position: `relative` }}
-					>
-						<span className={classes.truncate}>{detail.title}</span>
-						<div className={classes.attached}>
-							{event_link && (
-								<span
-									style={{
-										display: `inline-flex`,
-										margin: `5px 0 `,
-									}}
-								>
-									<Flag color="secondary" />
-									<a href={event_link.url} target="_blank">
-										{event_link.caption}
-									</a>
-								</span>
-							)}
+      <React.Fragment key={detail.id}>
+        <Grid item xs={12} sm={8} lg={10}>
+          <Paper
+            className={classes.paper}
+            style={{ minHeight: `50px`, position: `relative` }}
+          >
+            <span className={classes.truncate}>{detail.title}</span>
+            <div className={classes.attached}>
+              {event_link && (
+                <span
+                  style={{
+                    display: `inline-flex`,
+                    margin: `5px 0 `,
+                  }}
+                >
+                  <Flag color="secondary" />
+                  <a
+                    href={event_link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {event_link.caption}
+                  </a>
+                </span>
+              )}
 
-							{detail.attachments &&
-								detail.attachments.map((attachment, idx) => {
-									return (
-										<span
-											key={idx}
-											style={{
-												display: `inline-flex`,
-												margin: `5px 0 `,
-											}}
-										>
-											<Flag />
-											<a href={attachment.url} target="_blank">
-												{attachment.caption}
-											</a>
-										</span>
-									);
-								})}
-							<span
-								style={{
-									display: `inline-flex`,
-									margin: `5px 0 `,
-								}}
-							>
-								<LocationOn color="secondary" />
-								{detail.venue}
-							</span>
-						</div>
+              {detail.attachments &&
+                detail.attachments.map((attachment, idx) => {
+                  return (
+                    <span
+                      key={idx}
+                      style={{
+                        display: `inline-flex`,
+                        margin: `5px 0 `,
+                      }}
+                    >
+                      <Flag />
+                      <a
+                        href={attachment.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {attachment.caption}
+                      </a>
+                    </span>
+                  );
+                })}
+              <span
+                style={{
+                  display: `inline-flex`,
+                  margin: `5px 0 `,
+                }}
+              >
+                <LocationOn color="secondary" />
+                {detail.venue}
+              </span>
+            </div>
 
-						<span
-							style={{
-								position: `absolute`,
-								right: `12px`,
-								bottom: `12px`,
-							}}
-						>
-							{openDate}
-						</span>
-					</Paper>
-				</Grid>
+            <span
+              style={{
+                position: `absolute`,
+                right: `12px`,
+                bottom: `12px`,
+              }}
+            >
+              {openDate}
+            </span>
+          </Paper>
+        </Grid>
 
-				<Grid item xs={6} sm={2} lg={1}>
-					<Paper className={classes.paper} style={{ textAlign: `center` }}>
-						<a href={detail.doclink} style={{ textDecoration: `none` }}>
-							<Link className={classes.icon} />
-							<span>Event Attach/Link</span>
-						</a>
-					</Paper>{" "}
-				</Grid>
-				{session.user.role == 1 || session.user.email === detail.email ? (
-					<Grid item xs={6} sm={2} lg={1}>
-						<Paper
-							className={classes.paper}
-							style={{ textAlign: `center`, cursor: `pointer` }}
-							onClick={editModalOpen}
-						>
-							<Edit className={classes.icon} /> <span>Edit</span>
-						</Paper>{" "}
-						<EditForm
-							data={detail}
-							modal={editModal}
-							handleClose={handleCloseEditModal}
-						/>
-					</Grid>
-				) : (
-					<Grid item xs={6} sm={2} lg={1}>
-						<Paper
-							className={classes.paper}
-							style={{ textAlign: `center`, cursor: `pointer` }}
-						></Paper>{" "}
-					</Grid>
-				)}
-			</React.Fragment>
-		);
+        <Grid item xs={6} sm={2} lg={1}>
+          <Paper className={classes.paper} style={{ textAlign: `center` }}>
+            <a href={detail.doclink} style={{ textDecoration: `none` }}>
+              <Link className={classes.icon} />
+              <span>Event Attach/Link</span>
+            </a>
+          </Paper>{" "}
+        </Grid>
+        {session.user.role == 1 || session.user.email === detail.email ? (
+          <Grid item xs={6} sm={2} lg={1}>
+            <Paper
+              className={classes.paper}
+              style={{ textAlign: `center`, cursor: `pointer` }}
+              onClick={editModalOpen}
+            >
+              <Edit className={classes.icon} /> <span>Edit</span>
+            </Paper>{" "}
+            <EditForm
+              data={detail}
+              modal={editModal}
+              handleClose={handleCloseEditModal}
+            />
+          </Grid>
+        ) : (
+          <Grid item xs={6} sm={2} lg={1}>
+            <Paper
+              className={classes.paper}
+              style={{ textAlign: `center`, cursor: `pointer` }}
+            ></Paper>{" "}
+          </Grid>
+        )}
+      </React.Fragment>
+    );
 	};
 
 	return (

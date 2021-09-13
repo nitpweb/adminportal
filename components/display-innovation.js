@@ -92,16 +92,20 @@ const DataDisplay = (props) => {
 							{detail.image &&
 								detail.image.map((img, idx) => {
 									return (
-										<span
-											key={idx}
-											style={{ display: `inline-flex`, margin: `5px 0 ` }}
-										>
-											<Flag />
-											<a href={img.url} target="_blank">
-												{img.caption}
-											</a>
-										</span>
-									);
+                    <span
+                      key={idx}
+                      style={{ display: `inline-flex`, margin: `5px 0 ` }}
+                    >
+                      <Flag />
+                      <a
+                        href={img.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {img.caption}
+                      </a>
+                    </span>
+                  );
 								})}
 						</div>{" "}
 						<span
