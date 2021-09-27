@@ -14,7 +14,7 @@ export const AddCurrent = ({ handleClose, modal }) => {
   const [session, loading] = useSession();
   const [content, setContent] = useState({
     curr_responsibility: "",
-    start: new Date(),
+    start: undefined,
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -26,11 +26,10 @@ export const AddCurrent = ({ handleClose, modal }) => {
   const handleSubmit = async (e) => {
     setSubmitting(true);
     e.preventDefault();
-    let start = new Date(content.start);
-    start = start.getTime();
+    // let start = new Date(content.start);
+    // start = start.getTime();
     let data = {
       ...content,
-      start: start,
       id: Date.now(),
       email: session.user.email,
     };

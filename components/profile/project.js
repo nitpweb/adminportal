@@ -16,8 +16,8 @@ export const Addproject = ({ handleClose, modal }) => {
     project: "",
     sponsor: "",
     amount: "",
-    start: new Date(),
-    end: new Date(),
+    start: undefined,
+    end: undefined,
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -30,15 +30,13 @@ export const Addproject = ({ handleClose, modal }) => {
     setSubmitting(true);
     e.preventDefault();
 
-    let start = new Date(content.start);
-    let end = new Date(content.end);
-    start = start.getTime();
-    end = end.getTime();
+    // let start = new Date(content.start);
+    // let end = new Date(content.end);
+    // start = start.getTime();
+    // end = end.getTime();
 
     let data = {
       ...content,
-      start: start,
-      end: end,
       id: Date.now(),
       email: session.user.email,
     };
@@ -90,7 +88,6 @@ export const Addproject = ({ handleClose, modal }) => {
               label="Sponsoring Agency"
               name="sponsor"
               type="text"
-              required
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.sponsor}
@@ -101,7 +98,6 @@ export const Addproject = ({ handleClose, modal }) => {
               label="Amount"
               name="amount"
               type="text"
-              required
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.amount}

@@ -15,8 +15,8 @@ export const AddWork = ({ handleClose, modal }) => {
   const [content, setContent] = useState({
     work_experiences: "",
     institute: "",
-    start: new Date(),
-    end: new Date(),
+    start: undefined,
+    end: undefined,
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -29,15 +29,13 @@ export const AddWork = ({ handleClose, modal }) => {
     setSubmitting(true);
     e.preventDefault();
 
-    let start = new Date(content.start);
-    let end = new Date(content.end);
-    start = start.getTime();
-    end = end.getTime();
+    // let start = new Date(content.start);
+    // let end = new Date(content.end);
+    // start = start.getTime();
+    // end = end.getTime();
 
     let data = {
       ...content,
-      start: start,
-      end: end,
       id: Date.now(),
       email: session.user.email,
     };
@@ -89,7 +87,6 @@ export const AddWork = ({ handleClose, modal }) => {
               label="Institute/Company"
               name="institute"
               type="text"
-              required
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.institute}

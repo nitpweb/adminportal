@@ -14,8 +14,8 @@ export const AddPast = ({ handleClose, modal }) => {
   const [session, loading] = useSession();
   const [content, setContent] = useState({
     past_responsibility: "",
-    start: new Date(),
-    end: new Date(),
+    start: undefined,
+    end: undefined,
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -27,14 +27,12 @@ export const AddPast = ({ handleClose, modal }) => {
   const handleSubmit = async (e) => {
     setSubmitting(true);
     e.preventDefault();
-    let start = new Date(content.start);
-    let end = new Date(content.end);
-    start = start.getTime();
-    end = end.getTime();
+    // let start = new Date(content.start);
+    // let end = new Date(content.end);
+    // start = start.getTime();
+    // end = end.getTime();
     let data = {
       ...content,
-      start: start,
-      end: end,
       id: Date.now(),
       email: session.user.email,
     };

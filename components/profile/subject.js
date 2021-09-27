@@ -19,8 +19,8 @@ export const AddForm = ({ handleClose, modal }) => {
   const [content, setContent] = useState({
     code: "",
     name: "",
-    start: "",
-    end:new Date(),
+    start: undefined,
+    end:undefined,
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -32,9 +32,6 @@ export const AddForm = ({ handleClose, modal }) => {
   const handleSubmit = async (e) => {
     setSubmitting(true);
     e.preventDefault();
-
-    let end = new Date(content.end);
-    end = end.getTime();
 
     let data = {
       ...content,
@@ -79,7 +76,6 @@ export const AddForm = ({ handleClose, modal }) => {
               label="Subject_Code"
               name="code"
               type="text"
-              required
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.code}

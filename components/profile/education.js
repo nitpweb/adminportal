@@ -78,7 +78,6 @@ export const AddEdu = ({ handleClose, modal }) => {
               label="Institution"
               name="institution"
               type="text"
-              required
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.institution}
@@ -89,7 +88,6 @@ export const AddEdu = ({ handleClose, modal }) => {
               label="Passing Year"
               name="passing_year"
               type="text"
-              required
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.passing_year}

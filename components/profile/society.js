@@ -15,8 +15,8 @@ export const AddSociety = ({ handleClose, modal }) => {
   const [content, setContent] = useState({
     membership_id: "",
     membership_society: "",
-    start: new Date(),
-    end: new Date(),
+    start: undefined,
+    end: undefined,
   });
   const [submitting, setSubmitting] = useState(false);
 
@@ -28,14 +28,9 @@ export const AddSociety = ({ handleClose, modal }) => {
   const handleSubmit = async (e) => {
     setSubmitting(true);
     e.preventDefault();
-    let start = new Date(content.start);
-    let end = new Date(content.end);
-    start = start.getTime();
-    end = end.getTime();
+
     let data = {
       ...content,
-      start: start,
-      end: end,
       id: Date.now(),
       email: session.user.email,
     };
@@ -77,7 +72,6 @@ export const AddSociety = ({ handleClose, modal }) => {
               label="Membership Id"
               name="membership_id"
               type="text"
-              required
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.membership_id}
