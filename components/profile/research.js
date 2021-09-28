@@ -71,7 +71,7 @@ export const AddResearch = ({ handleClose, modal, detail }) => {
               label="ext_no"
               name="ext_no"
               type="text"
-              required
+              
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.ext_no}
@@ -82,7 +82,7 @@ export const AddResearch = ({ handleClose, modal, detail }) => {
               label="research_interest"
               name="research_interest"
               type="text"
-              required
+            
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.research_interest}
