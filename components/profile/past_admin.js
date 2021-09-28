@@ -78,36 +78,29 @@ export const AddPast = ({ handleClose, modal }) => {
               onChange={(e) => handleChange(e)}
               value={content.past_responsibility}
             />
-            {/* <TextField
+            <TextField
               margin="dense"
               id="pastStart"
               label="Start Date"
               name="start"
-              type="date"
-              required
+              type="text"
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.start}
-              InputLabelProps={{
-								shrink: true,
-							}}
             />
             <TextField
               margin="dense"
               id="pastEnd"
               label="End Date"
               name="end"
-              type="date"
-              required
+              type="text"
+              
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.end}
-              InputLabelProps={{
-								shrink: true,
-							}}
-            /> */}
+            />
 
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <Grid container justify="flex-start">
                 <DatePicker
                   openTo="year"
@@ -133,7 +126,7 @@ export const AddPast = ({ handleClose, modal }) => {
                   onChange={(e) => setContent({ ...content, end: e })}
                 />
               </Grid>
-            </MuiPickersUtilsProvider>
+            </MuiPickersUtilsProvider> */}
           </DialogContent>
           <DialogActions>
             {submitting ? (

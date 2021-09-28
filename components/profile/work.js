@@ -91,7 +91,26 @@ export const AddWork = ({ handleClose, modal }) => {
               onChange={(e) => handleChange(e)}
               value={content.institute}
             />
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <TextField
+              margin="dense"
+              id="label"
+              label="End Date"
+              name="end"
+              type="text"
+              fullWidth
+              onChange={(e) => handleChange(e)}
+              value={content.start}
+            /><TextField
+              margin="dense"
+              id="label"
+              label="End Date"
+              name="end"
+              type="text"
+              fullWidth
+              onChange={(e) => handleChange(e)}
+              value={content.end}
+            />
+            {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <Grid container justify="flex-start">
                 <DatePicker
                   openTo="year"
@@ -117,7 +136,7 @@ export const AddWork = ({ handleClose, modal }) => {
                   onChange={(e) => setContent({ ...content, end: e })}
                 />
               </Grid>
-            </MuiPickersUtilsProvider>
+            </MuiPickersUtilsProvider> */}
           </DialogContent>
           <DialogActions>
             {submitting ? (

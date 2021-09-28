@@ -35,7 +35,6 @@ export const AddForm = ({ handleClose, modal }) => {
 
     let data = {
       ...content,
-      end: end,
       id: Date.now(),
       email: session.user.email,
     };
@@ -96,8 +95,7 @@ export const AddForm = ({ handleClose, modal }) => {
               id="labelsession"
               label="Session Start Date"
               name="start"
-              type="date"
-              required
+              type="text"
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.start}
@@ -119,12 +117,12 @@ export const AddForm = ({ handleClose, modal }) => {
               <MenuItem value={"Summer"}>Summer</MenuItem>
               <MenuItem value={"Autumn"}>Autumn</MenuItem>
             </Select>
-            {/* <TextField
+            <TextField
               margin="dense"
               id="labelsession"
               label="Year"
               name="end"
-              type="date"
+              type="text"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
@@ -132,9 +130,9 @@ export const AddForm = ({ handleClose, modal }) => {
               InputLabelProps={{
                 shrink: true,
               }}
-            /> */}
+            />
             
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <Grid container justify="flex-start">
                 <DatePicker
                   openTo="year"
@@ -146,7 +144,7 @@ export const AddForm = ({ handleClose, modal }) => {
                   onChange={(e) => setContent({ ...content, end: e})}
                 />
               </Grid>
-            </MuiPickersUtilsProvider>
+            </MuiPickersUtilsProvider> */}
 
           </DialogContent>
           <DialogActions>

@@ -87,13 +87,12 @@ export const AddSociety = ({ handleClose, modal }) => {
               onChange={(e) => handleChange(e)}
               value={content.membership_society}
             />
-            {/* <TextField
+            <TextField
               margin="dense"
               id="societyStart"
               label="Start Date"
               name="start"
-              type="date"
-              required
+              type="text"
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.start}
@@ -106,17 +105,16 @@ export const AddSociety = ({ handleClose, modal }) => {
               id="societyEnd"
               label="End Date"
               name="end"
-              type="date"
-              required
+              type="text"
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.end}
               InputLabelProps={{
                 shrink: true,
               }}
-            /> */}
+            />
 
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <Grid container justify="flex-start">
                 <DatePicker
                   openTo="year"
@@ -142,7 +140,7 @@ export const AddSociety = ({ handleClose, modal }) => {
                   onChange={(e) => setContent({ ...content, end: e })}
                 />
               </Grid>
-            </MuiPickersUtilsProvider>
+            </MuiPickersUtilsProvider> */}
 
           </DialogContent>
           <DialogActions>
