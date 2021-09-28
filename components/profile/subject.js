@@ -123,7 +123,6 @@ export const AddForm = ({ handleClose, modal }) => {
               label="Year"
               name="end"
               type="text"
-              required
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.end}
