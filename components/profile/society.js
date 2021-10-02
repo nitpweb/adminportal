@@ -35,7 +35,7 @@ export const AddSociety = ({ handleClose, modal }) => {
       email: session.user.email,
     };
     // data.attachments = JSON.stringify(data.attachments);
-    console.log(data);
+    console.log(content.start);
     let result = await fetch("/api/create/memberships", {
       headers: {
         Accept: "application/json",

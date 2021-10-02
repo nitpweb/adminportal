@@ -94,7 +94,7 @@ export const AddWork = ({ handleClose, modal }) => {
             <TextField
               margin="dense"
               id="label"
-              label="End Date"
+              label="Start Date"
               name="end"
               type="text"
               fullWidth

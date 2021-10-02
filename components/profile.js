@@ -121,7 +121,10 @@ const SubjectRow = ({ item }) => {
         <p>{item.start}</p>
       </td>
       <td>
-        <p>{new Date(item.end).getFullYear()}</p>
+        <p>
+          {item.end}
+          {/* {new Date(item.end).getFullYear()} */}
+          </p>
       </td>
       <td>
         <IconButton aria-label="delete" onClick={openDeleteModal}>
@@ -505,14 +508,16 @@ export default function Profilepage(props) {
                           </td>
                           <td>
                             <p>
-                              {new Date(item.start).getMonth() + 1} /{" "}
-                              {new Date(item.start).getFullYear()}
+                              {item.start}
+                              {/* {new Date(item.start).getMonth() + 1} /{" "}
+                              {new Date(item.start).getFullYear()} */}
                             </p>
                           </td>
                           <td>
                             <p>
-                              {new Date(item.end).getMonth() + 1} /{" "}
-                              {new Date(item.end).getFullYear()}
+                              {item.end}
+                              {/* {new Date(item.end).getMonth() + 1} /{" "}
+                              {new Date(item.end).getFullYear()} */}
                             </p>
                           </td>
                           <IconButton
@@ -631,8 +636,9 @@ export default function Profilepage(props) {
                           </td>
                           <td>
                             <p>
-                              {new Date(item.start).getMonth() + 1} /{" "}
-                              {new Date(item.start).getFullYear()}
+                              {item.start}
+                              {/* {new Date(item.start).getMonth() + 1} /{" "}
+                              {new Date(item.start).getFullYear()} */}
                             </p>
                           </td>
                           <IconButton
@@ -728,14 +734,16 @@ export default function Profilepage(props) {
                           </td>
                           <td>
                             <p>
-                              {new Date(item.start).getMonth() + 1} /{" "}
-                              {new Date(item.start).getFullYear()}
+                              {item.start}
+                              {/* {new Date(item.start).getMonth() + 1} /{" "}
+                              {new Date(item.start).getFullYear()} */}
                             </p>
                           </td>
                           <td>
                             <p>
-                              {new Date(item.end).getMonth() + 1} /{" "}
-                              {new Date(item.end).getFullYear()}
+                              {item.end}
+                              {/* {new Date(item.end).getMonth() + 1} /{" "}
+                              {new Date(item.end).getFullYear()} */}
                             </p>
                           </td>
                           <IconButton
@@ -837,14 +845,16 @@ export default function Profilepage(props) {
                           </td>
                           <td>
                             <p>
-                              {new Date(item.start).getMonth() + 1} /{" "}
-                              {new Date(item.start).getFullYear()}
+                              {item.start}
+                              {/* {new Date(item.start).getMonth() + 1} /{" "}
+                              {new Date(item.start).getFullYear()} */}
                             </p>
                           </td>
                           <td>
                             <p>
-                              {new Date(item.end).getMonth() + 1} /{" "}
-                              {new Date(item.end).getFullYear()}
+                              {item.end}
+                              {/* {new Date(item.end).getMonth() + 1} /{" "}
+                              {new Date(item.end).getFullYear()} */}
                             </p>
                           </td>
                           <IconButton
@@ -995,14 +1005,16 @@ export default function Profilepage(props) {
                           </td>
                           <td>
                             <p>
-                              {new Date(item.start).getMonth() + 1} /{" "}
-                              {new Date(item.start).getFullYear()}
+                              {item.start}
+                              {/* {new Date(item.start).getMonth() + 1} /{" "}
+                              {new Date(item.start).getFullYear()} */}
                             </p>
                           </td>
                           <td>
                             <p>
-                              {new Date(item.end).getMonth() + 1} /{" "}
-                              {new Date(item.end).getFullYear()}
+                              {item.end}
+                              {/* {new Date(item.end).getMonth() + 1} /{" "}
+                              {new Date(item.end).getFullYear()} */}
                             </p>
                           </td>
                           <IconButton
@@ -1070,6 +1082,7 @@ export default function Profilepage(props) {
               <div className="factable">
                 <table>
                   <tr>
+                    <td></td>
                     <td>
                       <h4>Student Name</h4>
                     </td>
