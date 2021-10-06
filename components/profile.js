@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import { signIn, signout, useSession } from "next-auth/client";
-import TextField from "@material-ui/core/TextField";
-import ShowPublications from "./profile/show-publications";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
-import DeleteIcon from "@material-ui/icons/Delete";
-import { AddForm } from "./profile/subject";
-import { AddSociety } from "./profile/society";
-import { AddProf } from "./profile/prof_service";
-import { AddEdu } from "./profile/education";
-import { AddCurrent } from "./profile/curr_admin";
-import { AddPast } from "./profile/past_admin";
-import { AddWork } from "./profile/work";
-import { Addproject } from "./profile/project";
-import { Addphd } from "./profile/phd";
-import { AddResearch } from "./profile/research";
-import { AddPublications } from "./profile/publications";
-import { ConfirmDelete } from "./profile/delete";
-import { AddPic } from "./profile/profilepic";
-import AddBib from "./profile/addBib";
+import React, { useState, useEffect } from "react"
+import styled from "styled-components"
+import { signIn, signout, useSession } from "next-auth/client"
+import TextField from "@material-ui/core/TextField"
+import ShowPublications from "./profile/show-publications"
+import Button from "@material-ui/core/Button"
+import IconButton from "@material-ui/core/IconButton"
+import DeleteIcon from "@material-ui/icons/Delete"
+import { AddForm } from "./profile/subject"
+import { AddSociety } from "./profile/society"
+import { AddProf } from "./profile/prof_service"
+import { AddEdu } from "./profile/education"
+import { AddCurrent } from "./profile/curr_admin"
+import { AddPast } from "./profile/past_admin"
+import { AddWork } from "./profile/work"
+import { Addproject } from "./profile/project"
+import { Addphd } from "./profile/phd"
+import { AddResearch } from "./profile/research"
+import { AddPublications } from "./profile/publications"
+import { ConfirmDelete } from "./profile/delete"
+import { AddPic } from "./profile/profilepic"
+import AddBib from "./profile/addBib"
 
 const Profile = styled.div`
   font-family: "Source Sans Pro";
@@ -97,17 +97,17 @@ const Profile = styled.div`
       }
     }
   }
-`;
+`
 
 const SubjectRow = ({ item }) => {
-  const [deleteModal, setDeleteModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false)
 
   const openDeleteModal = () => {
-    setDeleteModal(true);
-  };
+    setDeleteModal(true)
+  }
   const handleCloseDeleteModal = () => {
-    setDeleteModal(false);
-  };
+    setDeleteModal(false)
+  }
 
   return (
     <tr>
@@ -124,7 +124,7 @@ const SubjectRow = ({ item }) => {
         <p>
           {item.end}
           {/* {new Date(item.end).getFullYear()} */}
-          </p>
+        </p>
       </td>
       <td>
         <IconButton aria-label="delete" onClick={openDeleteModal}>
@@ -138,193 +138,520 @@ const SubjectRow = ({ item }) => {
         />
       </td>
     </tr>
-  );
-};
+  )
+}
+
+const MemAndSocRow = ({ item }) => {
+  const [deleteModal, setDeleteModal] = useState(false)
+
+  const openDeleteModal = () => {
+    setDeleteModal(true)
+  }
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false)
+  }
+
+  return (
+    <tr>
+      <td>
+        <p>{item.membership_id}</p>
+      </td>
+      <td>
+        <p>{item.membership_society}</p>
+      </td>
+      <td>
+        <p>
+          {item.start}
+          {/* {new Date(item.start).getMonth() + 1} /{" "}
+          {new Date(item.start).getFullYear()} */}
+        </p>
+      </td>
+      <td>
+        <p>
+          {item.end}
+          {/* {new Date(item.end).getMonth() + 1} /{" "}
+          {new Date(item.end).getFullYear()} */}
+        </p>
+      </td>
+      <td>
+        <IconButton aria-label="delete" onClick={() => openDeleteModal()}>
+          <DeleteIcon />
+        </IconButton>
+        <ConfirmDelete
+          handleClose={handleCloseDeleteModal}
+          modal={deleteModal}
+          id={item.id}
+          del={"memberships"}
+        />
+      </td>
+    </tr>
+  )
+}
+
+const EducationRow = ({ item }) => {
+  const [deleteModal, setDeleteModal] = useState(false)
+
+  const openDeleteModal = () => {
+    setDeleteModal(true)
+  }
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false)
+  }
+
+  return (
+    <tr>
+      <td>
+        <p>{item.certification}</p>
+      </td>
+      <td>
+        <p>{item.institution}</p>
+      </td>
+      <td>
+        <p>{item.passing_year}</p>
+      </td>
+      <td>
+        <IconButton aria-label="delete" onClick={openDeleteModal}>
+          <DeleteIcon />
+        </IconButton>
+        <ConfirmDelete
+          handleClose={handleCloseDeleteModal}
+          modal={deleteModal}
+          id={item.id}
+          del={"education"}
+        />
+      </td>
+    </tr>
+  )
+}
+
+const CurrAdminRow = ({ item }) => {
+  const [deleteModal, setDeleteModal] = useState(false)
+
+  const openDeleteModal = () => {
+    setDeleteModal(true)
+  }
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false)
+  }
+
+  return (
+    <tr>
+      <td>
+        <p>{item.curr_responsibility}</p>
+      </td>
+      <td>
+        <p>
+          {item.start}
+          {/* {new Date(item.start).getMonth() + 1} /{" "}
+          {new Date(item.start).getFullYear()} */}
+        </p>
+      </td>
+      <td>
+        <IconButton aria-label="delete" onClick={() => openDeleteModal()}>
+          <DeleteIcon />
+        </IconButton>
+        <ConfirmDelete
+          handleClose={handleCloseDeleteModal}
+          modal={deleteModal}
+          id={item.id}
+          del={"current-responsibility"}
+        />
+      </td>
+    </tr>
+  )
+}
+
+const PastAdminRow = ({ item }) => {
+  const [deleteModal, setDeleteModal] = useState(false)
+
+  const openDeleteModal = () => {
+    setDeleteModal(true)
+  }
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false)
+  }
+
+  return (
+    <tr>
+      <td>
+        <p>{item.past_responsibility}</p>
+      </td>
+      <td>
+        <p>
+          {item.start}
+          {/* {new Date(item.start).getMonth() + 1} /{" "}
+          {new Date(item.start).getFullYear()} */}
+        </p>
+      </td>
+      <td>
+        <p>
+          {item.end}
+          {/* {new Date(item.end).getMonth() + 1} /{" "}
+          {new Date(item.end).getFullYear()} */}
+        </p>
+      </td>
+      <td>
+        <IconButton aria-label="delete" onClick={() => openDeleteModal()}>
+          <DeleteIcon />
+        </IconButton>
+        <ConfirmDelete
+          handleClose={handleCloseDeleteModal}
+          modal={deleteModal}
+          id={item.id}
+          del={"past-responsibility"}
+        />
+      </td>
+    </tr>
+  )
+}
+
+const WorkExpRow = ({ item }) => {
+  const [deleteModal, setDeleteModal] = useState(false)
+
+  const openDeleteModal = () => {
+    setDeleteModal(true)
+  }
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false)
+  }
+
+  return (
+    <tr>
+      <td>
+        <p>{item.work_experiences}</p>
+      </td>
+      <td>
+        <p>{item.institute}</p>
+      </td>
+      <td>
+        <p>
+          {item.start}
+          {/* {new Date(item.start).getMonth() + 1} /{" "}
+          {new Date(item.start).getFullYear()} */}
+        </p>
+      </td>
+      <td>
+        <p>
+          {item.end}
+          {/* {new Date(item.end).getMonth() + 1} /{" "}
+          {new Date(item.end).getFullYear()} */}
+        </p>
+      </td>
+      <td>
+        <IconButton aria-label="delete" onClick={() => openDeleteModal()}>
+          <DeleteIcon />
+        </IconButton>
+        <ConfirmDelete
+          handleClose={handleCloseDeleteModal}
+          modal={deleteModal}
+          id={item.id}
+          del={"workexperience"}
+        />
+      </td>
+    </tr>
+  )
+}
+
+const ProServiceRow = ({ item }) => {
+  const [deleteModal, setDeleteModal] = useState(false)
+
+  const openDeleteModal = () => {
+    setDeleteModal(true)
+  }
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false)
+  }
+
+  return (
+    <p>
+      {item.services}
+      <IconButton aria-label="delete" onClick={() => openDeleteModal()}>
+        <DeleteIcon />
+      </IconButton>
+      <ConfirmDelete
+        handleClose={handleCloseDeleteModal}
+        modal={deleteModal}
+        id={item.id}
+        del={"professionalservice"}
+      />
+    </p>
+  )
+}
+
+const ProjectRow = ({ item }) => {
+  const [deleteModal, setDeleteModal] = useState(false)
+
+  const openDeleteModal = () => {
+    setDeleteModal(true)
+  }
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false)
+  }
+
+  return (
+    <tr>
+      <td>
+        <p>{item.project}</p>
+      </td>
+      <td>
+        <p>{item.sponsor}</p>
+      </td>
+      <td>
+        <p>{item.amount}</p>
+      </td>
+      <td>
+        <p>
+          {item.start}
+          {/* {new Date(item.start).getMonth() + 1} /{" "}
+          {new Date(item.start).getFullYear()} */}
+        </p>
+      </td>
+      <td>
+        <p>
+          {item.end}
+          {/* {new Date(item.end).getMonth() + 1} /{" "}
+          {new Date(item.end).getFullYear()} */}
+        </p>
+      </td>
+      <td>
+        <IconButton aria-label="delete" onClick={() => openDeleteModal()}>
+          <DeleteIcon />
+        </IconButton>
+        <ConfirmDelete
+          handleClose={handleCloseDeleteModal}
+          modal={deleteModal}
+          id={item.id}
+          del={"project"}
+        />
+      </td>
+    </tr>
+  )
+}
+
+const PhdCandidRow = ({ item, index }) => {
+  const [deleteModal, setDeleteModal] = useState(false)
+
+  const openDeleteModal = () => {
+    setDeleteModal(true)
+  }
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false)
+  }
+
+  return (
+    <tr>
+      <td>
+        <p>{index + 1}</p>
+      </td>
+      <td>
+        <p>{item.phd_student_name}</p>
+      </td>
+      <td>
+        <p>{item.thesis_topic}</p>
+      </td>
+      <td>
+        <p>{item.start_year}</p>
+      </td>
+      <td>
+        <p>{item.completion_year}</p>
+      </td>
+      <IconButton aria-label="delete" onClick={() => openDeleteModal()}>
+        <DeleteIcon />
+      </IconButton>
+      <ConfirmDelete
+        handleClose={handleCloseDeleteModal}
+        modal={deleteModal}
+        id={item.id}
+        del={"phdcandidates"}
+      />
+    </tr>
+  )
+}
 
 export default function Profilepage(props) {
-  const [detail, useDetail] = useState(props.details);
+  const [detail, useDetail] = useState(props.details)
   const [publications, setPublications] = useState(
     props.details.publications
       ? JSON.parse(props.details.publications[0].publications)
       : []
-  );
-  console.log(props.details);
-  const [session, loading] = useSession();
-  const [addModal, setAddModal] = useState(false);
+  )
+  console.log(props.details)
+  const [session, loading] = useSession()
+  const [addModal, setAddModal] = useState(false)
   const addModalOpen = () => {
-    setAddModal(true);
-  };
+    setAddModal(true)
+  }
   const handleCloseAddModal = () => {
-    setAddModal(false);
-  };
+    setAddModal(false)
+  }
 
-  const [addModald, setAddModald] = useState(false);
+  const [addModald, setAddModald] = useState(false)
   const addModalOpend = () => {
-    setAddModald(true);
-  };
+    setAddModald(true)
+  }
   const handleCloseAddModald = () => {
-    setAddModald(false);
-  };
+    setAddModald(false)
+  }
 
-  const [addModal1, setAddModal1] = useState(false);
+  const [addModal1, setAddModal1] = useState(false)
   const addModalOpen1 = () => {
-    setAddModal1(true);
-  };
+    setAddModal1(true)
+  }
   const handleCloseAddModal1 = () => {
-    setAddModal1(false);
-  };
+    setAddModal1(false)
+  }
 
-  const [addModal1d, setAddModal1d] = useState(false);
+  const [addModal1d, setAddModal1d] = useState(false)
   const addModalOpen1d = () => {
-    setAddModal1d(true);
-  };
+    setAddModal1d(true)
+  }
   const handleCloseAddModal1d = () => {
-    setAddModal1d(false);
-  };
+    setAddModal1d(false)
+  }
 
-  const [addModal2, setAddModal2] = useState(false);
+  const [addModal2, setAddModal2] = useState(false)
   const addModalOpen2 = () => {
-    setAddModal2(true);
-  };
+    setAddModal2(true)
+  }
   const handleCloseAddModal2 = () => {
-    setAddModal2(false);
-  };
+    setAddModal2(false)
+  }
 
-  const [addModal2d, setAddModal2d] = useState(false);
+  const [addModal2d, setAddModal2d] = useState(false)
   const addModalOpen2d = () => {
-    setAddModal2d(true);
-  };
+    setAddModal2d(true)
+  }
   const handleCloseAddModal2d = () => {
-    setAddModal2d(false);
-  };
+    setAddModal2d(false)
+  }
 
-  const [addModal3, setAddModal3] = useState(false);
+  const [addModal3, setAddModal3] = useState(false)
   const addModalOpen3 = () => {
-    setAddModal3(true);
-  };
+    setAddModal3(true)
+  }
   const handleCloseAddModal3 = () => {
-    setAddModal3(false);
-  };
+    setAddModal3(false)
+  }
 
-  const [addModal3d, setAddModal3d] = useState(false);
+  const [addModal3d, setAddModal3d] = useState(false)
   const addModalOpen3d = () => {
-    setAddModal3d(true);
-  };
+    setAddModal3d(true)
+  }
   const handleCloseAddModal3d = () => {
-    setAddModal3d(false);
-  };
+    setAddModal3d(false)
+  }
 
-  const [addModal4, setAddModal4] = useState(false);
+  const [addModal4, setAddModal4] = useState(false)
   const addModalOpen4 = () => {
-    setAddModal4(true);
-  };
+    setAddModal4(true)
+  }
   const handleCloseAddModal4 = () => {
-    setAddModal4(false);
-  };
+    setAddModal4(false)
+  }
 
-  const [addModal4d, setAddModal4d] = useState(false);
+  const [addModal4d, setAddModal4d] = useState(false)
   const addModalOpen4d = () => {
-    setAddModal4d(true);
-  };
+    setAddModal4d(true)
+  }
   const handleCloseAddModal4d = () => {
-    setAddModal4d(false);
-  };
+    setAddModal4d(false)
+  }
 
-  const [addModal5, setAddModal5] = useState(false);
+  const [addModal5, setAddModal5] = useState(false)
   const addModalOpen5 = () => {
-    setAddModal5(true);
-  };
+    setAddModal5(true)
+  }
   const handleCloseAddModal5 = () => {
-    setAddModal5(false);
-  };
+    setAddModal5(false)
+  }
 
-  const [addModal5d, setAddModal5d] = useState(false);
+  const [addModal5d, setAddModal5d] = useState(false)
   const addModalOpen5d = () => {
-    setAddModal5d(true);
-  };
+    setAddModal5d(true)
+  }
   const handleCloseAddModal5d = () => {
-    setAddModal5d(false);
-  };
+    setAddModal5d(false)
+  }
 
-  const [addModal6, setAddModal6] = useState(false);
+  const [addModal6, setAddModal6] = useState(false)
   const addModalOpen6 = () => {
-    setAddModal6(true);
-  };
+    setAddModal6(true)
+  }
   const handleCloseAddModal6 = () => {
-    setAddModal6(false);
-  };
+    setAddModal6(false)
+  }
 
-  const [addModal6d, setAddModal6d] = useState(false);
+  const [addModal6d, setAddModal6d] = useState(false)
   const addModalOpen6d = () => {
-    setAddModal6d(true);
-  };
+    setAddModal6d(true)
+  }
   const handleCloseAddModal6d = () => {
-    setAddModal6d(false);
-  };
+    setAddModal6d(false)
+  }
 
-  const [addModal7, setAddModal7] = useState(false);
+  const [addModal7, setAddModal7] = useState(false)
   const addModalOpen7 = () => {
-    setAddModal7(true);
-  };
+    setAddModal7(true)
+  }
   const handleCloseAddModal7 = () => {
-    setAddModal7(false);
-  };
+    setAddModal7(false)
+  }
 
-  const [addModal7d, setAddModal7d] = useState(false);
+  const [addModal7d, setAddModal7d] = useState(false)
   const addModalOpen7d = () => {
-    setAddModal7d(true);
-  };
+    setAddModal7d(true)
+  }
   const handleCloseAddModal7d = () => {
-    setAddModal7d(false);
-  };
+    setAddModal7d(false)
+  }
 
-  const [addModal8, setAddModal8] = useState(false);
+  const [addModal8, setAddModal8] = useState(false)
   const addModalOpen8 = () => {
-    setAddModal8(true);
-  };
+    setAddModal8(true)
+  }
   const handleCloseAddModal8 = () => {
-    setAddModal8(false);
-  };
+    setAddModal8(false)
+  }
 
-  const [addModal8d, setAddModal8d] = useState(false);
+  const [addModal8d, setAddModal8d] = useState(false)
   const addModalOpen8d = () => {
-    setAddModal8d(true);
-  };
+    setAddModal8d(true)
+  }
   const handleCloseAddModal8d = () => {
-    setAddModal8d(false);
-  };
+    setAddModal8d(false)
+  }
 
-  const [addModal9, setAddModal9] = useState(false);
+  const [addModal9, setAddModal9] = useState(false)
   const addModalOpen9 = () => {
-    setAddModal9(true);
-  };
+    setAddModal9(true)
+  }
   const handleCloseAddModal9 = () => {
-    setAddModal9(false);
-  };
+    setAddModal9(false)
+  }
 
-  const [addModal10, setAddModal10] = useState(false);
+  const [addModal10, setAddModal10] = useState(false)
   const addModalOpen10 = () => {
-    setAddModal10(true);
-  };
+    setAddModal10(true)
+  }
   const handleCloseAddModal10 = () => {
-    setAddModal10(false);
-  };
+    setAddModal10(false)
+  }
 
-  const [addModal10d, setAddModal10d] = useState(false);
+  const [addModal10d, setAddModal10d] = useState(false)
   const addModalOpen10d = () => {
-    setAddModal10d(true);
-  };
+    setAddModal10d(true)
+  }
   const handleCloseAddModal10d = () => {
-    setAddModal10d(false);
-  };
+    setAddModal10d(false)
+  }
 
-  const [addModalp, setAddModalp] = useState(false);
+  const [addModalp, setAddModalp] = useState(false)
   const addModalOpenp = () => {
-    setAddModalp(true);
-  };
+    setAddModalp(true)
+  }
   const handleCloseAddModalp = () => {
-    setAddModalp(false);
-  };
+    setAddModalp(false)
+  }
 
   return (
     <>
@@ -497,44 +824,9 @@ export default function Profilepage(props) {
                     </td>
                   </tr>
                   {detail.memberships &&
-                    detail.memberships.map((item) => {
-                      return (
-                        <tr>
-                          <td>
-                            <p>{item.membership_id}</p>
-                          </td>
-                          <td>
-                            <p>{item.membership_society}</p>
-                          </td>
-                          <td>
-                            <p>
-                              {item.start}
-                              {/* {new Date(item.start).getMonth() + 1} /{" "}
-                              {new Date(item.start).getFullYear()} */}
-                            </p>
-                          </td>
-                          <td>
-                            <p>
-                              {item.end}
-                              {/* {new Date(item.end).getMonth() + 1} /{" "}
-                              {new Date(item.end).getFullYear()} */}
-                            </p>
-                          </td>
-                          <IconButton
-                            aria-label="delete"
-                            onClick={() => addModalOpen1d()}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                          <ConfirmDelete
-                            handleClose={handleCloseAddModal1d}
-                            modal={addModal1d}
-                            id={item.id}
-                            del={"memberships"}
-                          />
-                        </tr>
-                      );
-                    })}
+                    detail.memberships.map((item) => (
+                      <MemAndSocRow item={item} />
+                    ))}
                 </table>
               </div>
             </div>
@@ -568,33 +860,9 @@ export default function Profilepage(props) {
                     </td>
                   </tr>
                   {detail.education &&
-                    detail.education.map((item) => {
-                      return (
-                        <tr>
-                          <td>
-                            <p>{item.certification}</p>
-                          </td>
-                          <td>
-                            <p>{item.institution}</p>
-                          </td>
-                          <td>
-                            <p>{item.passing_year}</p>
-                          </td>
-                          <IconButton
-                            aria-label="delete"
-                            onClick={() => addModalOpen3d()}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                          <ConfirmDelete
-                            handleClose={handleCloseAddModal3d}
-                            modal={addModal3d}
-                            id={item.id}
-                            del={"education"}
-                          />
-                        </tr>
-                      );
-                    })}
+                    detail.education.map((item) => (
+                      <EducationRow item={item} />
+                    ))}
                 </table>
               </div>
             </div>
@@ -628,34 +896,9 @@ export default function Profilepage(props) {
                     </td>
                   </tr>
                   {detail.curr_admin_responsibility &&
-                    detail.curr_admin_responsibility.map((item) => {
-                      return (
-                        <tr>
-                          <td>
-                            <p>{item.curr_responsibility}</p>
-                          </td>
-                          <td>
-                            <p>
-                              {item.start}
-                              {/* {new Date(item.start).getMonth() + 1} /{" "}
-                              {new Date(item.start).getFullYear()} */}
-                            </p>
-                          </td>
-                          <IconButton
-                            aria-label="delete"
-                            onClick={() => addModalOpen4d()}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                          <ConfirmDelete
-                            handleClose={handleCloseAddModal4d}
-                            modal={addModal4d}
-                            id={item.id}
-                            del={"current-responsibility"}
-                          />
-                        </tr>
-                      );
-                    })}
+                    detail.curr_admin_responsibility.map((item) => (
+                      <CurrAdminRow item={item} />
+                    ))}
                 </table>
               </div>
             </div>
@@ -726,41 +969,9 @@ export default function Profilepage(props) {
                     </td>
                   </tr>
                   {detail.past_admin_responsibility &&
-                    detail.past_admin_responsibility.map((item) => {
-                      return (
-                        <tr>
-                          <td>
-                            <p>{item.past_responsibility}</p>
-                          </td>
-                          <td>
-                            <p>
-                              {item.start}
-                              {/* {new Date(item.start).getMonth() + 1} /{" "}
-                              {new Date(item.start).getFullYear()} */}
-                            </p>
-                          </td>
-                          <td>
-                            <p>
-                              {item.end}
-                              {/* {new Date(item.end).getMonth() + 1} /{" "}
-                              {new Date(item.end).getFullYear()} */}
-                            </p>
-                          </td>
-                          <IconButton
-                            aria-label="delete"
-                            onClick={() => addModalOpen5d()}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                          <ConfirmDelete
-                            handleClose={handleCloseAddModal5d}
-                            modal={addModal5d}
-                            id={item.id}
-                            del={"past-responsibility"}
-                          />
-                        </tr>
-                      );
-                    })}
+                    detail.past_admin_responsibility.map((item) => (
+                      <PastAdminRow item={item} />
+                    ))}
                 </table>
               </div>
             </div>
@@ -834,44 +1045,9 @@ export default function Profilepage(props) {
                     </td>
                   </tr>
                   {detail.work_experience &&
-                    detail.work_experience.map((item) => {
-                      return (
-                        <tr>
-                          <td>
-                            <p>{item.work_experiences}</p>
-                          </td>
-                          <td>
-                            <p>{item.institute}</p>
-                          </td>
-                          <td>
-                            <p>
-                              {item.start}
-                              {/* {new Date(item.start).getMonth() + 1} /{" "}
-                              {new Date(item.start).getFullYear()} */}
-                            </p>
-                          </td>
-                          <td>
-                            <p>
-                              {item.end}
-                              {/* {new Date(item.end).getMonth() + 1} /{" "}
-                              {new Date(item.end).getFullYear()} */}
-                            </p>
-                          </td>
-                          <IconButton
-                            aria-label="delete"
-                            onClick={() => addModalOpen6d()}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                          <ConfirmDelete
-                            handleClose={handleCloseAddModal6d}
-                            modal={addModal6d}
-                            id={item.id}
-                            del={"workexperience"}
-                          />
-                        </tr>
-                      );
-                    })}
+                    detail.work_experience.map((item) => (
+                      <WorkExpRow item={item} />
+                    ))}
                 </table>
               </div>
             </div>
@@ -892,25 +1068,9 @@ export default function Profilepage(props) {
               </Button>
               <AddProf handleClose={handleCloseAddModal2} modal={addModal2} />
               {detail.professional_service &&
-                detail.professional_service.map((item) => {
-                  return (
-                    <p>
-                      {item.services}
-                      <IconButton
-                        aria-label="delete"
-                        onClick={() => addModalOpen2d()}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
-                      <ConfirmDelete
-                        handleClose={handleCloseAddModal2d}
-                        modal={addModal2d}
-                        id={item.id}
-                        del={"professionalservice"}
-                      />
-                    </p>
-                  );
-                })}
+                detail.professional_service.map((item) => (
+                  <ProServiceRow item={item} />
+                ))}
             </div>
 
             {/* <div
@@ -991,47 +1151,7 @@ export default function Profilepage(props) {
                     </td>
                   </tr>
                   {detail.project &&
-                    detail.project.map((item) => {
-                      return (
-                        <tr>
-                          <td>
-                            <p>{item.project}</p>
-                          </td>
-                          <td>
-                            <p>{item.sponsor}</p>
-                          </td>
-                          <td>
-                            <p>{item.amount}</p>
-                          </td>
-                          <td>
-                            <p>
-                              {item.start}
-                              {/* {new Date(item.start).getMonth() + 1} /{" "}
-                              {new Date(item.start).getFullYear()} */}
-                            </p>
-                          </td>
-                          <td>
-                            <p>
-                              {item.end}
-                              {/* {new Date(item.end).getMonth() + 1} /{" "}
-                              {new Date(item.end).getFullYear()} */}
-                            </p>
-                          </td>
-                          <IconButton
-                            aria-label="delete"
-                            onClick={() => addModalOpen7d()}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                          <ConfirmDelete
-                            handleClose={handleCloseAddModal7d}
-                            modal={addModal7d}
-                            id={item.id}
-                            del={"project"}
-                          />
-                        </tr>
-                      );
-                    })}
+                    detail.project.map((item) => <ProjectRow item={item} />)}
                 </table>
               </div>
             </div>
@@ -1097,39 +1217,9 @@ export default function Profilepage(props) {
                     </td>
                   </tr>
                   {detail.phd_candidates &&
-                    detail.phd_candidates.map((item, index) => {
-                      return (
-                        <tr>
-                          <td>
-                            <p>{index + 1}</p>
-                          </td>
-                          <td>
-                            <p>{item.phd_student_name}</p>
-                          </td>
-                          <td>
-                            <p>{item.thesis_topic}</p>
-                          </td>
-                          <td>
-                            <p>{item.start_year}</p>
-                          </td>
-                          <td>
-                            <p>{item.completion_year}</p>
-                          </td>
-                          <IconButton
-                            aria-label="delete"
-                            onClick={() => addModalOpen8d()}
-                          >
-                            <DeleteIcon />
-                          </IconButton>
-                          <ConfirmDelete
-                            handleClose={handleCloseAddModal8d}
-                            modal={addModal8d}
-                            id={item.id}
-                            del={"phdcandidates"}
-                          />
-                        </tr>
-                      );
-                    })}
+                    detail.phd_candidates.map((item, index) => (
+                      <PhdCandidRow item={item} index={index} />
+                    ))}
                 </table>
               </div>
             </div>
@@ -1137,5 +1227,5 @@ export default function Profilepage(props) {
         </Profile>
       )}
     </>
-  );
+  )
 }
