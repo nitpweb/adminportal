@@ -81,7 +81,6 @@ export const AddCurrent = ({ handleClose, modal }) => {
               label="Start Date"
               name="start"
               type="text"
-              required
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.start}
