@@ -127,7 +127,7 @@ const SubjectRow = ({ item }) => {
         </p>
       </td>
       <td>
-        <IconButton aria-label="delete" onClick={openDeleteModal}>
+        <IconButton aria-label='delete' onClick={openDeleteModal}>
           <DeleteIcon />
         </IconButton>
         <ConfirmDelete
@@ -174,7 +174,7 @@ const MemAndSocRow = ({ item }) => {
         </p>
       </td>
       <td>
-        <IconButton aria-label="delete" onClick={() => openDeleteModal()}>
+        <IconButton aria-label='delete' onClick={() => openDeleteModal()}>
           <DeleteIcon />
         </IconButton>
         <ConfirmDelete
@@ -210,7 +210,7 @@ const EducationRow = ({ item }) => {
         <p>{item.passing_year}</p>
       </td>
       <td>
-        <IconButton aria-label="delete" onClick={openDeleteModal}>
+        <IconButton aria-label='delete' onClick={openDeleteModal}>
           <DeleteIcon />
         </IconButton>
         <ConfirmDelete
@@ -247,7 +247,7 @@ const CurrAdminRow = ({ item }) => {
         </p>
       </td>
       <td>
-        <IconButton aria-label="delete" onClick={() => openDeleteModal()}>
+        <IconButton aria-label='delete' onClick={() => openDeleteModal()}>
           <DeleteIcon />
         </IconButton>
         <ConfirmDelete
@@ -291,7 +291,7 @@ const PastAdminRow = ({ item }) => {
         </p>
       </td>
       <td>
-        <IconButton aria-label="delete" onClick={() => openDeleteModal()}>
+        <IconButton aria-label='delete' onClick={() => openDeleteModal()}>
           <DeleteIcon />
         </IconButton>
         <ConfirmDelete
@@ -338,7 +338,7 @@ const WorkExpRow = ({ item }) => {
         </p>
       </td>
       <td>
-        <IconButton aria-label="delete" onClick={() => openDeleteModal()}>
+        <IconButton aria-label='delete' onClick={() => openDeleteModal()}>
           <DeleteIcon />
         </IconButton>
         <ConfirmDelete
@@ -365,7 +365,7 @@ const ProServiceRow = ({ item }) => {
   return (
     <p>
       {item.services}
-      <IconButton aria-label="delete" onClick={() => openDeleteModal()}>
+      <IconButton aria-label='delete' onClick={() => openDeleteModal()}>
         <DeleteIcon />
       </IconButton>
       <ConfirmDelete
@@ -414,7 +414,7 @@ const ProjectRow = ({ item }) => {
         </p>
       </td>
       <td>
-        <IconButton aria-label="delete" onClick={() => openDeleteModal()}>
+        <IconButton aria-label='delete' onClick={() => openDeleteModal()}>
           <DeleteIcon />
         </IconButton>
         <ConfirmDelete
@@ -455,7 +455,7 @@ const PhdCandidRow = ({ item, index }) => {
       <td>
         <p>{item.completion_year}</p>
       </td>
-      <IconButton aria-label="delete" onClick={() => openDeleteModal()}>
+      <IconButton aria-label='delete' onClick={() => openDeleteModal()}>
         <DeleteIcon />
       </IconButton>
       <ConfirmDelete
@@ -469,13 +469,19 @@ const PhdCandidRow = ({ item, index }) => {
 }
 
 export default function Profilepage(props) {
-  const [detail, useDetail] = useState(props.details)
+  const [detail, setDetails] = useState(props.details)
   const [publications, setPublications] = useState(
     props.details.publications
       ? JSON.parse(props.details.publications[0].publications)
       : []
   )
   console.log(props.details)
+
+  // To update state after refreshing data
+  useEffect(() => {
+    setDetails(props.details)
+  }, [props.details])
+
   const [session, loading] = useSession()
   const [addModal, setAddModal] = useState(false)
   const addModalOpen = () => {
@@ -483,14 +489,6 @@ export default function Profilepage(props) {
   }
   const handleCloseAddModal = () => {
     setAddModal(false)
-  }
-
-  const [addModald, setAddModald] = useState(false)
-  const addModalOpend = () => {
-    setAddModald(true)
-  }
-  const handleCloseAddModald = () => {
-    setAddModald(false)
   }
 
   const [addModal1, setAddModal1] = useState(false)
@@ -501,28 +499,12 @@ export default function Profilepage(props) {
     setAddModal1(false)
   }
 
-  const [addModal1d, setAddModal1d] = useState(false)
-  const addModalOpen1d = () => {
-    setAddModal1d(true)
-  }
-  const handleCloseAddModal1d = () => {
-    setAddModal1d(false)
-  }
-
   const [addModal2, setAddModal2] = useState(false)
   const addModalOpen2 = () => {
     setAddModal2(true)
   }
   const handleCloseAddModal2 = () => {
     setAddModal2(false)
-  }
-
-  const [addModal2d, setAddModal2d] = useState(false)
-  const addModalOpen2d = () => {
-    setAddModal2d(true)
-  }
-  const handleCloseAddModal2d = () => {
-    setAddModal2d(false)
   }
 
   const [addModal3, setAddModal3] = useState(false)
@@ -533,28 +515,12 @@ export default function Profilepage(props) {
     setAddModal3(false)
   }
 
-  const [addModal3d, setAddModal3d] = useState(false)
-  const addModalOpen3d = () => {
-    setAddModal3d(true)
-  }
-  const handleCloseAddModal3d = () => {
-    setAddModal3d(false)
-  }
-
   const [addModal4, setAddModal4] = useState(false)
   const addModalOpen4 = () => {
     setAddModal4(true)
   }
   const handleCloseAddModal4 = () => {
     setAddModal4(false)
-  }
-
-  const [addModal4d, setAddModal4d] = useState(false)
-  const addModalOpen4d = () => {
-    setAddModal4d(true)
-  }
-  const handleCloseAddModal4d = () => {
-    setAddModal4d(false)
   }
 
   const [addModal5, setAddModal5] = useState(false)
@@ -565,28 +531,12 @@ export default function Profilepage(props) {
     setAddModal5(false)
   }
 
-  const [addModal5d, setAddModal5d] = useState(false)
-  const addModalOpen5d = () => {
-    setAddModal5d(true)
-  }
-  const handleCloseAddModal5d = () => {
-    setAddModal5d(false)
-  }
-
   const [addModal6, setAddModal6] = useState(false)
   const addModalOpen6 = () => {
     setAddModal6(true)
   }
   const handleCloseAddModal6 = () => {
     setAddModal6(false)
-  }
-
-  const [addModal6d, setAddModal6d] = useState(false)
-  const addModalOpen6d = () => {
-    setAddModal6d(true)
-  }
-  const handleCloseAddModal6d = () => {
-    setAddModal6d(false)
   }
 
   const [addModal7, setAddModal7] = useState(false)
@@ -597,28 +547,12 @@ export default function Profilepage(props) {
     setAddModal7(false)
   }
 
-  const [addModal7d, setAddModal7d] = useState(false)
-  const addModalOpen7d = () => {
-    setAddModal7d(true)
-  }
-  const handleCloseAddModal7d = () => {
-    setAddModal7d(false)
-  }
-
   const [addModal8, setAddModal8] = useState(false)
   const addModalOpen8 = () => {
     setAddModal8(true)
   }
   const handleCloseAddModal8 = () => {
     setAddModal8(false)
-  }
-
-  const [addModal8d, setAddModal8d] = useState(false)
-  const addModalOpen8d = () => {
-    setAddModal8d(true)
-  }
-  const handleCloseAddModal8d = () => {
-    setAddModal8d(false)
   }
 
   const [addModal9, setAddModal9] = useState(false)
@@ -637,14 +571,6 @@ export default function Profilepage(props) {
     setAddModal10(false)
   }
 
-  const [addModal10d, setAddModal10d] = useState(false)
-  const addModalOpen10d = () => {
-    setAddModal10d(true)
-  }
-  const handleCloseAddModal10d = () => {
-    setAddModal10d(false)
-  }
-
   const [addModalp, setAddModalp] = useState(false)
   const addModalOpenp = () => {
     setAddModalp(true)
@@ -657,23 +583,23 @@ export default function Profilepage(props) {
     <>
       {session && (
         <Profile>
-          <div className="faculty-img-row">
-            <div className="faculty-img-wrap">
+          <div className='faculty-img-row'>
+            <div className='faculty-img-wrap'>
               <img
                 src={
                   detail.profile.image ? detail.profile.image : "/faculty.png"
                 }
-                alt="faculty"
+                alt='faculty'
               />
             </div>
-            <a href={`mailto:${detail.profile.email}`} target="blank">
+            <a href={`mailto:${detail.profile.email}`} target='blank'>
               {/* <img src={mail} className="img-fluid facmail" /> */}
             </a>
             <h2>{detail.profile.name}</h2>
             <h3>{detail.profile.designation}</h3>
             <Button
-              color="primary"
-              variant="contained"
+              color='primary'
+              variant='contained'
               onClick={() => addModalOpenp()}
               style={{}}
             >
@@ -682,11 +608,11 @@ export default function Profilepage(props) {
             <AddPic handleClose={handleCloseAddModalp} modal={addModalp} />
           </div>
 
-          <div className="faculty-details-row">
+          <div className='faculty-details-row'>
             <h1>Profile</h1>
             <div
-              className="fac-card"
-              data-aos="fade-up"
+              className='fac-card'
+              data-aos='fade-up'
               style={{ position: `relative` }}
             >
               <h3>Research Interest:-</h3>
@@ -696,8 +622,8 @@ export default function Profilepage(props) {
               <h3>Phone:-</h3>
               <p>{detail.profile.ext_no}</p>
               <Button
-                color="primary"
-                variant="contained"
+                color='primary'
+                variant='contained'
                 onClick={() => addModalOpen9()}
                 style={{ position: `absolute`, top: `5px`, right: `5px` }}
               >
@@ -749,14 +675,14 @@ export default function Profilepage(props) {
             </div> */}
 
             <div
-              className="fac-card"
-              data-aos="fade-up"
+              className='fac-card'
+              data-aos='fade-up'
               style={{ position: `relative` }}
             >
               <h3>Subjects</h3>
               <Button
-                color="primary"
-                variant="contained"
+                color='primary'
+                variant='contained'
                 onClick={() => addModalOpen()}
                 style={{ position: `absolute`, top: `5px`, right: `5px` }}
               >
@@ -764,7 +690,7 @@ export default function Profilepage(props) {
               </Button>
               <AddForm handleClose={handleCloseAddModal} modal={addModal} />
 
-              <div className="factable">
+              <div className='factable'>
                 <table>
                   <tr>
                     <td>
@@ -790,14 +716,14 @@ export default function Profilepage(props) {
             </div>
 
             <div
-              className="fac-card"
-              data-aos="fade-up"
+              className='fac-card'
+              data-aos='fade-up'
               style={{ position: `relative` }}
             >
               <h3>Memberships & Society</h3>
               <Button
-                color="primary"
-                variant="contained"
+                color='primary'
+                variant='contained'
                 onClick={() => addModalOpen1()}
                 style={{ position: `absolute`, top: `5px`, right: `5px` }}
               >
@@ -807,7 +733,7 @@ export default function Profilepage(props) {
                 handleClose={handleCloseAddModal1}
                 modal={addModal1}
               />
-              <div className="factable">
+              <div className='factable'>
                 <table>
                   <tr>
                     <td>
@@ -832,21 +758,21 @@ export default function Profilepage(props) {
             </div>
 
             <div
-              className="fac-card"
-              data-aos="fade-up"
+              className='fac-card'
+              data-aos='fade-up'
               style={{ position: `relative` }}
             >
               <h3>Educational Qualification</h3>
               <Button
-                color="primary"
-                variant="contained"
+                color='primary'
+                variant='contained'
                 onClick={() => addModalOpen3()}
                 style={{ position: `absolute`, top: `5px`, right: `5px` }}
               >
                 Add
               </Button>
               <AddEdu handleClose={handleCloseAddModal3} modal={addModal3} />
-              <div className="factable">
+              <div className='factable'>
                 <table>
                   <tr>
                     <td>
@@ -868,14 +794,14 @@ export default function Profilepage(props) {
             </div>
 
             <div
-              className="fac-card"
-              data-aos="fade-up"
+              className='fac-card'
+              data-aos='fade-up'
               style={{ position: `relative` }}
             >
               <h3>Current Administrative Responsibility</h3>
               <Button
-                color="primary"
-                variant="contained"
+                color='primary'
+                variant='contained'
                 onClick={() => addModalOpen4()}
                 style={{ position: `absolute`, top: `5px`, right: `5px` }}
               >
@@ -885,7 +811,7 @@ export default function Profilepage(props) {
                 handleClose={handleCloseAddModal4}
                 modal={addModal4}
               />
-              <div className="factable">
+              <div className='factable'>
                 <table>
                   <tr>
                     <td>
@@ -941,21 +867,21 @@ export default function Profilepage(props) {
             </div> */}
 
             <div
-              className="fac-card"
-              data-aos="fade-up"
+              className='fac-card'
+              data-aos='fade-up'
               style={{ position: `relative` }}
             >
               <h3>Past Administrative Responsibility</h3>
               <Button
-                color="primary"
-                variant="contained"
+                color='primary'
+                variant='contained'
                 onClick={() => addModalOpen5()}
                 style={{ position: `absolute`, top: `5px`, right: `5px` }}
               >
                 Add
               </Button>
               <AddPast handleClose={handleCloseAddModal5} modal={addModal5} />
-              <div className="factable">
+              <div className='factable'>
                 <table>
                   <tr>
                     <td>
@@ -1014,21 +940,21 @@ export default function Profilepage(props) {
             </div> */}
 
             <div
-              className="fac-card"
-              data-aos="fade-up"
+              className='fac-card'
+              data-aos='fade-up'
               style={{ position: `relative` }}
             >
               <h3>Work Experiences</h3>
               <Button
-                color="primary"
-                variant="contained"
+                color='primary'
+                variant='contained'
                 onClick={() => addModalOpen6()}
                 style={{ position: `absolute`, top: `5px`, right: `5px` }}
               >
                 Add
               </Button>
               <AddWork handleClose={handleCloseAddModal6} modal={addModal6} />
-              <div className="factable">
+              <div className='factable'>
                 <table>
                   <tr>
                     <td>
@@ -1053,14 +979,14 @@ export default function Profilepage(props) {
             </div>
 
             <div
-              className="fac-card"
-              data-aos="fade-up"
+              className='fac-card'
+              data-aos='fade-up'
               style={{ position: `relative` }}
             >
               <h3>Professional Services</h3>
               <Button
-                color="primary"
-                variant="contained"
+                color='primary'
+                variant='contained'
                 onClick={() => addModalOpen2()}
                 style={{ position: `absolute`, top: `5px`, right: `5px` }}
               >
@@ -1113,14 +1039,14 @@ export default function Profilepage(props) {
                 })}
             </div> */}
             <div
-              className="fac-card"
-              data-aos="fade-up"
+              className='fac-card'
+              data-aos='fade-up'
               style={{ position: `relative` }}
             >
               <h3>Projects</h3>
               <Button
-                color="primary"
-                variant="contained"
+                color='primary'
+                variant='contained'
                 onClick={() => addModalOpen7()}
                 style={{ position: `absolute`, top: `5px`, right: `5px` }}
               >
@@ -1131,7 +1057,7 @@ export default function Profilepage(props) {
                 modal={addModal7}
               />
 
-              <div className="factable">
+              <div className='factable'>
                 <table>
                   <tr>
                     <td>
@@ -1157,14 +1083,14 @@ export default function Profilepage(props) {
             </div>
 
             <div
-              className="fac-card"
-              data-aos="fade-up"
+              className='fac-card'
+              data-aos='fade-up'
               style={{ position: `relative` }}
             >
               <h3>Publications</h3>
               <Button
-                color="primary"
-                variant="contained"
+                color='primary'
+                variant='contained'
                 onClick={() => addModalOpen10()}
                 style={{ position: `absolute`, top: `5px`, right: `5px` }}
               >
@@ -1184,14 +1110,14 @@ export default function Profilepage(props) {
               )}
             </div>
             <div
-              className="fac-card"
-              data-aos="fade-up"
+              className='fac-card'
+              data-aos='fade-up'
               style={{ position: `relative` }}
             >
               <h3>Phd Candidates</h3>
               <Button
-                color="primary"
-                variant="contained"
+                color='primary'
+                variant='contained'
                 onClick={() => addModalOpen8()}
                 style={{ position: `absolute`, top: `5px`, right: `5px` }}
               >
@@ -1199,7 +1125,7 @@ export default function Profilepage(props) {
               </Button>
               <Addphd handleClose={handleCloseAddModal8} modal={addModal8} />
 
-              <div className="factable">
+              <div className='factable'>
                 <table>
                   <tr>
                     <td></td>

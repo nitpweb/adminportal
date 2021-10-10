@@ -4,9 +4,17 @@ import DialogActions from "@material-ui/core/DialogActions"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import { useSession } from "next-auth/client"
 import React from "react"
+import useRefreshData from "@/custom-hooks/refresh"
 
-export const ConfirmDelete = ({ handleClose, modal, id, del }) => {
+export const ConfirmDelete = ({
+  handleClose,
+  modal,
+  id,
+  del,
+  scrolltoTop = false
+}) => {
   const [session, loading] = useSession()
+  const refreshData = useRefreshData(scrolltoTop)
   let data = {
     id: id,
     email: session.user.email
@@ -22,8 +30,8 @@ export const ConfirmDelete = ({ handleClose, modal, id, del }) => {
       console.log(result)
     }
     console.log(result)
-
-    window.location.reload()
+    handleClose()
+    refreshData()
   }
 
   return (

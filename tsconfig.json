@@ -7,6 +7,9 @@
       ],
       "@/lib/*": [
         "lib/*"
+      ],
+      "@/custom-hooks/*":[
+        "lib/custom-hooks/*"
       ]
     },
     "target": "es5",
