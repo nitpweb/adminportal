@@ -480,6 +480,11 @@ export default function Profilepage(props) {
   // To update state after refreshing data
   useEffect(() => {
     setDetails(props.details)
+    setPublications(
+      props.details.publications
+        ? JSON.parse(props.details.publications[0].publications)
+        : []
+    )
   }, [props.details])
 
   const [session, loading] = useSession()
