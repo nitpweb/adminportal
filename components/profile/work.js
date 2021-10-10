@@ -1,33 +1,36 @@
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import TextField from "@material-ui/core/TextField";
-import { useSession } from "next-auth/client";
-import React, { useState } from "react";
-import DateFnsUtils from "@date-io/date-fns";
-import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
-import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button"
+import Dialog from "@material-ui/core/Dialog"
+import DialogActions from "@material-ui/core/DialogActions"
+import DialogContent from "@material-ui/core/DialogContent"
+import DialogTitle from "@material-ui/core/DialogTitle"
+import TextField from "@material-ui/core/TextField"
+import { useSession } from "next-auth/client"
+import React, { useState } from "react"
+import DateFnsUtils from "@date-io/date-fns"
+import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers"
+import Grid from "@material-ui/core/Grid"
+import useRefreshData from "@/custom-hooks/refresh"
 
 export const AddWork = ({ handleClose, modal }) => {
-  const [session, loading] = useSession();
-  const [content, setContent] = useState({
+  const [session, loading] = useSession()
+  const refreshData = useRefreshData(false)
+  const initialState = {
     work_experiences: "",
     institute: "",
     start: undefined,
-    end: undefined,
-  });
-  const [submitting, setSubmitting] = useState(false);
+    end: undefined
+  }
+  const [content, setContent] = useState(initialState)
+  const [submitting, setSubmitting] = useState(false)
 
   const handleChange = (e) => {
-    setContent({ ...content, [e.target.name]: e.target.value });
+    setContent({ ...content, [e.target.name]: e.target.value })
     //console.log(content)
-  };
+  }
 
   const handleSubmit = async (e) => {
-    setSubmitting(true);
-    e.preventDefault();
+    setSubmitting(true)
+    e.preventDefault()
 
     // let start = new Date(content.start);
     // let end = new Date(content.end);
@@ -37,33 +40,36 @@ export const AddWork = ({ handleClose, modal }) => {
     let data = {
       ...content,
       id: Date.now(),
-      email: session.user.email,
-    };
+      email: session.user.email
+    }
     // data.attachments = JSON.stringify(data.attachments);
 
     let result = await fetch("/api/create/workexperience", {
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
       method: "POST",
-      body: JSON.stringify(data),
-    });
-    result = await result.json();
+      body: JSON.stringify(data)
+    })
+    result = await result.json()
     if (result instanceof Error) {
-      console.log("Error Occured");
-      console.log(result);
+      console.log("Error Occured")
+      console.log(result)
     }
-    console.log(result);
-    window.location.reload();
-  };
+    console.log(result)
+    handleClose()
+    refreshData()
+    setSubmitting(false)
+    setContent(initialState)
+  }
 
   return (
     <>
       <Dialog open={modal} onClose={handleClose}>
         <form
           onSubmit={(e) => {
-            handleSubmit(e);
+            handleSubmit(e)
           }}
         >
           <DialogTitle disableTypography style={{ fontSize: `2rem` }}>
@@ -71,41 +77,42 @@ export const AddWork = ({ handleClose, modal }) => {
           </DialogTitle>
           <DialogContent>
             <TextField
-              margin="dense"
-              id="label"
-              label="Designation"
-              name="work_experiences"
-              type="text"
+              margin='dense'
+              id='label'
+              label='Designation'
+              name='work_experiences'
+              type='text'
               required
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.work_experiences}
             />
             <TextField
-              margin="dense"
-              id="label"
-              label="Institute/Company"
-              name="institute"
-              type="text"
+              margin='dense'
+              id='label'
+              label='Institute/Company'
+              name='institute'
+              type='text'
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.institute}
             />
             <TextField
-              margin="dense"
-              id="label"
-              label="Start Date"
-              name="end"
-              type="text"
+              margin='dense'
+              id='label'
+              label='Start Date'
+              name='end'
+              type='text'
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.start}
-            /><TextField
-              margin="dense"
-              id="label"
-              label="End Date"
-              name="end"
-              type="text"
+            />
+            <TextField
+              margin='dense'
+              id='label'
+              label='End Date'
+              name='end'
+              type='text'
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.end}
@@ -140,11 +147,11 @@ export const AddWork = ({ handleClose, modal }) => {
           </DialogContent>
           <DialogActions>
             {submitting ? (
-              <Button type="submit" color="primary" disabled>
+              <Button type='submit' color='primary' disabled>
                 Submitting
               </Button>
             ) : (
-              <Button type="submit" color="primary">
+              <Button type='submit' color='primary'>
                 Submit
               </Button>
             )}
@@ -152,5 +159,5 @@ export const AddWork = ({ handleClose, modal }) => {
         </form>
       </Dialog>
     </>
-  );
-};
+  )
+}

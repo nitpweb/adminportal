@@ -1,34 +1,37 @@
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import TextField from "@material-ui/core/TextField";
-import { useSession } from "next-auth/client";
-import React, { useState } from "react";
-import DateFnsUtils from "@date-io/date-fns";
-import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
-import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button"
+import Dialog from "@material-ui/core/Dialog"
+import DialogActions from "@material-ui/core/DialogActions"
+import DialogContent from "@material-ui/core/DialogContent"
+import DialogTitle from "@material-ui/core/DialogTitle"
+import TextField from "@material-ui/core/TextField"
+import { useSession } from "next-auth/client"
+import React, { useState } from "react"
+import DateFnsUtils from "@date-io/date-fns"
+import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers"
+import Grid from "@material-ui/core/Grid"
+import useRefreshData from "@/custom-hooks/refresh"
 
 export const Addproject = ({ handleClose, modal }) => {
-  const [session, loading] = useSession();
-  const [content, setContent] = useState({
+  const [session, loading] = useSession()
+  const refreshData = useRefreshData(false)
+  const initialState = {
     project: "",
     sponsor: "",
     amount: "",
     start: undefined,
-    end: undefined,
-  });
-  const [submitting, setSubmitting] = useState(false);
+    end: undefined
+  }
+  const [content, setContent] = useState(initialState)
+  const [submitting, setSubmitting] = useState(false)
 
   const handleChange = (e) => {
-    setContent({ ...content, [e.target.name]: e.target.value });
+    setContent({ ...content, [e.target.name]: e.target.value })
     //console.log(content)
-  };
+  }
 
   const handleSubmit = async (e) => {
-    setSubmitting(true);
-    e.preventDefault();
+    setSubmitting(true)
+    e.preventDefault()
 
     // let start = new Date(content.start);
     // let end = new Date(content.end);
@@ -38,33 +41,36 @@ export const Addproject = ({ handleClose, modal }) => {
     let data = {
       ...content,
       id: Date.now(),
-      email: session.user.email,
-    };
+      email: session.user.email
+    }
     // data.attachments = JSON.stringify(data.attachments);
 
     let result = await fetch("/api/create/project", {
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
       method: "POST",
-      body: JSON.stringify(data),
-    });
-    result = await result.json();
+      body: JSON.stringify(data)
+    })
+    result = await result.json()
     if (result instanceof Error) {
-      console.log("Error Occured");
-      console.log(result);
+      console.log("Error Occured")
+      console.log(result)
     }
-    console.log(result);
-    window.location.reload();
-  };
+    console.log(result)
+    handleClose()
+    refreshData()
+    setSubmitting(false)
+    setContent(initialState)
+  }
 
   return (
     <>
       <Dialog open={modal} onClose={handleClose}>
         <form
           onSubmit={(e) => {
-            handleSubmit(e);
+            handleSubmit(e)
           }}
         >
           <DialogTitle disableTypography style={{ fontSize: `2rem` }}>
@@ -72,61 +78,61 @@ export const Addproject = ({ handleClose, modal }) => {
           </DialogTitle>
           <DialogContent>
             <TextField
-              margin="dense"
-              id="title"
-              label="Title"
-              name="project"
-              type="text"
+              margin='dense'
+              id='title'
+              label='Title'
+              name='project'
+              type='text'
               required
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.project}
             />
             <TextField
-              margin="dense"
-              id="sponsor"
-              label="Sponsoring Agency"
-              name="sponsor"
-              type="text"
+              margin='dense'
+              id='sponsor'
+              label='Sponsoring Agency'
+              name='sponsor'
+              type='text'
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.sponsor}
             />
             <TextField
-              margin="dense"
-              id="amount"
-              label="Amount"
-              name="amount"
-              type="text"
+              margin='dense'
+              id='amount'
+              label='Amount'
+              name='amount'
+              type='text'
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.amount}
             />
             <TextField
-              margin="dense"
-              id="labelprojectS"
-              label="Start Date"
-              name="start"
-              type="text"
+              margin='dense'
+              id='labelprojectS'
+              label='Start Date'
+              name='start'
+              type='text'
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.start}
               InputLabelProps={{
-								shrink: true,
-							}}
+                shrink: true
+              }}
             />
             <TextField
-              margin="dense"
-              id="labelprojectE"
-              label="End Date"
-              name="end"
-              type="text"
+              margin='dense'
+              id='labelprojectE'
+              label='End Date'
+              name='end'
+              type='text'
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.end}
               InputLabelProps={{
-								shrink: true,
-							}}
+                shrink: true
+              }}
             />
 
             {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -159,11 +165,11 @@ export const Addproject = ({ handleClose, modal }) => {
           </DialogContent>
           <DialogActions>
             {submitting ? (
-              <Button type="submit" color="primary" disabled>
+              <Button type='submit' color='primary' disabled>
                 Submitting
               </Button>
             ) : (
-              <Button type="submit" color="primary">
+              <Button type='submit' color='primary'>
                 Submit
               </Button>
             )}
@@ -171,5 +177,5 @@ export const Addproject = ({ handleClose, modal }) => {
         </form>
       </Dialog>
     </>
-  );
-};
+  )
+}
