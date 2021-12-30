@@ -19,7 +19,7 @@ export const Addproject = ({ handleClose, modal }) => {
     sponsor: "",
     amount: "",
     start: undefined,
-    end: undefined
+    end: undefined,
   }
   const [content, setContent] = useState(initialState)
   const [submitting, setSubmitting] = useState(false)
@@ -41,17 +41,17 @@ export const Addproject = ({ handleClose, modal }) => {
     let data = {
       ...content,
       id: Date.now(),
-      email: session.user.email
+      email: session.user.email,
     }
     // data.attachments = JSON.stringify(data.attachments);
 
     let result = await fetch("/api/create/project", {
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       method: "POST",
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
     result = await result.json()
     if (result instanceof Error) {
@@ -78,60 +78,60 @@ export const Addproject = ({ handleClose, modal }) => {
           </DialogTitle>
           <DialogContent>
             <TextField
-              margin='dense'
-              id='title'
-              label='Title'
-              name='project'
-              type='text'
+              margin="dense"
+              id="title"
+              label="Title"
+              name="project"
+              type="text"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.project}
             />
             <TextField
-              margin='dense'
-              id='sponsor'
-              label='Sponsoring Agency'
-              name='sponsor'
-              type='text'
+              margin="dense"
+              id="sponsor"
+              label="Sponsoring Agency"
+              name="sponsor"
+              type="text"
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.sponsor}
             />
             <TextField
-              margin='dense'
-              id='amount'
-              label='Amount'
-              name='amount'
-              type='text'
+              margin="dense"
+              id="amount"
+              label="Amount"
+              name="amount"
+              type="text"
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.amount}
             />
             <TextField
-              margin='dense'
-              id='labelprojectS'
-              label='Start Date'
-              name='start'
-              type='text'
+              margin="dense"
+              id="labelprojectS"
+              label="Start Date"
+              name="start"
+              type="text"
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.start}
               InputLabelProps={{
-                shrink: true
+                shrink: true,
               }}
             />
             <TextField
-              margin='dense'
-              id='labelprojectE'
-              label='End Date'
-              name='end'
-              type='text'
+              margin="dense"
+              id="labelprojectE"
+              label="End Date"
+              name="end"
+              type="text"
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.end}
               InputLabelProps={{
-                shrink: true
+                shrink: true,
               }}
             />
 
@@ -164,15 +164,9 @@ export const Addproject = ({ handleClose, modal }) => {
             </MuiPickersUtilsProvider> */}
           </DialogContent>
           <DialogActions>
-            {submitting ? (
-              <Button type='submit' color='primary' disabled>
-                Submitting
-              </Button>
-            ) : (
-              <Button type='submit' color='primary'>
-                Submit
-              </Button>
-            )}
+            <Button type="submit" color="primary" disabled={submitting}>
+              {submitting ? "Submitting" : "Submit"}
+            </Button>
           </DialogActions>
         </form>
       </Dialog>

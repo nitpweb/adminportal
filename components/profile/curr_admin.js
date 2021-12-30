@@ -16,7 +16,7 @@ export const AddCurrent = ({ handleClose, modal }) => {
   const refreshData = useRefreshData(false)
   const initialState = {
     curr_responsibility: "",
-    start: undefined
+    start: undefined,
   }
   const [content, setContent] = useState(initialState)
   const [submitting, setSubmitting] = useState(false)
@@ -34,17 +34,17 @@ export const AddCurrent = ({ handleClose, modal }) => {
     let data = {
       ...content,
       id: Date.now(),
-      email: session.user.email
+      email: session.user.email,
     }
     // data.attachments = JSON.stringify(data.attachments);
 
     let result = await fetch("/api/create/current-responsibility", {
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       method: "POST",
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
     result = await result.json()
     if (result instanceof Error) {
@@ -71,22 +71,22 @@ export const AddCurrent = ({ handleClose, modal }) => {
           </DialogTitle>
           <DialogContent>
             <TextField
-              margin='dense'
-              id='label'
-              label='Current Admin Responsibility'
-              name='curr_responsibility'
-              type='text'
+              margin="dense"
+              id="label"
+              label="Current Admin Responsibility"
+              name="curr_responsibility"
+              type="text"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.curr_responsibility}
             />
             <TextField
-              margin='dense'
-              id='label'
-              label='Start Date'
-              name='start'
-              type='text'
+              margin="dense"
+              id="label"
+              label="Start Date"
+              name="start"
+              type="text"
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.start}
@@ -120,15 +120,9 @@ export const AddCurrent = ({ handleClose, modal }) => {
             </MuiPickersUtilsProvider> */}
           </DialogContent>
           <DialogActions>
-            {submitting ? (
-              <Button type='submit' color='primary' disabled>
-                Submitting
-              </Button>
-            ) : (
-              <Button type='submit' color='primary'>
-                Submit
-              </Button>
-            )}
+            <Button type="submit" color="primary" disabled={submitting}>
+              {submitting ? "Submitting" : "Submit"}
+            </Button>
           </DialogActions>
         </form>
       </Dialog>

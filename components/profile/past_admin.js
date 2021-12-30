@@ -17,7 +17,7 @@ export const AddPast = ({ handleClose, modal }) => {
   const initialState = {
     past_responsibility: "",
     start: undefined,
-    end: undefined
+    end: undefined,
   }
   const [content, setContent] = useState(initialState)
   const [submitting, setSubmitting] = useState(false)
@@ -37,17 +37,17 @@ export const AddPast = ({ handleClose, modal }) => {
     let data = {
       ...content,
       id: Date.now(),
-      email: session.user.email
+      email: session.user.email,
     }
     // data.attachments = JSON.stringify(data.attachments);
 
     let result = await fetch("/api/create/past-responsibility", {
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       method: "POST",
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
     result = await result.json()
     if (result instanceof Error) {
@@ -74,32 +74,32 @@ export const AddPast = ({ handleClose, modal }) => {
           </DialogTitle>
           <DialogContent>
             <TextField
-              margin='dense'
-              id='label'
-              label='Past Admin Responsibility'
-              name='past_responsibility'
-              type='text'
+              margin="dense"
+              id="label"
+              label="Past Admin Responsibility"
+              name="past_responsibility"
+              type="text"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.past_responsibility}
             />
             <TextField
-              margin='dense'
-              id='pastStart'
-              label='Start Date'
-              name='start'
-              type='text'
+              margin="dense"
+              id="pastStart"
+              label="Start Date"
+              name="start"
+              type="text"
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.start}
             />
             <TextField
-              margin='dense'
-              id='pastEnd'
-              label='End Date'
-              name='end'
-              type='text'
+              margin="dense"
+              id="pastEnd"
+              label="End Date"
+              name="end"
+              type="text"
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.end}
@@ -134,15 +134,9 @@ export const AddPast = ({ handleClose, modal }) => {
             </MuiPickersUtilsProvider> */}
           </DialogContent>
           <DialogActions>
-            {submitting ? (
-              <Button type='submit' color='primary' disabled>
-                Submitting
-              </Button>
-            ) : (
-              <Button type='submit' color='primary'>
-                Submit
-              </Button>
-            )}
+            <Button type="submit" color="primary" disabled={submitting}>
+              {submitting ? "Submitting" : "Submit"}
+            </Button>
           </DialogActions>
         </form>
       </Dialog>

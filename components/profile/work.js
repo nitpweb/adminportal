@@ -18,7 +18,7 @@ export const AddWork = ({ handleClose, modal }) => {
     work_experiences: "",
     institute: "",
     start: undefined,
-    end: undefined
+    end: undefined,
   }
   const [content, setContent] = useState(initialState)
   const [submitting, setSubmitting] = useState(false)
@@ -40,17 +40,17 @@ export const AddWork = ({ handleClose, modal }) => {
     let data = {
       ...content,
       id: Date.now(),
-      email: session.user.email
+      email: session.user.email,
     }
     // data.attachments = JSON.stringify(data.attachments);
 
     let result = await fetch("/api/create/workexperience", {
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       method: "POST",
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
     result = await result.json()
     if (result instanceof Error) {
@@ -77,42 +77,42 @@ export const AddWork = ({ handleClose, modal }) => {
           </DialogTitle>
           <DialogContent>
             <TextField
-              margin='dense'
-              id='label'
-              label='Designation'
-              name='work_experiences'
-              type='text'
+              margin="dense"
+              id="label"
+              label="Designation"
+              name="work_experiences"
+              type="text"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.work_experiences}
             />
             <TextField
-              margin='dense'
-              id='label'
-              label='Institute/Company'
-              name='institute'
-              type='text'
+              margin="dense"
+              id="label"
+              label="Institute/Company"
+              name="institute"
+              type="text"
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.institute}
             />
             <TextField
-              margin='dense'
-              id='label'
-              label='Start Date'
-              name='end'
-              type='text'
+              margin="dense"
+              id="label"
+              label="Start Date"
+              name="end"
+              type="text"
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.start}
             />
             <TextField
-              margin='dense'
-              id='label'
-              label='End Date'
-              name='end'
-              type='text'
+              margin="dense"
+              id="label"
+              label="End Date"
+              name="end"
+              type="text"
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.end}
@@ -146,15 +146,9 @@ export const AddWork = ({ handleClose, modal }) => {
             </MuiPickersUtilsProvider> */}
           </DialogContent>
           <DialogActions>
-            {submitting ? (
-              <Button type='submit' color='primary' disabled>
-                Submitting
-              </Button>
-            ) : (
-              <Button type='submit' color='primary'>
-                Submit
-              </Button>
-            )}
+            <Button type="submit" color="primary" disabled={submitting}>
+              {submitting ? "Submitting" : "Submit"}
+            </Button>
           </DialogActions>
         </form>
       </Dialog>

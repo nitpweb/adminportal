@@ -16,7 +16,7 @@ export const Addphd = ({ handleClose, modal }) => {
     phd_student_name: "",
     thesis_topic: "",
     start_year: "",
-    completion_year: ""
+    completion_year: "",
   }
 
   const [content, setContent] = useState(initialState)
@@ -33,17 +33,17 @@ export const Addphd = ({ handleClose, modal }) => {
     let data = {
       ...content,
       id: Date.now(),
-      email: session.user.email
+      email: session.user.email,
     }
     // data.attachments = JSON.stringify(data.attachments);
 
     let result = await fetch("/api/create/phdcandidates", {
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       method: "POST",
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
     result = await result.json()
     if (result instanceof Error) {
@@ -70,44 +70,44 @@ export const Addphd = ({ handleClose, modal }) => {
           </DialogTitle>
           <DialogContent>
             <TextField
-              margin='dense'
-              id='label'
-              label='PhD Student'
-              name='phd_student_name'
-              type='text'
+              margin="dense"
+              id="label"
+              label="PhD Student"
+              name="phd_student_name"
+              type="text"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.phd_student_name}
             />
             <TextField
-              margin='dense'
-              id='label'
-              label='thesis_topic'
-              name='thesis_topic'
-              type='text'
+              margin="dense"
+              id="label"
+              label="thesis_topic"
+              name="thesis_topic"
+              type="text"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.thesis_topic}
             />
             <TextField
-              margin='dense'
-              id='label'
-              label='start_year'
-              name='start_year'
-              type='text'
+              margin="dense"
+              id="label"
+              label="start_year"
+              name="start_year"
+              type="text"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.start_year}
             />
             <TextField
-              margin='dense'
-              id='label'
-              label='completion_year'
-              name='completion_year'
-              type='text'
+              margin="dense"
+              id="label"
+              label="completion_year"
+              name="completion_year"
+              type="text"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
@@ -115,15 +115,9 @@ export const Addphd = ({ handleClose, modal }) => {
             />
           </DialogContent>
           <DialogActions>
-            {submitting ? (
-              <Button type='submit' color='primary' disabled>
-                Submitting
-              </Button>
-            ) : (
-              <Button type='submit' color='primary'>
-                Submit
-              </Button>
-            )}
+            <Button type="submit" color="primary" disabled={submitting}>
+              {submitting ? "Submitting" : "Submit"}
+            </Button>
           </DialogActions>
         </form>
       </Dialog>

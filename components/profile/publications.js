@@ -32,7 +32,7 @@ export const AddPublications = ({ handleClose, modal, published }) => {
     }
     let data = {
       data: new_data,
-      email: session.user.email
+      email: session.user.email,
     }
 
     console.log(new_data)
@@ -40,10 +40,10 @@ export const AddPublications = ({ handleClose, modal, published }) => {
     let result = await fetch("/api/create/publications", {
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       method: "POST",
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
     result = await result.json()
     if (result instanceof Error) {
@@ -67,12 +67,12 @@ export const AddPublications = ({ handleClose, modal, published }) => {
         <form onSubmit={handleSubmit}>
           <DialogContent>
             <FormControl style={{ margin: `10px auto`, width: `100%` }}>
-              <InputLabel id='demo-simple-select-label'>
+              <InputLabel id="demo-simple-select-label">
                 Type of Publication
               </InputLabel>
               <Select
-                labelId='demo-simple-select-label'
-                id='demo-simple-select'
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
                 fullWidth
                 value={type}
                 onChange={(e) => setType(e.target.value)}
@@ -100,15 +100,9 @@ export const AddPublications = ({ handleClose, modal, published }) => {
             )}
           </DialogContent>
           <DialogActions>
-            {submitting ? (
-              <Button type='submit' color='primary' disabled>
-                Submitting
-              </Button>
-            ) : (
-              <Button type='submit' color='primary'>
-                Submit
-              </Button>
-            )}
+            <Button type="submit" color="primary" disabled={submitting}>
+              {submitting ? "Submitting" : "Submit"}
+            </Button>
           </DialogActions>
         </form>
       </Dialog>
@@ -124,7 +118,7 @@ const Article = ({ content, setContent }) => {
       authors: "",
       journal_name: "",
       year: "",
-      citation_key: ""
+      citation_key: "",
     })
   }, [])
 
@@ -139,12 +133,12 @@ const Article = ({ content, setContent }) => {
           return (
             <React.Fragment key={key}>
               <TextField
-                margin='dense'
+                margin="dense"
                 label={field.charAt(0).toUpperCase() + field.slice(1)}
-                type='text'
+                type="text"
                 fullWidth
                 name={field}
-                type='text'
+                type="text"
                 onChange={(e) => handleChange(e)}
                 value={content.field}
               />
@@ -165,7 +159,7 @@ const Book = ({ content, setContent }) => {
       editors: "",
       publisher: "",
       year: "",
-      citation_key: ""
+      citation_key: "",
     })
   }, [])
 
@@ -180,12 +174,12 @@ const Book = ({ content, setContent }) => {
           return (
             <React.Fragment key={key}>
               <TextField
-                margin='dense'
+                margin="dense"
                 label={field.charAt(0).toUpperCase() + field.slice(1)}
-                type='text'
+                type="text"
                 fullWidth
                 name={field}
-                type='text'
+                type="text"
                 onChange={(e) => handleChange(e)}
                 value={content.field}
               />
@@ -205,7 +199,7 @@ const Conference = ({ content, setContent }) => {
       authors: "",
       booktitle: "",
       year: "",
-      citation_key: ""
+      citation_key: "",
     })
   }, [])
 
@@ -220,12 +214,12 @@ const Conference = ({ content, setContent }) => {
           return (
             <React.Fragment key={key}>
               <TextField
-                margin='dense'
+                margin="dense"
                 label={field.charAt(0).toUpperCase() + field.slice(1)}
-                type='text'
+                type="text"
                 fullWidth
                 name={field}
-                type='text'
+                type="text"
                 onChange={(e) => handleChange(e)}
                 value={content.field}
               />
@@ -245,7 +239,7 @@ const Patent = ({ content, setContent }) => {
       yearfiled: "",
       nationality: "",
       number: "",
-      citation_key: ""
+      citation_key: "",
     })
   }, [])
 
@@ -260,12 +254,12 @@ const Patent = ({ content, setContent }) => {
           return (
             <React.Fragment key={key}>
               <TextField
-                margin='dense'
+                margin="dense"
                 label={field.charAt(0).toUpperCase() + field.slice(1)}
-                type='text'
+                type="text"
                 fullWidth
                 name={field}
-                type='text'
+                type="text"
                 onChange={(e) => handleChange(e)}
                 value={content.field}
               />

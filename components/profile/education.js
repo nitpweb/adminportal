@@ -15,7 +15,7 @@ export const AddEdu = ({ handleClose, modal }) => {
   const initialState = {
     certification: "",
     institution: "",
-    passing_year: ""
+    passing_year: "",
   }
   const [content, setContent] = useState(initialState)
   const [submitting, setSubmitting] = useState(false)
@@ -31,17 +31,17 @@ export const AddEdu = ({ handleClose, modal }) => {
     let data = {
       ...content,
       id: Date.now(),
-      email: session.user.email
+      email: session.user.email,
     }
     // data.attachments = JSON.stringify(data.attachments);
 
     let result = await fetch("/api/create/education", {
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       method: "POST",
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
     result = await result.json()
     if (result instanceof Error) {
@@ -68,47 +68,41 @@ export const AddEdu = ({ handleClose, modal }) => {
           </DialogTitle>
           <DialogContent>
             <TextField
-              margin='dense'
-              id='label'
-              label='Certification'
-              name='certification'
-              type='text'
+              margin="dense"
+              id="label"
+              label="Certification"
+              name="certification"
+              type="text"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.certification}
             />{" "}
             <TextField
-              margin='dense'
-              id='label'
-              label='Institution'
-              name='institution'
-              type='text'
+              margin="dense"
+              id="label"
+              label="Institution"
+              name="institution"
+              type="text"
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.institution}
             />
             <TextField
-              margin='dense'
-              id='label'
-              label='Passing Year'
-              name='passing_year'
-              type='text'
+              margin="dense"
+              id="label"
+              label="Passing Year"
+              name="passing_year"
+              type="text"
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.passing_year}
             />
           </DialogContent>
           <DialogActions>
-            {submitting ? (
-              <Button type='submit' color='primary' disabled>
-                Submitting
-              </Button>
-            ) : (
-              <Button type='submit' color='primary'>
-                Submit
-              </Button>
-            )}
+            <Button type="submit" color="primary" disabled={submitting}>
+              {submitting ? "Submitting" : "Submit"}
+            </Button>
           </DialogActions>
         </form>
       </Dialog>

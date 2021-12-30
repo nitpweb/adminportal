@@ -13,7 +13,7 @@ export const AddProf = ({ handleClose, modal }) => {
   const [session, loading] = useSession()
   const refreshData = useRefreshData(false)
   const initialState = {
-    services: ""
+    services: "",
   }
   const [content, setContent] = useState(initialState)
   const [submitting, setSubmitting] = useState(false)
@@ -29,17 +29,17 @@ export const AddProf = ({ handleClose, modal }) => {
     let data = {
       ...content,
       id: Date.now(),
-      email: session.user.email
+      email: session.user.email,
     }
     // data.attachments = JSON.stringify(data.attachments);
 
     let result = await fetch("/api/create/professionalservice", {
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       method: "POST",
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
     result = await result.json()
     if (result instanceof Error) {
@@ -66,11 +66,11 @@ export const AddProf = ({ handleClose, modal }) => {
           </DialogTitle>
           <DialogContent>
             <TextField
-              margin='dense'
-              id='label'
-              label='Professional Services'
-              name='services'
-              type='text'
+              margin="dense"
+              id="label"
+              label="Professional Services"
+              name="services"
+              type="text"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
@@ -78,15 +78,9 @@ export const AddProf = ({ handleClose, modal }) => {
             />
           </DialogContent>
           <DialogActions>
-            {submitting ? (
-              <Button type='submit' color='primary' disabled>
-                Submitting
-              </Button>
-            ) : (
-              <Button type='submit' color='primary'>
-                Submit
-              </Button>
-            )}
+            <Button type="submit" color="primary" disabled={submitting}>
+              {submitting ? "Submitting" : "Submit"}
+            </Button>
           </DialogActions>
         </form>
       </Dialog>
