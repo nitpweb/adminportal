@@ -8,11 +8,11 @@ import IconButton from "@material-ui/core/IconButton"
 import DeleteIcon from "@material-ui/icons/Delete"
 import { AddForm, EditSubject } from "./profile/subject"
 import { AddSociety, EditSociety } from "./profile/society"
-import { AddProf } from "./profile/prof_service"
-import { AddEdu } from "./profile/education"
-import { AddCurrent } from "./profile/curr_admin"
-import { AddPast } from "./profile/past_admin"
-import { AddWork } from "./profile/work"
+import { AddProf, EditProf } from "./profile/prof_service"
+import { AddEdu, EditEdu } from "./profile/education"
+import { AddCurrent, EditCurrent } from "./profile/curr_admin"
+import { AddPast, EditPast } from "./profile/past_admin"
+import { AddWork, EditWork } from "./profile/work"
 import { Addproject } from "./profile/project"
 import { Addphd } from "./profile/phd"
 import { AddResearch } from "./profile/research"
@@ -219,6 +219,7 @@ const MemAndSocRow = ({ item }) => {
 
 const EducationRow = ({ item }) => {
   const [deleteModal, setDeleteModal] = useState(false)
+  const [editModal, setEditModal] = useState(false)
 
   const openDeleteModal = () => {
     setDeleteModal(true)
@@ -226,6 +227,9 @@ const EducationRow = ({ item }) => {
   const handleCloseDeleteModal = () => {
     setDeleteModal(false)
   }
+
+  const openEditModal = () => setEditModal(true)
+  const handleCloseEditModal = () => setEditModal(false)
 
   return (
     <tr>
@@ -237,6 +241,16 @@ const EducationRow = ({ item }) => {
       </td>
       <td>
         <p>{item.passing_year}</p>
+      </td>
+      <td>
+        <IconButton onClick={openEditModal}>
+          <Edit />
+        </IconButton>
+        <EditEdu
+          handleClose={handleCloseEditModal}
+          modal={editModal}
+          values={item}
+        />
       </td>
       <td>
         <IconButton aria-label="delete" onClick={openDeleteModal}>
@@ -255,6 +269,7 @@ const EducationRow = ({ item }) => {
 
 const CurrAdminRow = ({ item }) => {
   const [deleteModal, setDeleteModal] = useState(false)
+  const [editModal, setEditModal] = useState(false)
 
   const openDeleteModal = () => {
     setDeleteModal(true)
@@ -262,6 +277,9 @@ const CurrAdminRow = ({ item }) => {
   const handleCloseDeleteModal = () => {
     setDeleteModal(false)
   }
+
+  const openEditModal = () => setEditModal(true)
+  const handleCloseEditModal = () => setEditModal(false)
 
   return (
     <tr>
@@ -274,6 +292,16 @@ const CurrAdminRow = ({ item }) => {
           {/* {new Date(item.start).getMonth() + 1} /{" "}
           {new Date(item.start).getFullYear()} */}
         </p>
+      </td>
+      <td>
+        <IconButton onClick={openEditModal}>
+          <Edit />
+        </IconButton>
+        <EditCurrent
+          handleClose={handleCloseEditModal}
+          modal={editModal}
+          values={item}
+        />
       </td>
       <td>
         <IconButton aria-label="delete" onClick={() => openDeleteModal()}>
@@ -292,6 +320,7 @@ const CurrAdminRow = ({ item }) => {
 
 const PastAdminRow = ({ item }) => {
   const [deleteModal, setDeleteModal] = useState(false)
+  const [editModal, setEditModal] = useState(false)
 
   const openDeleteModal = () => {
     setDeleteModal(true)
@@ -299,6 +328,9 @@ const PastAdminRow = ({ item }) => {
   const handleCloseDeleteModal = () => {
     setDeleteModal(false)
   }
+
+  const openEditModal = () => setEditModal(true)
+  const handleCloseEditModal = () => setEditModal(false)
 
   return (
     <tr>
@@ -320,6 +352,16 @@ const PastAdminRow = ({ item }) => {
         </p>
       </td>
       <td>
+        <IconButton onClick={openEditModal}>
+          <Edit />
+        </IconButton>
+        <EditPast
+          handleClose={handleCloseEditModal}
+          modal={editModal}
+          values={item}
+        />
+      </td>
+      <td>
         <IconButton aria-label="delete" onClick={() => openDeleteModal()}>
           <DeleteIcon />
         </IconButton>
@@ -336,6 +378,7 @@ const PastAdminRow = ({ item }) => {
 
 const WorkExpRow = ({ item }) => {
   const [deleteModal, setDeleteModal] = useState(false)
+  const [editModal, setEditModal] = useState(false)
 
   const openDeleteModal = () => {
     setDeleteModal(true)
@@ -343,6 +386,9 @@ const WorkExpRow = ({ item }) => {
   const handleCloseDeleteModal = () => {
     setDeleteModal(false)
   }
+
+  const openEditModal = () => setEditModal(true)
+  const handleCloseEditModal = () => setEditModal(false)
 
   return (
     <tr>
@@ -367,6 +413,16 @@ const WorkExpRow = ({ item }) => {
         </p>
       </td>
       <td>
+        <IconButton onClick={openEditModal}>
+          <Edit />
+        </IconButton>
+        <EditWork
+          handleClose={handleCloseEditModal}
+          modal={editModal}
+          values={item}
+        />
+      </td>
+      <td>
         <IconButton aria-label="delete" onClick={() => openDeleteModal()}>
           <DeleteIcon />
         </IconButton>
@@ -383,6 +439,7 @@ const WorkExpRow = ({ item }) => {
 
 const ProServiceRow = ({ item }) => {
   const [deleteModal, setDeleteModal] = useState(false)
+  const [editModal, setEditModal] = useState(false)
 
   const openDeleteModal = () => {
     setDeleteModal(true)
@@ -391,9 +448,22 @@ const ProServiceRow = ({ item }) => {
     setDeleteModal(false)
   }
 
+  const openEditModal = () => setEditModal(true)
+  const handleCloseEditModal = () => setEditModal(false)
+
   return (
     <p>
       {item.services}
+
+      <IconButton onClick={openEditModal}>
+        <Edit />
+      </IconButton>
+      <EditProf
+        handleClose={handleCloseEditModal}
+        modal={editModal}
+        values={item}
+      />
+
       <IconButton aria-label="delete" onClick={() => openDeleteModal()}>
         <DeleteIcon />
       </IconButton>

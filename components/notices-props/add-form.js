@@ -1,24 +1,24 @@
-import { Checkbox, FormControlLabel } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import TextField from "@material-ui/core/TextField";
-import { MainAttachment } from "./../common-props/main-attachment";
-import { useSession } from "next-auth/client";
-import React, { useState } from "react";
-import { AddAttachments } from "./../common-props/add-attachment";
-import { fileUploader } from "./../common-props/useful-functions";
-import { FormControl } from "@material-ui/core";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import Input from "@material-ui/core/Input";
-import { administrationList } from "@/lib/const";
+import { Checkbox, FormControlLabel } from "@material-ui/core"
+import Button from "@material-ui/core/Button"
+import Dialog from "@material-ui/core/Dialog"
+import DialogActions from "@material-ui/core/DialogActions"
+import DialogContent from "@material-ui/core/DialogContent"
+import DialogTitle from "@material-ui/core/DialogTitle"
+import TextField from "@material-ui/core/TextField"
+import { MainAttachment } from "./../common-props/main-attachment"
+import { useSession } from "next-auth/client"
+import React, { useState } from "react"
+import { AddAttachments } from "./../common-props/add-attachment"
+import { fileUploader } from "./../common-props/useful-functions"
+import { FormControl } from "@material-ui/core"
+import InputLabel from "@material-ui/core/InputLabel"
+import MenuItem from "@material-ui/core/MenuItem"
+import Select from "@material-ui/core/Select"
+import Input from "@material-ui/core/Input"
+import { administrationList } from "@/lib/const"
 
 export const AddForm = ({ handleClose, modal }) => {
-  const [session, loading] = useSession();
+  const [session, loading] = useSession()
   const [content, setContent] = useState({
     title: "",
     openDate: "",
@@ -27,33 +27,33 @@ export const AddForm = ({ handleClose, modal }) => {
     isVisible: true,
     important: false,
     notice_type: "department",
-  });
+  })
 
-  const [attachments, setAttachments] = useState([]);
+  const [attachments, setAttachments] = useState([])
   const [mainAttachment, setMainAttachment] = useState({
     url: "",
     value: "",
     typeLink: false,
-  });
-  const [submitting, setSubmitting] = useState(false);
+  })
+  const [submitting, setSubmitting] = useState(false)
 
   const handleChange = (e) => {
     if (e.target.name == "important" || e.target.name == "isVisible") {
-      setContent({ ...content, [e.target.name]: e.target.checked });
+      setContent({ ...content, [e.target.name]: e.target.checked })
     } else {
-      setContent({ ...content, [e.target.name]: e.target.value });
+      setContent({ ...content, [e.target.name]: e.target.value })
     }
     // console.log(content);
-  };
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitting(true);
-    let open = new Date(content.openDate);
-    let close = new Date(content.closeDate);
-    open = open.getTime();
-    close = close.getTime();
-    let now = Date.now();
+    e.preventDefault()
+    setSubmitting(true)
+    let open = new Date(content.openDate)
+    let close = new Date(content.closeDate)
+    open = open.getTime()
+    close = close.getTime()
+    let now = Date.now()
 
     let data = {
       ...content,
@@ -72,31 +72,31 @@ export const AddForm = ({ handleClose, modal }) => {
       main_attachment: mainAttachment,
       email: session.user.email,
       attachments: [...attachments],
-    };
+    }
 
     for (let i = 0; i < data.attachments.length; i++) {
-      delete data.attachments[i].value;
+      delete data.attachments[i].value
 
       // if (data.attachments[i].url === undefined) {
       // 	data.attachments[i].url = "";
       // }
-      console.log(data.attachments[i]);
+      console.log(data.attachments[i])
 
       if (data.attachments[i].typeLink == false && data.attachments[i].url) {
-        delete data.attachments[i].typeLink;
+        delete data.attachments[i].typeLink
 
-        data.attachments[i].url = await fileUploader(data.attachments[i]);
+        data.attachments[i].url = await fileUploader(data.attachments[i])
       } else {
-        delete data.attachments[i].typeLink;
-        console.log("NOT A FILE");
+        delete data.attachments[i].typeLink
+        console.log("NOT A FILE")
       }
     }
-    delete data.main_attachment.value;
+    delete data.main_attachment.value
     if (!data.main_attachment.typeLink) {
-      data.main_attachment.url = await fileUploader(data.main_attachment);
+      data.main_attachment.url = await fileUploader(data.main_attachment)
     }
     // data.attachments = JSON.stringify(data.attachments);
-    console.log(data);
+    console.log(data)
 
     let result = await fetch("/api/create/notice", {
       headers: {
@@ -105,22 +105,22 @@ export const AddForm = ({ handleClose, modal }) => {
       },
       method: "POST",
       body: JSON.stringify(data),
-    });
-    result = await result.json();
+    })
+    result = await result.json()
     if (result instanceof Error) {
-      console.log("Error Occured");
-      console.log(result);
+      console.log("Error Occured")
+      // console.log(result);
     }
-    console.log(result);
-    window.location.reload();
-  };
+    // console.log(result);
+    window.location.reload()
+  }
 
   return (
     <>
       <Dialog open={modal} onClose={handleClose}>
         <form
           onSubmit={(e) => {
-            handleSubmit(e);
+            handleSubmit(e)
           }}
         >
           <DialogTitle disableTypography style={{ fontSize: `2rem` }}>
@@ -279,5 +279,5 @@ export const AddForm = ({ handleClose, modal }) => {
         </form>
       </Dialog>
     </>
-  );
-};
+  )
+}

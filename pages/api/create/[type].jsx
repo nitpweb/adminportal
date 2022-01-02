@@ -200,7 +200,7 @@ const handler = async (req, res) => {
             ` ON DUPLICATE KEY UPDATE publications= ? ;`,
             [params.email, Date.now(), params.data, params.data],
           ).catch((err) => console.log(err));
-          console.log(result)
+      // console.log(result)
           return res.json(result);
         } else if (type == "project") {
           let result = await query(

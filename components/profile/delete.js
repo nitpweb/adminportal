@@ -11,25 +11,25 @@ export const ConfirmDelete = ({
   modal,
   id,
   del,
-  scrolltoTop = false
+  scrolltoTop = false,
 }) => {
   const [session, loading] = useSession()
   const refreshData = useRefreshData(scrolltoTop)
   let data = {
     id: id,
-    email: session.user.email
+    email: session.user.email,
   }
   const deleteEvent = async () => {
     let result = await fetch(`/api/delete/${del}`, {
       method: "DELETE",
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
     result = await result.json()
     if (result instanceof Error) {
       console.log("Error Occured")
-      console.log(result)
+      // console.log(result)
     }
-    console.log(result)
+    // console.log(result)
     handleClose()
     refreshData()
   }
@@ -37,19 +37,19 @@ export const ConfirmDelete = ({
   return (
     <div>
       <Dialog open={modal} onClose={handleClose}>
-        <DialogTitle id='alert-dialog-title'>
+        <DialogTitle id="alert-dialog-title">
           {"Do you want to REMOVE ?"}
         </DialogTitle>
 
         <DialogActions>
           <Button
-            variant='contained'
+            variant="contained"
             onClick={() => deleteEvent()}
-            color='secondary'
+            color="secondary"
           >
             Delete
           </Button>
-          <Button onClick={handleClose} color='primary'>
+          <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
         </DialogActions>

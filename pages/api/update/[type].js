@@ -134,6 +134,21 @@ const handler = async (req, res) => {
             `UPDATE users SET	image='${params.image[0].url}' WHERE email='${params.email}'`
           )
           return res.json(result)
+        } else if (type == "workexperience") {
+          let result = await query(
+            `UPDATE work_experience SET work_experiences=?,institute=?,start=?,end=? WHERE email=? AND id=?`,
+            [
+              params.work_experiences,
+              params.institute,
+              params.start,
+              params.end,
+              params.email,
+              params.id,
+            ]
+          ).catch((e) => {
+            console.log(e)
+          })
+          return res.json(result)
         } else if (type == "current-responsibility") {
           let result = await query(
             `UPDATE curr_admin_responsibility SET curr_responsibility=?,start=? WHERE email=? AND id=?`,
@@ -165,19 +180,6 @@ const handler = async (req, res) => {
             ]
           )
           return res.json(result)
-        } else if (type == "workexperience") {
-          let result = await query(
-            `UPDATE work_experience work_experiences=?,institute=?,start=?,end=? WHERE email=? AND id=?`,
-            [
-              params.work_experiences,
-              params.institute,
-              params.start,
-              params.end,
-              params.email,
-              params.id,
-            ]
-          )
-          return res.json(result)
         } else if (type == "subjects") {
           let result = await query(
             `UPDATE subjects_teaching SET code=?,name=?,start=?,end=? WHERE email=? AND id=?;`,
@@ -200,7 +202,7 @@ const handler = async (req, res) => {
             `UPDATE publications SET publications=? WHERE email=? AND publication_id=?`,
             [params.data, params.email, params.publication_id]
           ).catch((err) => console.log(err))
-          console.log(result)
+          // console.log(result)
           return res.json(result)
         } else if (type == "project") {
           let result = await query(

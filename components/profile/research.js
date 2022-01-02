@@ -50,9 +50,9 @@ export const AddResearch = ({ handleClose, modal, detail }) => {
     result = await result.json()
     if (result instanceof Error) {
       console.log("Error Occured")
-      console.log(result)
+      // console.log(result)
     }
-    console.log(result)
+    // console.log(result)
     handleClose()
     refreshData()
     setSubmitting(false)

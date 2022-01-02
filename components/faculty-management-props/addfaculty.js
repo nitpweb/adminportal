@@ -1,20 +1,20 @@
-import { FormControl } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import TextField from "@material-ui/core/TextField";
+import { FormControl } from "@material-ui/core"
+import Button from "@material-ui/core/Button"
+import Dialog from "@material-ui/core/Dialog"
+import DialogActions from "@material-ui/core/DialogActions"
+import DialogContent from "@material-ui/core/DialogContent"
+import DialogTitle from "@material-ui/core/DialogTitle"
+import Input from "@material-ui/core/Input"
+import InputLabel from "@material-ui/core/InputLabel"
+import MenuItem from "@material-ui/core/MenuItem"
+import Select from "@material-ui/core/Select"
+import TextField from "@material-ui/core/TextField"
 // import { useSession } from "next-auth/client";
-import React, { useState } from "react";
-import { administrationList, depList } from "../../lib/const.js";
+import React, { useState } from "react"
+import { administrationList, depList } from "../../lib/const.js"
 export const AddFaculty = ({ handleClose, modal }) => {
   // const [session, loading] = useSession();
-  const [submitting, setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState(false)
   const [content, setContent] = useState({
     name: "",
     email: "",
@@ -25,15 +25,15 @@ export const AddFaculty = ({ handleClose, modal }) => {
     research_interest: "",
     image: null,
     role: 3,
-  });
+  })
   const handleChange = (e) => {
-    setContent({ ...content, [e.target.name]: e.target.value });
+    setContent({ ...content, [e.target.name]: e.target.value })
     // console.log(content);
-  };
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitting(true);
+    e.preventDefault()
+    setSubmitting(true)
 
     // console.log(content);
     let result = await fetch("/api/create/user", {
@@ -43,15 +43,15 @@ export const AddFaculty = ({ handleClose, modal }) => {
       },
       method: "POST",
       body: JSON.stringify(content),
-    });
-    result = await result.json();
+    })
+    result = await result.json()
     if (result instanceof Error) {
-      console.log("Error Occured");
-      console.log(result);
+      console.log("Error Occured")
+      // console.log(result);
     }
-    console.log(result);
-    window.location.reload();
-  };
+    // console.log(result);
+    window.location.reload()
+  }
   return (
     <>
       <Dialog open={modal} onClose={handleClose}>
@@ -150,8 +150,8 @@ export const AddFaculty = ({ handleClose, modal }) => {
                 input={<Input />}
               >
                 <MenuItem value={"null"}>NULL</MenuItem>
-                {[...administrationList].map(([key,value]) => {
-                  return <MenuItem value={key}>{value}</MenuItem>;
+                {[...administrationList].map(([key, value]) => {
+                  return <MenuItem value={key}>{value}</MenuItem>
                 })}
               </Select>
             </FormControl>
@@ -170,7 +170,7 @@ export const AddFaculty = ({ handleClose, modal }) => {
                 onChange={(e) => handleChange(e)}
                 input={<Input />}
               >
-                {[...depList].map(([key,value]) => (
+                {[...depList].map(([key, value]) => (
                   <MenuItem value={value}>{value}</MenuItem>
                 ))}
 
@@ -215,5 +215,5 @@ export const AddFaculty = ({ handleClose, modal }) => {
         </form>
       </Dialog>
     </>
-  );
-};
+  )
+}
