@@ -136,49 +136,45 @@ const handler = async (req, res) => {
           return res.json(result)
         } else if (type == "current-responsibility") {
           let result = await query(
-            `INSERT INTO curr_admin_responsibility (id,email,curr_responsibility,start) VALUES` +
-              `(?,?,?,?)`,
-            [params.id, params.email, params.curr_responsibility, params.start]
+            `UPDATE curr_admin_responsibility SET curr_responsibility=?,start=? WHERE email=? AND id=?`,
+            [params.curr_responsibility, params.start, params.email, params.id]
           )
           return res.json(result)
         } else if (type == "memberships") {
           let result = await query(
-            `insert into memberships (id,email,membership_id,membership_society,start,end) values (` +
-              `?,?,?,?,?,?)`,
+            `UPDATE memberships SET membership_id=?,membership_society=?,start=?,end=? WHERE email=? AND id=?`,
             [
-              params.id,
-              params.email,
               params.membership_id,
               params.membership_society,
               params.start,
               params.end,
+              params.email,
+              params.id,
             ]
           )
           return res.json(result)
         } else if (type == "past-responsibility") {
           let result = await query(
-            `INSERT INTO past_admin_responsibility (id,email,past_responsibility,start,end) VALUES` +
-              `(?,?,?,?,?)`,
+            `UPDATE past_admin_responsibility SET past_responsibility=?,start=?,end=? WHERE email=? AND id=?`,
             [
-              params.id,
-              params.email,
               params.past_responsibility,
               params.start,
               params.end,
+              params.email,
+              params.id,
             ]
           )
           return res.json(result)
         } else if (type == "workexperience") {
           let result = await query(
-            `INSERT INTO work_experience (id,email,work_experiences,institute,start,end) VALUES` +
-              `(?,?,?,?,?,?)`,
+            `UPDATE work_experience work_experiences=?,institute=?,start=?,end=? WHERE email=? AND id=?`,
             [
-              params.id,
-              params.email,
               params.work_experiences,
               params.institute,
               params.start,
               params.end,
+              params.email,
+              params.id,
             ]
           )
           return res.json(result)
@@ -201,58 +197,54 @@ const handler = async (req, res) => {
           console.log(params.data)
           params.data = JSON.stringify(params.data)
           let result = await query(
-            ` INSERT INTO publications (email,publication_id,publications) VALUES (?,?,?)` +
-              ` ON DUPLICATE KEY UPDATE publications= ? ;`,
-            [params.email, Date.now(), params.data, params.data]
+            `UPDATE publications SET publications=? WHERE email=? AND publication_id=?`,
+            [params.data, params.email, params.publication_id]
           ).catch((err) => console.log(err))
           console.log(result)
           return res.json(result)
         } else if (type == "project") {
           let result = await query(
-            `INSERT INTO project (id,email,project,sponsor,amount,start,end) VALUES` +
-              `(?,?,?,?,?,?,?)`,
+            `UPDATE project SET project=?,sponsor=?,amount=?,start=?,end=? WHERE email=? AND id=?`,
             [
-              params.id,
-              params.email,
               params.project,
               params.sponsor,
               params.amount,
               params.start,
               params.end,
+              params.email,
+              params.id,
             ]
           )
           return res.json(result)
         } else if (type == "professionalservice") {
           let result = await query(
-            `INSERT INTO professional_service (id,email,services) VALUES` +
-              `(?,?,?)`,
-            [params.id, params.email, params.services]
+            `UPDATE professional_service SET services=? WHERE email=? AND id=?`,
+            [params.services, params.email, params.id]
           )
           return res.json(result)
         } else if (type == "education") {
           let result = await query(
-            `INSERT INTO education (id,email,certification,institution,passing_year) VALUES` +
-              `(?,?,?,?,?)`,
+            `UPDATE education SET certification=?,institution=?,passing_year=? WHERE email=? AND id=?`,
             [
-              params.id,
-              params.email,
               params.certification,
               params.institution,
               params.passing_year,
+              params.email,
+              params.id,
             ]
           )
           return res.json(result)
         } else if (type == "phdcandidates") {
           let result = await query(
-            `INSERT INTO phd_candidates (id,email,phd_student_name,thesis_topic,start_year,completion_year) VALUES` +
+            `UPDATE phd_candidates SET phd_student_name=?,thesis_topic=?,start_year=?,completion_year=? WHERE email=? AND id=?` +
               `(?,?,?,?,?,?)`,
             [
-              params.id,
-              params.email,
               params.phd_student_name,
               params.thesis_topic,
               params.start_year,
               params.completion_year,
+              params.email,
+              params.id,
             ]
           )
           return res.json(result)
