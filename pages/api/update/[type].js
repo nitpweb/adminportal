@@ -238,8 +238,7 @@ const handler = async (req, res) => {
           return res.json(result)
         } else if (type == "phdcandidates") {
           let result = await query(
-            `UPDATE phd_candidates SET phd_student_name=?,thesis_topic=?,start_year=?,completion_year=? WHERE email=? AND id=?` +
-              `(?,?,?,?,?,?)`,
+            `UPDATE phd_candidates SET phd_student_name=?,thesis_topic=?,start_year=?,completion_year=? WHERE email=? AND id=?`,
             [
               params.phd_student_name,
               params.thesis_topic,

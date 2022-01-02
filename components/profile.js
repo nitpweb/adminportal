@@ -13,8 +13,8 @@ import { AddEdu, EditEdu } from "./profile/education"
 import { AddCurrent, EditCurrent } from "./profile/curr_admin"
 import { AddPast, EditPast } from "./profile/past_admin"
 import { AddWork, EditWork } from "./profile/work"
-import { Addproject } from "./profile/project"
-import { Addphd } from "./profile/phd"
+import { Addproject, Editproject } from "./profile/project"
+import { Addphd, EditPhd } from "./profile/phd"
 import { AddResearch } from "./profile/research"
 import { AddPublications } from "./profile/publications"
 import { ConfirmDelete } from "./profile/delete"
@@ -479,6 +479,7 @@ const ProServiceRow = ({ item }) => {
 
 const ProjectRow = ({ item }) => {
   const [deleteModal, setDeleteModal] = useState(false)
+  const [editModal, setEditModal] = useState(false)
 
   const openDeleteModal = () => {
     setDeleteModal(true)
@@ -486,6 +487,9 @@ const ProjectRow = ({ item }) => {
   const handleCloseDeleteModal = () => {
     setDeleteModal(false)
   }
+
+  const openEditModal = () => setEditModal(true)
+  const handleCloseEditModal = () => setEditModal(false)
 
   return (
     <tr>
@@ -513,6 +517,16 @@ const ProjectRow = ({ item }) => {
         </p>
       </td>
       <td>
+        <IconButton onClick={openEditModal}>
+          <Edit />
+        </IconButton>
+        <Editproject
+          handleClose={handleCloseEditModal}
+          modal={editModal}
+          values={item}
+        />
+      </td>
+      <td>
         <IconButton aria-label="delete" onClick={() => openDeleteModal()}>
           <DeleteIcon />
         </IconButton>
@@ -529,6 +543,7 @@ const ProjectRow = ({ item }) => {
 
 const PhdCandidRow = ({ item, index }) => {
   const [deleteModal, setDeleteModal] = useState(false)
+  const [editModal, setEditModal] = useState(false)
 
   const openDeleteModal = () => {
     setDeleteModal(true)
@@ -537,6 +552,8 @@ const PhdCandidRow = ({ item, index }) => {
     setDeleteModal(false)
   }
 
+  const openEditModal = () => setEditModal(true)
+  const handleCloseEditModal = () => setEditModal(false)
   return (
     <tr>
       <td>
@@ -554,15 +571,28 @@ const PhdCandidRow = ({ item, index }) => {
       <td>
         <p>{item.completion_year}</p>
       </td>
-      <IconButton aria-label="delete" onClick={() => openDeleteModal()}>
-        <DeleteIcon />
-      </IconButton>
-      <ConfirmDelete
-        handleClose={handleCloseDeleteModal}
-        modal={deleteModal}
-        id={item.id}
-        del={"phdcandidates"}
-      />
+      <td>
+        <IconButton onClick={openEditModal}>
+          <Edit />
+        </IconButton>
+        <EditPhd
+          handleClose={handleCloseEditModal}
+          modal={editModal}
+          values={item}
+        />
+      </td>
+      <td>
+        {" "}
+        <IconButton aria-label="delete" onClick={() => openDeleteModal()}>
+          <DeleteIcon />
+        </IconButton>
+        <ConfirmDelete
+          handleClose={handleCloseDeleteModal}
+          modal={deleteModal}
+          id={item.id}
+          del={"phdcandidates"}
+        />
+      </td>
     </tr>
   )
 }

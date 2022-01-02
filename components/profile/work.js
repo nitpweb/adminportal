@@ -169,7 +169,7 @@ export const EditWork = ({ handleClose, modal, values }) => {
   }
 
   const handleSubmit = async (e) => {
-    // setSubmitting(true)
+    setSubmitting(true)
     e.preventDefault()
 
     // let start = new Date(content.start);
