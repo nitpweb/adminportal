@@ -177,12 +177,12 @@ export const EditSociety = ({ handleClose, modal, values }) => {
 
     let data = {
       ...content,
-      id: Date.now(),
+      id: values.id,
       email: session.user.email,
     }
     // data.attachments = JSON.stringify(data.attachments);
-    console.log(content.start)
-    let result = await fetch("/api/create/memberships", {
+    console.log(data)
+    let result = await fetch("/api/update/memberships", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",

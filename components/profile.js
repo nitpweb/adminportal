@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button"
 import IconButton from "@material-ui/core/IconButton"
 import DeleteIcon from "@material-ui/icons/Delete"
 import { AddForm, EditSubject } from "./profile/subject"
-import { AddSociety } from "./profile/society"
+import { AddSociety, EditSociety } from "./profile/society"
 import { AddProf } from "./profile/prof_service"
 import { AddEdu } from "./profile/education"
 import { AddCurrent } from "./profile/curr_admin"
@@ -158,6 +158,7 @@ const SubjectRow = ({ item }) => {
 
 const MemAndSocRow = ({ item }) => {
   const [deleteModal, setDeleteModal] = useState(false)
+  const [editModal, setEditModal] = useState(false)
 
   const openDeleteModal = () => {
     setDeleteModal(true)
@@ -165,6 +166,9 @@ const MemAndSocRow = ({ item }) => {
   const handleCloseDeleteModal = () => {
     setDeleteModal(false)
   }
+
+  const openEditModal = () => setEditModal(true)
+  const handleCloseEditModal = () => setEditModal(false)
 
   return (
     <tr>
@@ -187,6 +191,16 @@ const MemAndSocRow = ({ item }) => {
           {/* {new Date(item.end).getMonth() + 1} /{" "}
           {new Date(item.end).getFullYear()} */}
         </p>
+      </td>
+      <td>
+        <IconButton onClick={openEditModal}>
+          <Edit />
+        </IconButton>
+        <EditSociety
+          handleClose={handleCloseEditModal}
+          modal={editModal}
+          values={item}
+        />
       </td>
       <td>
         <IconButton aria-label="delete" onClick={() => openDeleteModal()}>
