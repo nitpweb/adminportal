@@ -1,26 +1,26 @@
-import React, { useState, useEffect } from "react"
-import styled from "styled-components"
-import { signIn, signout, useSession } from "next-auth/client"
-import TextField from "@material-ui/core/TextField"
-import ShowPublications from "./profile/show-publications"
 import Button from "@material-ui/core/Button"
 import IconButton from "@material-ui/core/IconButton"
-import DeleteIcon from "@material-ui/icons/Delete"
-import { AddForm, EditSubject } from "./profile/subject"
-import { AddSociety, EditSociety } from "./profile/society"
-import { AddProf, EditProf } from "./profile/prof_service"
-import { AddEdu, EditEdu } from "./profile/education"
-import { AddCurrent, EditCurrent } from "./profile/curr_admin"
-import { AddPast, EditPast } from "./profile/past_admin"
-import { AddWork, EditWork } from "./profile/work"
-import { Addproject, Editproject } from "./profile/project"
-import { Addphd, EditPhd } from "./profile/phd"
-import { AddResearch } from "./profile/research"
-import { AddPublications } from "./profile/publications"
-import { ConfirmDelete } from "./profile/delete"
-import { AddPic } from "./profile/profilepic"
-import AddBib from "./profile/addBib"
 import { Edit } from "@material-ui/icons"
+import DeleteIcon from "@material-ui/icons/Delete"
+import { useSession } from "next-auth/client"
+import React, { useEffect, useState } from "react"
+import styled from "styled-components"
+import AddBib from "./profile/addBib"
+import AddPubPdf from "./profile/addPubPdf"
+import { AddCurrent, EditCurrent } from "./profile/curr_admin"
+import { ConfirmDelete } from "./profile/delete"
+import { AddEdu, EditEdu } from "./profile/education"
+import { AddPast, EditPast } from "./profile/past_admin"
+import { Addphd, EditPhd } from "./profile/phd"
+import { AddPic } from "./profile/profilepic"
+import { AddProf, EditProf } from "./profile/prof_service"
+import { Addproject, Editproject } from "./profile/project"
+import { AddPublications } from "./profile/publications"
+import { AddResearch } from "./profile/research"
+import ShowPublications from "./profile/show-publications"
+import { AddSociety, EditSociety } from "./profile/society"
+import { AddForm, EditSubject } from "./profile/subject"
+import { AddWork, EditWork } from "./profile/work"
 
 const Profile = styled.div`
   font-family: "Source Sans Pro";
@@ -1231,6 +1231,15 @@ export default function Profilepage(props) {
                 Add
               </Button>
               <AddBib published={publications} />
+              {detail.publications[0]?.pub_pdf ? (
+                <div style={{ margin: "1rem 0 0 0 " }}>
+                  <a href={detail.publications[0].pub_pdf} target="__blank">
+                    View Publication
+                  </a>
+                </div>
+              ) : (
+                <AddPubPdf />
+              )}
               <AddPublications
                 published={publications}
                 handleClose={handleCloseAddModal10}
