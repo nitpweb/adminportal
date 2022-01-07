@@ -103,6 +103,11 @@ const handler = async (req, res) => {
             `UPDATE publications SET publications=? WHERE email=?`, [data, params.email], (err) => console.log(err)
           );
           return res.json(result);
+        } else if (type == "pub-pdf") {
+          let result = await query(
+            `UPDATE publications SET pub_pdf='' WHERE email=?`, [params.email], (err) => console.log(err)
+          );
+          return res.json(result);
         } else if (type == "project") {
           let result = await query(
             `delete from project WHERE id = ${params.id}`

@@ -12,6 +12,7 @@ export const ConfirmDelete = ({
   id,
   del,
   scrolltoTop = false,
+  callback = async () => {},
 }) => {
   const [session, loading] = useSession()
   const refreshData = useRefreshData(scrolltoTop)
@@ -28,7 +29,7 @@ export const ConfirmDelete = ({
     if (result instanceof Error) {
       console.log("Error Occured")
       // console.log(result)
-    }
+    } else await callback()
     // console.log(result)
     handleClose()
     refreshData()

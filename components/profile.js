@@ -6,7 +6,7 @@ import { useSession } from "next-auth/client"
 import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 import AddBib from "./profile/addBib"
-import AddPubPdf from "./profile/addPubPdf"
+import PdfPublication from "./profile/pdfpub"
 import { AddCurrent, EditCurrent } from "./profile/curr_admin"
 import { ConfirmDelete } from "./profile/delete"
 import { AddEdu, EditEdu } from "./profile/education"
@@ -1231,15 +1231,7 @@ export default function Profilepage(props) {
                 Add
               </Button>
               <AddBib published={publications} />
-              {detail.publications[0]?.pub_pdf ? (
-                <div style={{ margin: "1rem 0 0 0 " }}>
-                  <a href={detail.publications[0].pub_pdf} target="__blank">
-                    View Publication
-                  </a>
-                </div>
-              ) : (
-                <AddPubPdf />
-              )}
+              <PdfPublication pdf={detail.publications[0]?.pub_pdf} />
               <AddPublications
                 published={publications}
                 handleClose={handleCloseAddModal10}
