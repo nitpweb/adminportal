@@ -1231,13 +1231,19 @@ export default function Profilepage(props) {
                 Add
               </Button>
               <AddBib published={publications} />
-              <PdfPublication pdf={detail.publications[0]?.pub_pdf} />
+              <PdfPublication
+                pdf={
+                  detail.publications?.length
+                    ? detail.publications[0]?.pub_pdf
+                    : ""
+                }
+              />
               <AddPublications
                 published={publications}
                 handleClose={handleCloseAddModal10}
                 modal={addModal10}
               />
-              {publications.length && (
+              {publications?.length && (
                 <ShowPublications
                   publications={publications}
                   setPublications={setPublications}

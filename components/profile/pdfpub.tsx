@@ -83,7 +83,7 @@ export default function PubPdf({ pdf }: { pdf: string }) {
     <React.Fragment>
       {pdf ? (
         <div style={{ margin: "1rem 0 0 0 " }}>
-          <a href={pdf} target="__blank">
+          <a href={pdf} target="_blank">
             View Publication
           </a>
           <IconButton aria-label="delete" onClick={openDeleteModal}>
