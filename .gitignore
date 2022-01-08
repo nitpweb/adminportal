@@ -108,5 +108,6 @@ dist
 .vercel
 .now
 .env.local
+.env.production
 
 .DS_Store

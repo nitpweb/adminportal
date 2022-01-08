@@ -1,27 +1,27 @@
-import { NextApiHandler } from "next";
-import { getSession } from "next-auth/client";
-import { query } from "../../../lib/db";
+import { NextApiHandler } from "next"
+import { getSession } from "next-auth/client"
+import { query } from "../../../lib/db"
 
 const handler = async (req, res) => {
-  const session = await getSession({ req });
+  const session = await getSession({ req })
   // let session = true;
 
   if (session) {
-    const { type } = req.query;
+    const { type } = req.query
     try {
-      let params = req.body;
+      let params = req.body
 
       if (
         session.user.role === 1 ||
-        (session.user.role === 2 ||
-          session.user.role === 4)
+        session.user.role === 2 ||
+        session.user.role === 4
       ) {
         if (type == "notice") {
-          params.attachments = JSON.stringify(params.attachments);
+          params.attachments = JSON.stringify(params.attachments)
           params.main_attachment = JSON.stringify(params.main_attachment)
           let result = await query(
             `INSERT INTO notices (id,title,timestamp,openDate,closeDate,important,attachments,email,isVisible,notice_link,notice_type,department) VALUES ` +
-            `(?,?,?,?,?,?,?,?,?,?,?,?)`,
+              `(?,?,?,?,?,?,?,?,?,?,?,?)`,
             [
               params.id,
               params.title,
@@ -34,10 +34,10 @@ const handler = async (req, res) => {
               params.isVisible,
               params.main_attachment,
               params.notice_type,
-              params.department
-            ],
-          ).catch(err => console.log(err));
-          return res.json(result);
+              params.department,
+            ]
+          ).catch((err) => console.log(err))
+          return res.json(result)
         }
       }
 
@@ -45,7 +45,7 @@ const handler = async (req, res) => {
         if (session.user.role == 1 && type == "user") {
           let result = await query(
             `INSERT INTO users (name,email,role,department,designation,administration,ext_no,research_interest) values (` +
-            `?,?,?,?,?,?,?,?)`,
+              `?,?,?,?,?,?,?,?)`,
             [
               params.name,
               params.email,
@@ -56,14 +56,14 @@ const handler = async (req, res) => {
               params.ext_no,
               params.research_interest,
             ]
-          ).catch(err => console.log(err));
-          return res.json(result);
+          ).catch((err) => console.log(err))
+          return res.json(result)
         } else if (type == "event") {
-          params.attachments = JSON.stringify(params.attachments);
+          params.attachments = JSON.stringify(params.attachments)
           params.main_attachment = JSON.stringify(params.main_attachment)
           let result = await query(
             `INSERT INTO events (id,title,timestamp,openDate,closeDate,venue,doclink,attachments,event_link,email) VALUES ` +
-            `(?,?,?,?,?,?,?,?,?,?)`,
+              `(?,?,?,?,?,?,?,?,?,?)`,
             [
               params.id,
               params.title,
@@ -76,13 +76,13 @@ const handler = async (req, res) => {
               params.main_attachment,
               params.email,
             ]
-          );
-          return res.json(result);
+          )
+          return res.json(result)
         } else if (type == "innovation") {
-          params.image = JSON.stringify(params.image);
+          params.image = JSON.stringify(params.image)
           let result = await query(
             `INSERT INTO innovation (id,title,timestamp,openDate,closeDate,description,image,author,email) VALUES ` +
-            `(?,?,?,?,?,?,?,?,?)`,
+              `(?,?,?,?,?,?,?,?,?)`,
             [
               params.id,
               params.title,
@@ -94,14 +94,14 @@ const handler = async (req, res) => {
               params.author,
               params.email,
             ]
-          );
-          return res.json(result);
+          )
+          return res.json(result)
         } else if (type == "news") {
-          params.image = JSON.stringify(params.image);
+          params.image = JSON.stringify(params.image)
           params.add_attach = JSON.stringify(params.add_attach)
           let result = await query(
             `INSERT INTO news (id,title,timestamp,openDate,closeDate,description,image,attachments,author,email) VALUES ` +
-            `(?,?,?,?,?,?,?,?,?,?)`,
+              `(?,?,?,?,?,?,?,?,?,?)`,
             [
               params.id,
               params.title,
@@ -114,8 +114,8 @@ const handler = async (req, res) => {
               params.author,
               params.email,
             ]
-          );
-          return res.json(result);
+          )
+          return res.json(result)
         }
       }
       if (session.user.email == params.email) {
@@ -126,19 +126,19 @@ const handler = async (req, res) => {
           // );
           let result = await query(
             `UPDATE users SET	image='${params.image[0].url}' WHERE email='${params.email}'`
-          );
-          return res.json(result);
+          )
+          return res.json(result)
         } else if (type == "current-responsibility") {
           let result = await query(
             `INSERT INTO curr_admin_responsibility (id,email,curr_responsibility,start) VALUES` +
-            `(?,?,?,?)`,
+              `(?,?,?,?)`,
             [params.id, params.email, params.curr_responsibility, params.start]
-          );
-          return res.json(result);
+          )
+          return res.json(result)
         } else if (type == "memberships") {
           let result = await query(
             `insert into memberships (id,email,membership_id,membership_society,start,end) values (` +
-            `?,?,?,?,?,?)`,
+              `?,?,?,?,?,?)`,
             [
               params.id,
               params.email,
@@ -147,12 +147,12 @@ const handler = async (req, res) => {
               params.start,
               params.end,
             ]
-          );
-          return res.json(result);
+          )
+          return res.json(result)
         } else if (type == "past-responsibility") {
           let result = await query(
             `INSERT INTO past_admin_responsibility (id,email,past_responsibility,start,end) VALUES` +
-            `(?,?,?,?,?)`,
+              `(?,?,?,?,?)`,
             [
               params.id,
               params.email,
@@ -160,12 +160,12 @@ const handler = async (req, res) => {
               params.start,
               params.end,
             ]
-          );
-          return res.json(result);
+          )
+          return res.json(result)
         } else if (type == "workexperience") {
           let result = await query(
             `INSERT INTO work_experience (id,email,work_experiences,institute,start,end) VALUES` +
-            `(?,?,?,?,?,?)`,
+              `(?,?,?,?,?,?)`,
             [
               params.id,
               params.email,
@@ -174,12 +174,12 @@ const handler = async (req, res) => {
               params.start,
               params.end,
             ]
-          );
-          return res.json(result);
+          )
+          return res.json(result)
         } else if (type == "subjects") {
           let result = await query(
             `INSERT INTO subjects_teaching (id,email,code,name,start,end) VALUES` +
-            `(?,?,?,?,?,?)`,
+              `(?,?,?,?,?,?)`,
             [
               params.id,
               params.email,
@@ -189,23 +189,32 @@ const handler = async (req, res) => {
               params.end,
             ]
           ).catch((e) => {
-            console.log(e);
-          });
-          return res.json(result);
+            console.log(e)
+          })
+          return res.json(result)
         } else if (type == "publications") {
           console.log(params.data)
           params.data = JSON.stringify(params.data)
           let result = await query(
             ` INSERT INTO publications (email,publication_id,publications) VALUES (?,?,?)` +
-            ` ON DUPLICATE KEY UPDATE publications= ? ;`,
-            [params.email, Date.now(), params.data, params.data],
-          ).catch((err) => console.log(err));
-          console.log(result)
-          return res.json(result);
+              ` ON DUPLICATE KEY UPDATE publications= ? ;`,
+            [params.email, Date.now(), params.data, params.data]
+          ).catch((err) => console.log(err))
+          // console.log(result)
+          return res.json(result)
+        } else if (type == "pub-pdf") {
+          console.log(params.pdf)
+          let result = await query(
+            ` INSERT INTO publications (email,publication_id,pub_pdf) VALUES (?,?,?)` +
+              ` ON DUPLICATE KEY UPDATE pub_pdf= ? ;`,
+            [params.email, Date.now(), params.pdf, params.pdf]
+          ).catch((err) => console.log(err))
+          // console.log(result)
+          return res.json(result)
         } else if (type == "project") {
           let result = await query(
             `INSERT INTO project (id,email,project,sponsor,amount,start,end) VALUES` +
-            `(?,?,?,?,?,?,?)`,
+              `(?,?,?,?,?,?,?)`,
             [
               params.id,
               params.email,
@@ -215,19 +224,19 @@ const handler = async (req, res) => {
               params.start,
               params.end,
             ]
-          );
-          return res.json(result);
+          )
+          return res.json(result)
         } else if (type == "professionalservice") {
           let result = await query(
             `INSERT INTO professional_service (id,email,services) VALUES` +
-            `(?,?,?)`,
+              `(?,?,?)`,
             [params.id, params.email, params.services]
-          );
-          return res.json(result);
+          )
+          return res.json(result)
         } else if (type == "education") {
           let result = await query(
             `INSERT INTO education (id,email,certification,institution,passing_year) VALUES` +
-            `(?,?,?,?,?)`,
+              `(?,?,?,?,?)`,
             [
               params.id,
               params.email,
@@ -235,12 +244,12 @@ const handler = async (req, res) => {
               params.institution,
               params.passing_year,
             ]
-          );
-          return res.json(result);
+          )
+          return res.json(result)
         } else if (type == "phdcandidates") {
           let result = await query(
             `INSERT INTO phd_candidates (id,email,phd_student_name,thesis_topic,start_year,completion_year) VALUES` +
-            `(?,?,?,?,?,?)`,
+              `(?,?,?,?,?,?)`,
             [
               params.id,
               params.email,
@@ -249,18 +258,18 @@ const handler = async (req, res) => {
               params.start_year,
               params.completion_year,
             ]
-          );
-          return res.json(result);
+          )
+          return res.json(result)
         }
       } else {
-        return res.json({ message: "Could not find matching requests" });
+        return res.json({ message: "Could not find matching requests" })
       }
     } catch (e) {
-      res.status(500).json({ message: e.message });
+      res.status(500).json({ message: e.message })
     }
   } else {
-    res.status(403).json({ message: "You are not authorized" });
+    res.status(403).json({ message: "You are not authorized" })
   }
-};
+}
 
-export default handler;
+export default handler

@@ -20,7 +20,7 @@ export const AddResearch = ({ handleClose, modal, detail }) => {
     department: `${detail.department}`,
     designation: `${detail.designation}`,
     ext_no: `${detail.ext_no}`,
-    research_interest: `${detail.research_interest}`
+    research_interest: `${detail.research_interest}`,
   }
   const [content, setContent] = useState(initialState)
   const [submitting, setSubmitting] = useState(false)
@@ -35,24 +35,24 @@ export const AddResearch = ({ handleClose, modal, detail }) => {
     e.preventDefault()
     let data = {
       ...content,
-      email: session.user.email
+      email: session.user.email,
     }
     // data.attachments = JSON.stringify(data.attachments);
 
     let result = await fetch("/api/update/user", {
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       method: "POST",
-      body: JSON.stringify(data)
+      body: JSON.stringify(data),
     })
     result = await result.json()
     if (result instanceof Error) {
       console.log("Error Occured")
-      console.log(result)
+      // console.log(result)
     }
-    console.log(result)
+    // console.log(result)
     handleClose()
     refreshData()
     setSubmitting(false)
@@ -72,36 +72,30 @@ export const AddResearch = ({ handleClose, modal, detail }) => {
           </DialogTitle>
           <DialogContent>
             <TextField
-              margin='dense'
-              id='label'
-              label='ext_no'
-              name='ext_no'
-              type='text'
+              margin="dense"
+              id="label"
+              label="ext_no"
+              name="ext_no"
+              type="text"
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.ext_no}
             />
             <TextField
-              margin='dense'
-              id='label'
-              label='research_interest'
-              name='research_interest'
-              type='text'
+              margin="dense"
+              id="label"
+              label="research_interest"
+              name="research_interest"
+              type="text"
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.research_interest}
             />
           </DialogContent>
           <DialogActions>
-            {submitting ? (
-              <Button type='submit' color='primary' disabled>
-                Submitting
-              </Button>
-            ) : (
-              <Button type='submit' color='primary'>
-                Submit
-              </Button>
-            )}
+            <Button type="submit" color="primary" disabled={submitting}>
+              {submitting ? "Submitting" : "Submit"}
+            </Button>
           </DialogActions>
         </form>
       </Dialog>

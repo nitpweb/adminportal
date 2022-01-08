@@ -6,21 +6,25 @@ import DialogTitle from "@material-ui/core/DialogTitle"
 import TextField from "@material-ui/core/TextField"
 import { useSession } from "next-auth/client"
 import React, { useState } from "react"
+import { AddAttachments } from "../common-props/add-attachment"
+import Grid from "@material-ui/core/Grid"
+import Select from "@material-ui/core/Select"
+import InputLabel from "@material-ui/core/InputLabel"
+import MenuItem from "@material-ui/core/MenuItem"
 import DateFnsUtils from "@date-io/date-fns"
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers"
-import Grid from "@material-ui/core/Grid"
 import useRefreshData from "@/custom-hooks/refresh"
 
-export const AddSociety = ({ handleClose, modal }) => {
+export const AddForm = ({ handleClose, modal }) => {
   const [session, loading] = useSession()
-  const refreshData = useRefreshData(false)
   const initialState = {
-    membership_id: "",
-    membership_society: "",
+    code: "",
+    name: "",
     start: undefined,
     end: undefined,
   }
   const [content, setContent] = useState(initialState)
+  const refreshData = useRefreshData(false)
   const [submitting, setSubmitting] = useState(false)
 
   const handleChange = (e) => {
@@ -38,8 +42,8 @@ export const AddSociety = ({ handleClose, modal }) => {
       email: session.user.email,
     }
     // data.attachments = JSON.stringify(data.attachments);
-    console.log(content.start)
-    let result = await fetch("/api/create/memberships", {
+
+    let result = await fetch("/api/create/subjects", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -47,13 +51,12 @@ export const AddSociety = ({ handleClose, modal }) => {
       method: "POST",
       body: JSON.stringify(data),
     })
-
     result = await result.json()
     if (result instanceof Error) {
       console.log("Error Occured")
-      // console.log(result)
+  // console.log(result)
     }
-    // console.log(result)
+// console.log(result)
     handleClose()
     refreshData()
     setSubmitting(false)
@@ -69,47 +72,63 @@ export const AddSociety = ({ handleClose, modal }) => {
           }}
         >
           <DialogTitle disableTypography style={{ fontSize: `2rem` }}>
-            Add Society
+            Add Subjects
           </DialogTitle>
           <DialogContent>
             <TextField
               margin="dense"
-              id="label"
-              label="Membership Id"
-              name="membership_id"
+              id="labelcode"
+              label="Subject_Code"
+              name="code"
               type="text"
               fullWidth
               onChange={(e) => handleChange(e)}
-              value={content.membership_id}
+              value={content.code}
             />
             <TextField
               margin="dense"
-              id="label"
-              label="Society"
-              name="membership_society"
+              id="labelname"
+              label="Subject_Name"
+              name="name"
               type="text"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
-              value={content.membership_society}
+              value={content.name}
             />
-            <TextField
+            {/* <TextField
               margin="dense"
-              id="societyStart"
-              label="Start Date"
+              id="labelsession"
+              label="Session Start Date"
               name="start"
               type="text"
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.start}
               InputLabelProps={{
-                shrink: true,
-              }}
-            />
+								shrink: true,
+							}}
+            /> */}
+
+            <InputLabel id="select" shrink={true} margin="dense">
+              Session
+            </InputLabel>
+            <Select
+              variant="outlined"
+              labelId="select"
+              id="simple-select"
+              name="start"
+              value={content.start}
+              onChange={(e) => handleChange(e)}
+            >
+              <MenuItem value={"Spring"}>Spring</MenuItem>
+              <MenuItem value={"Summer"}>Summer</MenuItem>
+              <MenuItem value={"Autumn"}>Autumn</MenuItem>
+            </Select>
             <TextField
               margin="dense"
-              id="societyEnd"
-              label="End Date"
+              id="labelsession"
+              label="Year"
               name="end"
               type="text"
               fullWidth
@@ -124,26 +143,12 @@ export const AddSociety = ({ handleClose, modal }) => {
               <Grid container justify="flex-start">
                 <DatePicker
                   openTo="year"
-                  name="start"
-                  format="MM/yyyy"
-                  views={["year", "month"]}
-                  label="Start-Date"
-                  value={content.start}
-                  onChange={(e) => setContent({ ...content, start: e })}
-                />
-              </Grid>
-            </MuiPickersUtilsProvider>
-
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <Grid container justify="flex-start">
-                <DatePicker
-                  openTo="year"
                   name="end"
-                  format="MM/yyyy"
-                  views={[ "month","year"]}
-                  label="End-Date"
+                  format="yyyy"
+                  views={["year"]}
+                  label="Year"
                   value={content.end}
-                  onChange={(e) => setContent({ ...content, end: e })}
+                  onChange={(e) => setContent({ ...content, end: e})}
                 />
               </Grid>
             </MuiPickersUtilsProvider> */}
@@ -159,11 +164,11 @@ export const AddSociety = ({ handleClose, modal }) => {
   )
 }
 
-export const EditSociety = ({ handleClose, modal, values }) => {
+export const EditSubject = ({ handleClose, modal, values }) => {
   const [session, loading] = useSession()
-  const refreshData = useRefreshData(false)
 
   const [content, setContent] = useState(values)
+  const refreshData = useRefreshData(false)
   const [submitting, setSubmitting] = useState(false)
 
   const handleChange = (e) => {
@@ -181,8 +186,8 @@ export const EditSociety = ({ handleClose, modal, values }) => {
       email: session.user.email,
     }
     // data.attachments = JSON.stringify(data.attachments);
-    console.log(data)
-    let result = await fetch("/api/update/memberships", {
+
+    let result = await fetch("/api/update/subjects", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -190,13 +195,12 @@ export const EditSociety = ({ handleClose, modal, values }) => {
       method: "POST",
       body: JSON.stringify(data),
     })
-
     result = await result.json()
     if (result instanceof Error) {
       console.log("Error Occured")
-      // console.log(result)
+  // console.log(result)
     }
-    // console.log(result)
+// console.log(result)
     handleClose()
     refreshData()
     setSubmitting(false)
@@ -211,47 +215,63 @@ export const EditSociety = ({ handleClose, modal, values }) => {
           }}
         >
           <DialogTitle disableTypography style={{ fontSize: `2rem` }}>
-            Edit Society
+            Edit Subject
           </DialogTitle>
           <DialogContent>
             <TextField
               margin="dense"
-              id="label"
-              label="Membership Id"
-              name="membership_id"
+              id="labelcode"
+              label="Subject_Code"
+              name="code"
               type="text"
               fullWidth
               onChange={(e) => handleChange(e)}
-              value={content.membership_id}
+              value={content.code}
             />
             <TextField
               margin="dense"
-              id="label"
-              label="Society"
-              name="membership_society"
+              id="labelname"
+              label="Subject_Name"
+              name="name"
               type="text"
               required
               fullWidth
               onChange={(e) => handleChange(e)}
-              value={content.membership_society}
+              value={content.name}
             />
-            <TextField
+            {/* <TextField
               margin="dense"
-              id="societyStart"
-              label="Start Date"
+              id="labelsession"
+              label="Session Start Date"
               name="start"
               type="text"
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.start}
               InputLabelProps={{
-                shrink: true,
-              }}
-            />
+								shrink: true,
+							}}
+            /> */}
+
+            <InputLabel id="select" shrink={true} margin="dense">
+              Session
+            </InputLabel>
+            <Select
+              variant="outlined"
+              labelId="select"
+              id="simple-select"
+              name="start"
+              value={content.start}
+              onChange={(e) => handleChange(e)}
+            >
+              <MenuItem value={"Spring"}>Spring</MenuItem>
+              <MenuItem value={"Summer"}>Summer</MenuItem>
+              <MenuItem value={"Autumn"}>Autumn</MenuItem>
+            </Select>
             <TextField
               margin="dense"
-              id="societyEnd"
-              label="End Date"
+              id="labelsession"
+              label="Year"
               name="end"
               type="text"
               fullWidth
@@ -266,26 +286,12 @@ export const EditSociety = ({ handleClose, modal, values }) => {
               <Grid container justify="flex-start">
                 <DatePicker
                   openTo="year"
-                  name="start"
-                  format="MM/yyyy"
-                  views={["year", "month"]}
-                  label="Start-Date"
-                  value={content.start}
-                  onChange={(e) => setContent({ ...content, start: e })}
-                />
-              </Grid>
-            </MuiPickersUtilsProvider>
-
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <Grid container justify="flex-start">
-                <DatePicker
-                  openTo="year"
                   name="end"
-                  format="MM/yyyy"
-                  views={[ "month","year"]}
-                  label="End-Date"
+                  format="yyyy"
+                  views={["year"]}
+                  label="Year"
                   value={content.end}
-                  onChange={(e) => setContent({ ...content, end: e })}
+                  onChange={(e) => setContent({ ...content, end: e})}
                 />
               </Grid>
             </MuiPickersUtilsProvider> */}
