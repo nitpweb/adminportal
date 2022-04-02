@@ -8,7 +8,7 @@ import { useSession } from "next-auth/client";
 import React, { useState } from "react";
 import { AddAttachments } from "./addpic";
 
-export const AddPic = ({ handleClose, modal }) => {
+export const AddCv = ({ handleClose, modal }) => {
 	const [session, loading] = useSession();
 
 	const [submitting, setSubmitting] = useState(false);
@@ -22,18 +22,18 @@ export const AddPic = ({ handleClose, modal }) => {
 		let data = {
 			email: session.user.email,
 
-			image: [...attachments],
+			cv: [...attachments],
 		};
-		for (let i = 0; i < data.image.length; i++) {
-			delete data.image[i].value;
-			// if (data.image[i].url === undefined) {
-			// 	data.image[i].url = "";
+		for (let i = 0; i < data.cv.length; i++) {
+			delete data.cv[i].value;
+			// if (data.cv[i].url === undefined) {
+			// 	data.cv[i].url = "";
 			// }
-			console.log(data.image[i]);
+			console.log(data.cv[i]);
 
-			if (data.image[i].url) {
+			if (data.cv[i].url) {
 				let file = new FormData();
-				file.append("files", data.image[i].url);
+				file.append("files", data.cv[i].url);
 				// console.log(file.get("files"));
 				let viewLink = await fetch("/api/gdrive/uploadfiles", {
 					method: "POST",
@@ -43,16 +43,16 @@ export const AddPic = ({ handleClose, modal }) => {
 				viewLink = await viewLink.json();
 				// console.log("Client side link");
 				console.log(viewLink);
-				data.image[
+				data.cv[
 					i
-				].url = `https://drive.google.com/thumbnail?authuser=0&sz=w320&id=${viewLink[0].id}`;
+				].url = `https://drive.google.com/open?authuser=0&sz=w320&id=${viewLink[0].id}`;
 			} else {
 				console.log("Request Not Sent");
 			}
 		}
 		// data.attachments = JSON.stringify(data.attachments);
 
-		let result = await fetch("/api/create/image", {
+		let result = await fetch("/api/create/cv", {
 			headers: {
 				Accept: "application/json",
 				"Content-Type": "application/json",
@@ -66,6 +66,7 @@ export const AddPic = ({ handleClose, modal }) => {
 			console.log(result);
 		}
 		console.log(result);
+		alert("CV uploaded successfully")
 		window.location.reload();
 	};
 
@@ -78,13 +79,13 @@ export const AddPic = ({ handleClose, modal }) => {
 					}}
 				>
 					<DialogTitle disableTypography style={{ fontSize: `2rem` }}>
-						Add Pic
+						Add CV
 					</DialogTitle>
 					<DialogContent>
 						<AddAttachments
 							attachments={attachments}
 							setAttachments={setAttachments}
-							attachmentTypes={["image/*"]}
+							attachmentTypes={["application/pdf"]}
 						/>
 					</DialogContent>
 					<DialogActions>

@@ -128,6 +128,11 @@ const handler = async (req, res) => {
             `UPDATE users SET	image='${params.image[0].url}' WHERE email='${params.email}'`
           )
           return res.json(result)
+        } else if (type == "cv") {
+          let result = await query(
+            `UPDATE users SET	cv='${params.cv[0].url}' WHERE email='${params.email}'`
+          )
+          return res.json(result)
         } else if (type == "current-responsibility") {
           let result = await query(
             `INSERT INTO curr_admin_responsibility (id,email,curr_responsibility,start) VALUES` +
