@@ -4,7 +4,7 @@ import readline from "readline";
 export let authorized = false;
 
 export function authorize() {
-	const TOKEN_PATH = JSON.parse(process.env.TOKEN_PATH);
+	let TOKEN_PATH = JSON.parse(process.env.TOKEN_PATH);
 	// console.log(TOKEN_PATH);
 	const SCOPES = ["https://www.googleapis.com/auth/drive"];
 	const client_id = process.env.GOOGLE_ID;

@@ -6,6 +6,7 @@ import { useSession } from "next-auth/client"
 import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 import AddBib from "./profile/addBib"
+import { AddCv } from "./profile/addCv"
 import PdfPublication from "./profile/pdfpub"
 import { AddCurrent, EditCurrent } from "./profile/curr_admin"
 import { ConfirmDelete } from "./profile/delete"
@@ -24,7 +25,7 @@ import { AddWork, EditWork } from "./profile/work"
 
 const Profile = styled.div`
   font-family: "Source Sans Pro";
-  margin-top: 10vw;
+  margin-top: 3vw;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
@@ -713,6 +714,14 @@ export default function Profilepage(props) {
     setAddModalp(false)
   }
 
+  const [addCvModalp, setAddCvModalp] = useState(false)
+  const addCvModalOpenp = () => {
+    setAddCvModalp(true)
+  }
+  const handleCloseAddCvModalp = () => {
+    setAddCvModalp(false)
+  }
+
   return (
     <>
       {session && (
@@ -731,15 +740,42 @@ export default function Profilepage(props) {
             </a>
             <h2>{detail.profile.name}</h2>
             <h3>{detail.profile.designation}</h3>
-            <Button
-              color="primary"
-              variant="contained"
-              onClick={() => addModalOpenp()}
-              style={{}}
-            >
-              Upload
-            </Button>
-            <AddPic handleClose={handleCloseAddModalp} modal={addModalp} />
+            
+            <div style={{display:"flex", flexDirection:"column"}}>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={() => addModalOpenp()}
+                style={{}}
+              >
+                Upload Photo
+              </Button>
+              <AddPic handleClose={handleCloseAddModalp} modal={addModalp} />
+              <br />
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={() => addCvModalOpenp()}
+                style={{}}
+              >
+                {detail.profile.cv ? "Update CV" : "Upload CV"}
+              </Button>
+              <AddCv handleClose={handleCloseAddCvModalp} modal={addCvModalp} />
+              <br />
+              {detail.profile.cv && (
+                <a
+                  href={detail.profile.cv}
+                  target="_blank"
+                >
+                  <Button
+                    color="primary"
+                    variant="contained"
+                  >
+                    View CV
+                  </Button>
+                </a>
+              )}
+            </div>
           </div>
 
           <div className="faculty-details-row">
