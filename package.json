@@ -27,7 +27,7 @@
     "dotenv": "^8.2.0",
     "googleapis": "^71.0.0",
     "multer": "^1.4.2",
-    "next": "^12.1.4",
+    "next": "^10.0.7",
     "next-auth": "latest",
     "next-auth-dynamodb": "^0.3.3",
     "next-session": "^3.4.0",
