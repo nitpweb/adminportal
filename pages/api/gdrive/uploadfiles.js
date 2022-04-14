@@ -1,7 +1,7 @@
 import { google } from "googleapis";
 import multer from "multer";
 import { getSession } from "next-auth/client";
-import { authorize, authorized } from "./authorize";
+import { authorize, authorized, getAccessToken } from "./authorize";
 import stream from "stream";
 export const config = {
 	api: {
@@ -45,9 +45,16 @@ export default async function UploadFiles(request, response) {
 						},
 						media: media,
 						fields: "id,name,webViewLink",
+					}).catch(async(err) => {
+						console.log(err.message);
+						console.log("Requires new token generation. Contact administrator");
+						await getAccessToken();
+						return response.status(500).json({"error": err.message});
+
 					});
 
-					finalResult.push(driveRes.data);
+					
+					await finalResult.push(driveRes.data);
 				}
 
 				console.log("Sending Response");
