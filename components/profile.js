@@ -22,6 +22,7 @@ import ShowPublications from "./profile/show-publications"
 import { AddSociety, EditSociety } from "./profile/society"
 import { AddForm, EditSubject } from "./profile/subject"
 import { AddWork, EditWork } from "./profile/work"
+import { getPdfUrl } from "./profile/getPdfUrl"
 
 const Profile = styled.div`
   font-family: "Source Sans Pro";
@@ -99,6 +100,55 @@ const Profile = styled.div`
       }
     }
   }
+
+  .cv {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
+  }
+  .cv:target {
+    visibility: visible;
+    opacity: 1;
+    z-index: 1;
+  }
+
+  .popup {
+    margin: 70px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    width: 30%;
+    position: relative;
+    transition: all 5s ease-in-out;
+    min-height: 70vh;
+    min-width: 70vw;
+  }
+
+  .popup .close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    transition: all 200ms;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+  }
+  .popup .close:hover {
+    color: #06D85F;
+  }
+  .popup .content {
+    height: 70vh;
+    width: 70vw;
+    overflow: hidden;
+  }
+
 `
 
 const SubjectRow = ({ item }) => {
@@ -763,17 +813,25 @@ export default function Profilepage(props) {
               <AddCv handleClose={handleCloseAddCvModalp} modal={addCvModalp} />
               <br />
               {detail.profile.cv && (
-                <a
-                  href={detail.profile.cv}
-                  target="_blank"
-                >
-                  <Button
-                    color="primary"
-                    variant="contained"
-                  >
-                    View CV
-                  </Button>
-                </a>
+                <div>
+                  <a href="#cv">
+                    <Button
+                      color="primary"
+                      variant="contained"
+                    >
+                      View CV
+                    </Button>
+                  </a>
+
+                  <div id="cv" className="cv">
+                    <div className="popup">
+                      <a href="#" className="close">&times;</a>
+                      <div className="content">
+                        <iframe src={getPdfUrl(detail.profile.cv)} width="100%" height="100%"></iframe>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               )}
             </div>
           </div>
