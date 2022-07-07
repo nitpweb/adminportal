@@ -16,6 +16,7 @@ import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
 import Input from "@material-ui/core/Input"
 import { administrationList } from "@/lib/const"
+import {BroadcastMail} from "./../common-props/send-broadcast-mail";
 
 export const AddForm = ({ handleClose, modal }) => {
   const [session, loading] = useSession()
@@ -28,6 +29,12 @@ export const AddForm = ({ handleClose, modal }) => {
     important: false,
     notice_type: "department",
   })
+
+	const [broadcastMail, setBroadcastMail] = useState({
+		broadcast: false,
+		mail: "students@nitp.ac.in"
+	});
+
 
   const [attachments, setAttachments] = useState([])
   const [mainAttachment, setMainAttachment] = useState({
@@ -111,7 +118,25 @@ export const AddForm = ({ handleClose, modal }) => {
       console.log("Error Occured")
       // console.log(result);
     }
-    // console.log(result);
+    
+		// Broadcast after news is created
+		if (broadcastMail.broadcast) {
+			let data = {
+				type: "news",
+				email: broadcastMail.mail,
+				news: "result"
+			};
+			let result = await fetch("/api/broadcast", {
+				method: "POST",
+				body: JSON.stringify(data)
+			});
+			result = await result.json();
+			if (result instanceof Error) {
+				alert("Event created but an error occured while sending mail");
+				console.log(result);
+			}
+		}
+    
     window.location.reload()
   }
 
@@ -262,6 +287,12 @@ export const AddForm = ({ handleClose, modal }) => {
               setMainAttachment={setMainAttachment}
               placeholder="Main Notice Link/Attach"
             />
+
+            <BroadcastMail
+							broadcastMail={broadcastMail}
+							setBroadcastMail={setBroadcastMail}
+						/>
+
             <h2>Attachments</h2>
             <AddAttachments
               attachments={attachments}
