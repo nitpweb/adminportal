@@ -9,7 +9,6 @@ import { useSession } from "next-auth/client";
 import React, { useState } from "react";
 import { AddAttachments } from "./../common-props/add-attachment";
 import { fileUploader } from "./../common-props/useful-functions";
-import {BroadcastMail} from "./../common-props/send-broadcast-mail";
 
 export const AddForm = ({ handleClose, modal }) => {
 	const [session, loading] = useSession();
@@ -28,11 +27,6 @@ export const AddForm = ({ handleClose, modal }) => {
 		url: "",
 		value: "",
 		typeLink: false,
-	});
-
-	const [broadcastMail, setBroadcastMail] = useState({
-		broadcast: false,
-		mail: "students@nitp.ac.in"
 	});
 
 	const handleChange = (e) => {
@@ -93,27 +87,8 @@ export const AddForm = ({ handleClose, modal }) => {
 		if (result instanceof Error) {
 			console.log("Error Occured");
 			console.log(result);
-			window.location.reload();
 		}
-
-		// Broadcast after event is created
-		if (broadcastMail.broadcast) {
-			let data = {
-				type: "event",
-				email: broadcastMail.mail,
-				event: "result"
-			};
-			let result = await fetch("/api/broadcast", {
-				method: "POST",
-				body: JSON.stringify(data)
-			});
-			result = await result.json();
-			if (result instanceof Error) {
-				alert("Event created but an error occured while sending mail");
-				console.log(result);
-			}
-		}
-
+		console.log(result);
 		window.location.reload();
 	};
 
@@ -198,11 +173,6 @@ export const AddForm = ({ handleClose, modal }) => {
 							mainAttachment={mainAttachment}
 							setMainAttachment={setMainAttachment}
 							placeholder="Main Event Link/Attach"
-						/>
-
-						<BroadcastMail
-							broadcastMail={broadcastMail}
-							setBroadcastMail={setBroadcastMail}
 						/>
 
 						<h2>Attachments</h2>

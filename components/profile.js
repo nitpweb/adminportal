@@ -23,7 +23,6 @@ import { AddSociety, EditSociety } from "./profile/society"
 import { AddForm, EditSubject } from "./profile/subject"
 import { AddWork, EditWork } from "./profile/work"
 import { getPdfUrl } from "./profile/getPdfUrl"
-import { AddSocialMediaForm } from "./profile/social_media_links"
 
 const Profile = styled.div`
   font-family: "Source Sans Pro";
@@ -669,14 +668,6 @@ export default function Profilepage(props) {
   }, [props.details])
 
   const [session, loading] = useSession()
-  const [addSocialMediaModal, setAddSocialMediaModal] = useState(false)
-  const addSocialMediaModalOpen = () => {
-    setAddSocialMediaModal(true)
-  }
-  const handleCloseSocialMediaAddModal = () => {
-    setAddSocialMediaModal(false)
-  }
-
   const [addModal, setAddModal] = useState(false)
   const addModalOpen = () => {
     setAddModal(true)
@@ -799,8 +790,8 @@ export default function Profilepage(props) {
             </a>
             <h2>{detail.profile.name}</h2>
             <h3>{detail.profile.designation}</h3>
-
-            <div style={{ display: "flex", flexDirection: "column" }}>
+            
+            <div style={{display:"flex", flexDirection:"column"}}>
               <Button
                 color="primary"
                 variant="contained"
@@ -852,18 +843,12 @@ export default function Profilepage(props) {
               data-aos="fade-up"
               style={{ position: `relative` }}
             >
-              {detail.profile.research_interest && <>
-                <h3>Research Interest:-</h3>
-                <p>{detail.profile.research_interest}</p>
-              </>
-              }
+              <h3>Research Interest:-</h3>
+              <p>{detail.profile.research_interest}</p>
               <h3>Email:-</h3>
               <p>{detail.profile.email}</p>
-              {detail.profile.ext_no && <>
-                <h3>Phone:-</h3>
-                <p>{detail.profile.ext_no}</p>
-              </>
-              }
+              <h3>Phone:-</h3>
+              <p>{detail.profile.ext_no}</p>
               <Button
                 color="primary"
                 variant="contained"
@@ -916,51 +901,6 @@ export default function Profilepage(props) {
                   );
                 })}
             </div> */}
-
-            <div
-              className="fac-card"
-              data-aos="fade-up"
-              style={{ position: `relative` }}
-            >
-              <h3>Social Media Links</h3>
-              <Button
-                color="primary"
-                variant="contained"
-                onClick={() => addSocialMediaModalOpen()}
-                style={{ position: `absolute`, top: `5px`, right: `5px` }}
-              >
-                Edit
-              </Button>
-              <AddSocialMediaForm handleClose={handleCloseSocialMediaAddModal} modal={addSocialMediaModal} links={JSON.parse(detail.profile.social_media_links)} />
-
-              <div className="factable">
-                <table>
-                  <tr>
-                    <td>
-                      <h4>Website</h4>
-                    </td>
-                    <td>
-                      <h4>Profile Link</h4>
-                    </td>
-                    <td></td>
-                  </tr>
-                  {detail.profile.social_media_links &&
-                    Object.keys(JSON.parse(detail.profile.social_media_links)).map((key) => (
-                      JSON.parse(detail.profile.social_media_links)[key] ? <>
-                        <tr>
-                          <td>
-                            <p>{key}</p>
-                          </td>
-                          <td>
-                            <p>{JSON.parse(detail.profile.social_media_links)[key]}</p>
-                          </td>
-                        </tr>
-                      </> : null
-                    )
-                    )}
-                </table>
-              </div>
-            </div>
 
             <div
               className="fac-card"
