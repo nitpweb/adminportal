@@ -107,22 +107,33 @@ const handler = async (req, res) => {
         type == "user" &&
         (session.user.role == 1 || session.user.email == params.email)
       ) {
-        let result = await query(
-          `UPDATE users SET name=?,email=?,role=?,department=?,designation=?,ext_no=?,administration=?` +
-            `,research_interest=? WHERE id=?`,
-          [
-            params.name,
-            params.email,
-            params.role,
-            params.department,
-            params.designation,
-            params.ext_no,
-            params.administration,
-            params.research_interest,
-            params.id,
-          ]
-        )
-        return res.json(result)
+        if(params.update_social_media_links){
+          let result = await query(
+            `UPDATE users SET social_media_links=? WHERE email=?`,
+            [
+              params.social_media_links,
+              session.user.email,
+            ]
+          )
+          return res.json(result)
+        }else{
+          let result = await query(
+            `UPDATE users SET name=?,email=?,role=?,department=?,designation=?,ext_no=?,administration=?` +
+              `,research_interest=? WHERE id=?`,
+            [
+              params.name,
+              params.email,
+              params.role,
+              params.department,
+              params.designation,
+              params.ext_no,
+              params.administration,
+              params.research_interest,
+              params.id,
+            ]
+          )
+          return res.json(result)
+        }
       }
       if (session.user.email == params.email) {
         if (type == "image") {

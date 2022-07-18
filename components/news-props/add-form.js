@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import { AddAttachments as AddImage } from "./../common-props/add-image";
 import { AddAttachments } from "./../common-props/add-attachment";
 import { fileUploader } from "./../common-props/useful-functions";
+import {BroadcastMail} from "./../common-props/send-broadcast-mail";
 
 export const AddForm = ({ handleClose, modal }) => {
 	const [session, loading] = useSession();
@@ -19,6 +20,11 @@ export const AddForm = ({ handleClose, modal }) => {
 		description: "",
 	});
 	const [submitting, setSubmitting] = useState(false);
+
+	const [broadcastMail, setBroadcastMail] = useState({
+		broadcast: false,
+		mail: "divyap.ug19.cs@nitp.ac.in" //"students@nitp.ac.in"
+	});
 
 	const [attachments, setAttachments] = useState([]);
 	const [add_attach, setAdd_attach] = useState([]);
@@ -91,7 +97,25 @@ export const AddForm = ({ handleClose, modal }) => {
 			console.log("Error Occured");
 			console.log(result);
 		}
-		console.log(result);
+		
+		// Broadcast after news is created
+		if (broadcastMail.broadcast) {
+			let data = {
+				type: "news",
+				email: broadcastMail.mail,
+				news: "result"
+			};
+			let result = await fetch("/api/broadcast", {
+				method: "POST",
+				body: JSON.stringify(data)
+			});
+			result = await result.json();
+			if (result instanceof Error) {
+				alert("Event created but an error occured while sending mail");
+				console.log(result);
+			}
+		}
+
 		window.location.reload();
 	};
 
@@ -158,6 +182,11 @@ export const AddForm = ({ handleClose, modal }) => {
 							InputLabelProps={{
 								shrink: true,
 							}}
+						/>
+
+						<BroadcastMail
+							broadcastMail={broadcastMail}
+							setBroadcastMail={setBroadcastMail}
 						/>
 
 						<h2>Attachments</h2>
