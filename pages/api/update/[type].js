@@ -109,12 +109,12 @@ const handler = async (req, res) => {
       ) {
         if(params.update_social_media_links){
           let result = await query(
-            `UPDATE users SET Linkedin=? "Google Scholar"=? "Personal Webpage"=? "Scopus"=? WHERE email=?`,
+            "UPDATE users SET Linkedin=? , `Google Scholar`=? , `Personal Webpage`=? , `Scopus`=? WHERE email=?",
             [
-              params.Linkedin,
-              params["Google Scholar"],
-              params["Personal Webpage"],
-              params["Scopus"],
+              params.Linkedin ? params.Linkedin : "",
+              params["Google Scholar"] ? params["Google Scholar"] : "",
+              params["Personal Webpage"] ? params["Personal Webpage"] : "",
+              params["Scopus"] ? params["Scopus"] : "",
               session.user.email,
             ]
           )
