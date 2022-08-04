@@ -23,7 +23,7 @@ export const AddForm = ({ handleClose, modal }) => {
 
 	const [broadcastMail, setBroadcastMail] = useState({
 		broadcast: false,
-		mail: "students@nitp.ac.in"
+		mail: "divyap.ug19.cs@nitp.ac.in" //"students@nitp.ac.in"
 	});
 
 	const [attachments, setAttachments] = useState([]);
