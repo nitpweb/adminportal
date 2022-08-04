@@ -651,6 +651,7 @@ const PhdCandidRow = ({ item, index }) => {
 
 export default function Profilepage(props) {
   const [detail, setDetails] = useState(props.details)
+  const [social_media_links, setSocial_media_links] = useState({})
   const [publications, setPublications] = useState(
     props.details.publications
       ? JSON.parse(props.details.publications[0].publications)
@@ -661,6 +662,7 @@ export default function Profilepage(props) {
   // To update state after refreshing data
   useEffect(() => {
     setDetails(props.details)
+    setSocial_media_links({"Linkedin": detail.profile["Linkedin"], "Google Scholar": detail.profile["Google Scholar"], "Personal Webpage": detail.profile["Personal Webpage"], "Scopus": detail.profile["Scopus"]})
     setPublications(
       props.details.publications
         ? JSON.parse(props.details.publications[0].publications)
@@ -931,7 +933,7 @@ export default function Profilepage(props) {
               >
                 Edit
               </Button>
-              <AddSocialMediaForm handleClose={handleCloseSocialMediaAddModal} modal={addSocialMediaModal} links={JSON.parse(detail.profile.social_media_links)} />
+              <AddSocialMediaForm handleClose={handleCloseSocialMediaAddModal} modal={addSocialMediaModal} links={social_media_links} />
 
               <div className="factable">
                 <table>
@@ -944,15 +946,15 @@ export default function Profilepage(props) {
                     </td>
                     <td></td>
                   </tr>
-                  {detail.profile.social_media_links &&
-                    Object.keys(JSON.parse(detail.profile.social_media_links)).map((key) => (
-                      JSON.parse(detail.profile.social_media_links)[key] ? <>
+                  {social_media_links &&
+                    Object.keys(social_media_links).map((key) => (
+                      social_media_links[key] ? <>
                         <tr>
                           <td>
                             <p>{key}</p>
                           </td>
                           <td>
-                            <p>{JSON.parse(detail.profile.social_media_links)[key]}</p>
+                            <p>{social_media_links[key]}</p>
                           </td>
                         </tr>
                       </> : null

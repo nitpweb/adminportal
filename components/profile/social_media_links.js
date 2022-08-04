@@ -5,7 +5,7 @@ import DialogContent from "@material-ui/core/DialogContent"
 import DialogTitle from "@material-ui/core/DialogTitle"
 import TextField from "@material-ui/core/TextField"
 import { useSession } from "next-auth/client"
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { AddAttachments } from "./../common-props/add-attachment"
 import useRefreshData from "@/custom-hooks/refresh"
 
@@ -17,6 +17,12 @@ export const AddSocialMediaForm = ({ handleClose, modal, links }) => {
   const [content, setContent] = useState(links)
   const [submitting, setSubmitting] = useState(false)
 
+
+  useEffect(() => {
+    setContent(links);
+  }, [links])
+  
+
   const handleChange = (e) => {
     setContent({ ...content, [e.target.name]: e.target.value })
     // console.log(content)
@@ -26,7 +32,7 @@ export const AddSocialMediaForm = ({ handleClose, modal, links }) => {
     setSubmitting(true)
     e.preventDefault()
     let data = {
-      social_media_links: JSON.stringify(content),
+      ...content,
       update_social_media_links: true,
       email: session.user.email,
     }
