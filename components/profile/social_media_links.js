@@ -56,6 +56,7 @@ export const AddSocialMediaForm = ({ handleClose, modal, links }) => {
     refreshData()
     setSubmitting(false)
     setContent(initialState)
+    window.location.reload()
   }
 
   return (
