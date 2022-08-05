@@ -662,7 +662,7 @@ export default function Profilepage(props) {
   // To update state after refreshing data
   useEffect(() => {
     setDetails(props.details)
-    setSocial_media_links({"Linkedin": detail.profile["Linkedin"], "Google Scholar": detail.profile["Google Scholar"], "Personal Webpage": detail.profile["Personal Webpage"], "Scopus": detail.profile["Scopus"]})
+    setSocial_media_links({"Linkedin": detail.profile["linkedin"], "Google Scholar": detail.profile["google_scholar"], "Personal Webpage": detail.profile["personal_webpage"], "Scopus": detail.profile["scopus"]})
     setPublications(
       props.details.publications
         ? JSON.parse(props.details.publications[0].publications)
