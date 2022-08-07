@@ -97,7 +97,6 @@ export const Addphd = ({ handleClose, modal }) => {
               label="start_year"
               name="start_year"
               type="text"
-              required
               fullWidth
               onChange={(e) => handleChange(e)}
               value={content.start_year}
