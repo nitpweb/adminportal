@@ -24,7 +24,7 @@ export default function Page() {
 
 
 
-	if (session && (session.user.role === 1 || session.user.role === 2 ||session.user.role === 4  )) {
+	if (session && (session.user.role === 1 || session.user.role === 2 || session.user.role === 4  )) {
 		return (
 			<Layout>
 				<Wrap>

@@ -130,6 +130,7 @@ export const AddFaculty = ({ handleClose, modal }) => {
                 <MenuItem value={1}>Super Admin</MenuItem>
                 <MenuItem value={2}>Admin</MenuItem>
                 <MenuItem value={3}>Faculty</MenuItem>
+                <MenuItem value={4}>Section Admin</MenuItem>
               </Select>
             </FormControl>
             <FormControl

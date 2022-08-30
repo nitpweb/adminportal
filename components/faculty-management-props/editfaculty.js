@@ -140,10 +140,12 @@ export const EditFaculty = ({ data, handleClose, modal }) => {
                 <MenuItem value={1}>Super Admin</MenuItem>
                 <MenuItem value={2}>Admin</MenuItem>
                 <MenuItem value={3}>Faculty</MenuItem>
+                <MenuItem value={4}>Section Admin</MenuItem>
               </Select>
             </FormControl>
-
-            <FormControl
+            
+            {content.role === 4 &&
+                 <FormControl
               style={{ margin: `10px auto`, width: `100%` }}
               required
             >
@@ -167,6 +169,8 @@ export const EditFaculty = ({ data, handleClose, modal }) => {
               </Select>
             </FormControl>
 
+            }
+         
             <FormControl
               style={{ margin: `10px auto`, width: `100%` }}
               required
