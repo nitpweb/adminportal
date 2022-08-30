@@ -1,14 +1,21 @@
 import { Provider, useSession } from 'next-auth/client';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import './styles.css';
 
 // Use the <Provider> to improve performance and allow components that call
 // `useSession()` anywhere in your application to access the `session` object.
 export default function App({ Component, pageProps }) {
   const [session, loading] = useSession();
+
   useEffect(() => {
-    if (session) { fetch("/api/gdrive/authorize") }
-  }, [session])
+    window.addEventListener("offline", () => {
+      alert("Your system is offline please connect to internet.");
+    });
+    window.addEventListener("online", () => {
+      alert("Your system is online.");
+    });
+  }, []);
+
 
   return (
     <Provider
@@ -30,6 +37,7 @@ export default function App({ Component, pageProps }) {
         keepAlive: 0
       }}
       session={pageProps.session} >
+        <title>Admin Portal</title>
       <Component {...pageProps} />
     </Provider>
   )

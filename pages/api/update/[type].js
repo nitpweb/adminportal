@@ -266,6 +266,21 @@ const handler = async (req, res) => {
           )
           return res.json(result)
         }
+        else if (type == "pg_ug_projects") {
+          let result = await query(
+            `UPDATE pg_ug_projects SET student_name=?,student_program=?,project_topic=?,start_year=?,completion_year=? WHERE email=? AND id=?`,
+            [
+              params.student_name,
+              params.student_program,
+              params.project_topic,
+              params.start_year,
+              params.completion_year,
+              params.email,
+              params.id,
+            ]
+          )
+          return res.json(result)
+        }
       } else {
         res.json({ message: "Could not find matching requests" })
       }

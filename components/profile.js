@@ -13,6 +13,7 @@ import { ConfirmDelete } from "./profile/delete"
 import { AddEdu, EditEdu } from "./profile/education"
 import { AddPast, EditPast } from "./profile/past_admin"
 import { Addphd, EditPhd } from "./profile/phd"
+import { AddProj, EditProj } from "./profile/pg_ug"
 import { AddPic } from "./profile/profilepic"
 import { AddProf, EditProf } from "./profile/prof_service"
 import { Addproject, Editproject } from "./profile/project"
@@ -649,6 +650,66 @@ const PhdCandidRow = ({ item, index }) => {
   )
 }
 
+
+const Pg_UgProjRow = ({ item, index }) => {
+  const [deleteModal, setDeleteModal] = useState(false)
+  const [editModal, setEditModal] = useState(false)
+
+  const openDeleteModal = () => {
+    setDeleteModal(true)
+  }
+  const handleCloseDeleteModal = () => {
+    setDeleteModal(false)
+  }
+
+  const openEditModal = () => setEditModal(true)
+  const handleCloseEditModal = () => setEditModal(false)
+  return (
+    <tr>
+      <td>
+        <p>{index + 1}</p>
+      </td>
+      <td>
+        <p>{item.student_name}</p>
+      </td>
+      <td>
+        <p>{item.student_program}</p>
+      </td>
+      <td>
+        <p>{item.project_topic}</p>
+      </td>
+      <td>
+        <p>{item.start_year}</p>
+      </td>
+      <td>
+        <p>{item.completion_year}</p>
+      </td>
+      <td>
+        <IconButton onClick={openEditModal}>
+          <Edit />
+        </IconButton>
+        <EditProj
+          handleClose={handleCloseEditModal}
+          modal={editModal}
+          values={item}
+        />
+      </td>
+      <td>
+        {" "}
+        <IconButton aria-label="delete" onClick={() => openDeleteModal()}>
+          <DeleteIcon />
+        </IconButton>
+        <ConfirmDelete
+          handleClose={handleCloseDeleteModal}
+          modal={deleteModal}
+          id={item.id}
+          del={"pg_ug_projects"}
+        />
+      </td>
+    </tr>
+  )
+}
+
 export default function Profilepage(props) {
   const [detail, setDetails] = useState(props.details)
   const [social_media_links, setSocial_media_links] = useState({})
@@ -765,6 +826,14 @@ export default function Profilepage(props) {
   }
   const handleCloseAddModal10 = () => {
     setAddModal10(false)
+  }
+
+  const [addModal11, setAddModal11] = useState(false)
+  const addModalOpen11 = () => {
+    setAddModal11(true)
+  }
+  const handleCloseAddModal11 = () => {
+    setAddModal11(false)
   }
 
   const [addModalp, setAddModalp] = useState(false)
@@ -1442,6 +1511,50 @@ export default function Profilepage(props) {
                   {detail.phd_candidates &&
                     detail.phd_candidates.map((item, index) => (
                       <PhdCandidRow item={item} index={index} />
+                    ))}
+                </table>
+              </div>
+            </div>
+
+            <div
+              className="fac-card"
+              data-aos="fade-up"
+              style={{ position: `relative` }}
+            >
+              <h3>PG/UG Projects</h3>
+              <Button
+                color="primary"
+                variant="contained"
+                onClick={() => addModalOpen11()}
+                style={{ position: `absolute`, top: `5px`, right: `5px` }}
+              >
+                Add
+              </Button>
+              <AddProj handleClose={handleCloseAddModal11} modal={addModal11} />
+
+              <div className="factable">
+                <table>
+                  <tr>
+                    <td></td>
+                    <td>
+                      <h4>Student Name</h4>
+                    </td>
+                    <td>
+                      <h4>Student Program</h4>
+                    </td>
+                    <td>
+                      <h4>Project Topic</h4>
+                    </td>
+                    <td>
+                      <h4>Start Year</h4>
+                    </td>
+                    <td>
+                      <h4>Completion Year</h4>
+                    </td>
+                  </tr>
+                  {detail.pg_ug_projects &&
+                    detail.pg_ug_projects.map((item, index) => (
+                      <Pg_UgProjRow item={item} index={index} />
                     ))}
                 </table>
               </div>
