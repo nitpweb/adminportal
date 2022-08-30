@@ -266,6 +266,22 @@ const handler = async (req, res) => {
           )
           return res.json(result)
         }
+        else if (type == "pg_ug_projects"){
+          let result = await query(
+            `INSERT INTO pg_ug_projects (id,email,student_name,student_program,project_topic,start_year,completion_year) VALUES` +
+              `(?,?,?,?,?,?,?)`,
+            [
+              params.id,
+              params.email,
+              params.student_name,
+              params.student_program,
+              params.project_topic,
+              params.start_year,
+              params.completion_year,
+            ]
+          )
+          return res.json(result)
+        }
       } else {
         return res.json({ message: "Could not find matching requests" })
       }
