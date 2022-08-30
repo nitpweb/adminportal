@@ -654,18 +654,18 @@ export default function Profilepage(props) {
   const [social_media_links, setSocial_media_links] = useState({})
   const [publications, setPublications] = useState(
     props.details.publications
-      ? JSON.parse(props.details.publications[0].publications)
-      : []
+        ? (JSON.parse(props.details.publications[0].publications) ? JSON.parse(props.details.publications[0].publications) : [])
+        : []
   )
   console.log(props.details)
 
   // To update state after refreshing data
   useEffect(() => {
     setDetails(props.details)
-    setSocial_media_links({"Linkedin": detail.profile["linkedin"], "Google Scholar": detail.profile["google_scholar"], "Personal Webpage": detail.profile["personal_webpage"], "Scopus": detail.profile["scopus"]})
+    setSocial_media_links({"Linkedin": detail.profile["linkedin"], "Google Scholar": detail.profile["google_scholar"], "Personal Webpage": detail.profile["personal_webpage"], "Scopus": detail.profile["scopus"], "Vidwan": detail.profile["vidwan"], "Orcid": detail.profile["orcid"]})
     setPublications(
       props.details.publications
-        ? JSON.parse(props.details.publications[0].publications)
+        ? (JSON.parse(props.details.publications[0].publications) ? JSON.parse(props.details.publications[0].publications) : [])
         : []
     )
   }, [props.details])
