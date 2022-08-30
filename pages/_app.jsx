@@ -37,7 +37,6 @@ export default function App({ Component, pageProps }) {
         keepAlive: 0
       }}
       session={pageProps.session} >
-        <title>Admin Portal</title>
       <Component {...pageProps} />
     </Provider>
   )
