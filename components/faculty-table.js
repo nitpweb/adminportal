@@ -126,7 +126,7 @@ const useStyles = makeStyles({
 	},
 });
 
-const roles = [null, "Super Admin", "Admin", "Faculty", "Faculty", "Faculty"];
+const roles = [null, "Super Admin", "Admin", "Faculty", "Section Admin"];
 
 const FacultyTableRow = ({ row }) => {
 	const [editModal, setEditModal] = useState(false);
