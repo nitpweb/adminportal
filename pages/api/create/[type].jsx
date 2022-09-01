@@ -69,6 +69,7 @@ const handler = async (req, res) => {
         } else if (type == "event") {
           params.attachments = JSON.stringify(params.attachments)
           params.main_attachment = JSON.stringify(params.main_attachment)
+          params.timestamp = new Date().getTime()
           let result = await query(
             `INSERT INTO events (id,title,timestamp,openDate,closeDate,venue,doclink,attachments,event_link,email) VALUES ` +
               `(?,?,?,?,?,?,?,?,?,?)`,
@@ -88,6 +89,7 @@ const handler = async (req, res) => {
           return res.json(result)
         } else if (type == "innovation") {
           params.image = JSON.stringify(params.image)
+          params.timestamp = new Date().getTime()
           let result = await query(
             `INSERT INTO innovation (id,title,timestamp,openDate,closeDate,description,image,author,email) VALUES ` +
               `(?,?,?,?,?,?,?,?,?)`,
@@ -107,6 +109,7 @@ const handler = async (req, res) => {
         } else if (type == "news") {
           params.image = JSON.stringify(params.image)
           params.add_attach = JSON.stringify(params.add_attach)
+          params.timestamp = new Date().getTime()
           let result = await query(
             `INSERT INTO news (id,title,timestamp,openDate,closeDate,description,image,attachments,author,email) VALUES ` +
               `(?,?,?,?,?,?,?,?,?,?)`,
