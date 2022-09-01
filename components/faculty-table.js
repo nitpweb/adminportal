@@ -6,6 +6,7 @@ import {
 	TableFooter,
 	TablePagination,
 	Typography,
+	TextField
 } from "@material-ui/core";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles, useTheme, withStyles } from "@material-ui/core/styles";
@@ -170,7 +171,10 @@ const FacultyTableRow = ({ row }) => {
 	);
 };
 
-export const FacultyTable = ({ rows }) => {
+export const FacultyTable = (props) => {
+	const [rows, setRows] = useState(props.rows);
+	const totalRow = [...rows]
+
 	const classes = useStyles();
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(15);
@@ -182,6 +186,14 @@ export const FacultyTable = ({ rows }) => {
 		setPage(newPage);
 	};
 
+	const handleSearch = (e) => {
+		if(e.target.value == ""){
+			setRows(props.rows)
+			return
+		}
+		const filteredData = props.rows.filter((element)=> element.name.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1)
+		setRows(filteredData)
+	}
 	const handleChangeRowsPerPage = (event) => {
 		setRowsPerPage(parseInt(event.target.value, 10));
 		setPage(0);
@@ -207,10 +219,16 @@ export const FacultyTable = ({ rows }) => {
 					<div
 						style={{
 							display: "flex",
-							flexDirection: "column",
+							flexDirection: "row",
 							justifyContent: "center",
+							alignItems: "center"
 						}}
 					>
+						<TextField 
+							id="outlined-basic" label="Search" variant="outlined" size="small"
+							style={{marginRight : "10px"}}
+							onChange={(e)=>handleSearch(e)}
+						/>
 						<Button variant="contained" color="primary" onClick={addModalOpen}>
 							ADD +
 						</Button>
