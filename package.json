@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "node server.js"
+    "start": "node server.js",
+    "serve": "next start"  
   },
   "license": "ISC",
   "dependencies": {
