@@ -115,7 +115,9 @@ export const AddFaculty = ({ handleClose, modal }) => {
               onChange={(e) => handleChange(e)}
               value={content.research_interest}
             />
-            <FormControl
+            {
+              content.role === 4 &&
+              <FormControl
               style={{ margin: `10px auto`, width: `100%` }}
               required
             >
@@ -136,6 +138,8 @@ export const AddFaculty = ({ handleClose, modal }) => {
                 <MenuItem value={4}>Section Admin</MenuItem>
               </Select>
             </FormControl>
+            }
+            
             <FormControl
               style={{ margin: `10px auto`, width: `100%` }}
               required
