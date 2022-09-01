@@ -1,85 +1,85 @@
-import { Typography } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-import { makeStyles } from "@material-ui/core/styles";
-import Filter from "./common-props/filter";
+import { Typography } from "@material-ui/core"
+import Button from "@material-ui/core/Button"
+import Grid from "@material-ui/core/Grid"
+import Paper from "@material-ui/core/Paper"
+import { makeStyles } from "@material-ui/core/styles"
+import Filter from "./common-props/filter"
 import {
-	Edit,
-	Flag,
-	Star,
-	StarBorder,
-	Visibility,
-	VisibilityOff,
-} from "@material-ui/icons";
-import React, { useState } from "react";
-import { AddForm } from "./notices-props/add-form";
-import { EditForm } from "./notices-props/edit-form";
-import { useSession } from "next-auth/client";
+  Edit,
+  Flag,
+  Star,
+  StarBorder,
+  Visibility,
+  VisibilityOff,
+} from "@material-ui/icons"
+import React, { useState } from "react"
+import { AddForm } from "./notices-props/add-form"
+import { EditForm } from "./notices-props/edit-form"
+import { useSession } from "next-auth/client"
 
 const useStyles = makeStyles((theme) => ({
-	root: {
-		flexGrow: 1,
-	},
-	paper: {
-		margin: `${theme.spacing(1)} auto`,
-		padding: theme.spacing(2),
-		lineHeight: 1.5,
-	},
-	truncate: {
-		display: `block`,
-		overflow: "hidden",
-		textOverflow: "ellipsis",
-		whiteSpace: `nowrap`,
-	},
-	icon: {
-		display: `block`,
-		fontSize: `2rem`,
-		marginLeft: `auto`,
-		marginRight: `auto`,
-	},
-	attached: {
-		"& > span": { paddingLeft: `8px` },
-		"& > span:first-child": {
-			paddingLeft: 0,
-		},
-	},
-}));
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    margin: `${theme.spacing(1)} auto`,
+    padding: theme.spacing(2),
+    lineHeight: 1.5,
+  },
+  truncate: {
+    display: `block`,
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    whiteSpace: `nowrap`,
+  },
+  icon: {
+    display: `block`,
+    fontSize: `2rem`,
+    marginLeft: `auto`,
+    marginRight: `auto`,
+  },
+  attached: {
+    "& > span": { paddingLeft: `8px` },
+    "& > span:first-child": {
+      paddingLeft: 0,
+    },
+  },
+}))
 
 const DataDisplay = (props) => {
-	const [session, loading] = useSession();
-	const classes = useStyles();
-	const [details, setDetails] = useState(props.data);
+  const [session, loading] = useSession()
+  const classes = useStyles()
+  const [details, setDetails] = useState(props.data)
 
-	const [addModal, setAddModal] = useState(false);
-	const addModalOpen = () => {
-		setAddModal(true);
-	};
-	const handleCloseAddModal = () => {
-		setAddModal(false);
-	};
+  const [addModal, setAddModal] = useState(false)
+  const addModalOpen = () => {
+    setAddModal(true)
+  }
+  const handleCloseAddModal = () => {
+    setAddModal(false)
+  }
 
-	const Notice = ({ detail }) => {
-		let openDate = new Date(detail.timestamp);
-		let dd = openDate.getDate();
-		let mm = openDate.getMonth() + 1;
-		let yyyy = openDate.getFullYear();
-		openDate = dd + "/" + mm + "/" + yyyy;
+  const Notice = ({ detail }) => {
+    let openDate = new Date(detail.timestamp)
+    let dd = openDate.getDate()
+    let mm = openDate.getMonth() + 1
+    let yyyy = openDate.getFullYear()
+    openDate = dd + "/" + mm + "/" + yyyy
 
-		const [editModal, setEditModal] = useState(false);
-		const [notice_link, setNotice_link] = useState(
-			JSON.parse(detail.notice_link)
-		);
+    const [editModal, setEditModal] = useState(false)
+    const [notice_link, setNotice_link] = useState(
+      JSON.parse(detail.notice_link)
+    )
 
-		const editModalOpen = () => {
-			setEditModal(true);
-		};
+    const editModalOpen = () => {
+      setEditModal(true)
+    }
 
-		const handleCloseEditModal = () => {
-			setEditModal(false);
-		};
+    const handleCloseEditModal = () => {
+      setEditModal(false)
+    }
 
-		return (
+    return (
       <React.Fragment key={detail.id}>
         <Grid item xs={12} sm={6} lg={9}>
           <Paper
@@ -125,7 +125,7 @@ const DataDisplay = (props) => {
                         {attachment.caption}
                       </a>
                     </span>
-                  );
+                  )
                 })}
             </div>
 
@@ -201,33 +201,33 @@ const DataDisplay = (props) => {
           </Grid>
         )}
       </React.Fragment>
-    );
-	};
+    )
+  }
 
-	return (
-		<div>
-			<header>
-				<Typography variant="h4" style={{ margin: `15px 0` }}>
-					Recent Notices
-				</Typography>
-				<Button variant="contained" color="primary" onClick={addModalOpen}>
-					ADD +
-				</Button>
-				<Filter type="notice" setEntries={setDetails} />
-			</header>
+  return (
+    <div>
+      <header>
+        <Typography variant="h4" style={{ margin: `15px 0` }}>
+          Recent Notices
+        </Typography>
+        <Button variant="contained" color="primary" onClick={addModalOpen}>
+          ADD +
+        </Button>
+        <Filter type="notice" setEntries={setDetails} />
+      </header>
 
-			<AddForm handleClose={handleCloseAddModal} modal={addModal} />
+      <AddForm handleClose={handleCloseAddModal} modal={addModal} />
 
-			<Grid container spacing={3} className={classes.root}>
-				{details.map((detail) => (
-					<Notice detail={detail} />
-				))}
-				{/* <Grid >
+      <Grid container spacing={3} className={classes.root}>
+        {details.map((detail, idx) => (
+          <Notice detail={detail} key={idx} />
+        ))}
+        {/* <Grid >
             <Paper xs={12} sm={9}>{detail.title}</Paper>
          </Grid> */}
-			</Grid>
-		</div>
-	);
-};
+      </Grid>
+    </div>
+  )
+}
 
-export default DataDisplay;
+export default DataDisplay

@@ -17,6 +17,7 @@ import InputLabel from "@material-ui/core/InputLabel"
 import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
 import Input from "@material-ui/core/Input"
+import { administrationList } from "@/lib/const"
 
 import { dateformatter } from "./../common-props/date-formatter"
 import { ConfirmDelete } from "./confirm-delete"
@@ -227,8 +228,25 @@ export const EditForm = ({ data, handleClose, modal }) => {
               <InputLabel id="demo-dialog-select-label30">
                 Notice Type
               </InputLabel>
-            </FormControl>
 
+              {session.user.role == 1 && (
+                <Select
+                  labelId="demo-dialog-select-label30"
+                  id="demo-dialog-select30"
+                  name="notice_type"
+                  fullWidth
+                  value={content.notice_type}
+                  onChange={(e) => handleChange(e)}
+                  input={<Input />}
+                >
+                  <MenuItem value="general">General</MenuItem>
+                  <MenuItem value="department">Department</MenuItem>
+                  {[...administrationList].map(([key, value]) => (
+                    <MenuItem value={key}>{value}</MenuItem>
+                  ))}
+                </Select>
+              )}
+            </FormControl>
             {content.main_attachment && (
               <>
                 <h2>Main Attachment</h2>

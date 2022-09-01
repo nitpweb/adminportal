@@ -230,7 +230,7 @@ export const AddForm = ({ handleClose, modal }) => {
                   onChange={(e) => handleChange(e)}
                   input={<Input />}
                 >
-                  <MenuItem value="general">General</MenuItem>)
+                  <MenuItem value="general">General</MenuItem>
                   <MenuItem value="department">Department</MenuItem>
                   {[...administrationList].map(([key, value]) => (
                     <MenuItem value={key}>{value}</MenuItem>
