@@ -49,6 +49,9 @@ export const AddFaculty = ({ handleClose, modal }) => {
       console.log("Error Occured")
       // console.log(result);
     }
+    if(result.type === "error"){
+      alert("Email already exists in database!");
+    }
     // console.log(result);
     window.location.reload()
   }
