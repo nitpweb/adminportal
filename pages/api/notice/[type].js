@@ -10,7 +10,7 @@ const handler = async (req, res) => {
     if (type === "all") {
       results = await query(
         `
-      SELECT * from notices where notice_type='general' ORDER BY openDate DESC;
+      SELECT * from notices where notice_type='general' ORDER BY timestamp DESC;
     `
       );
     }
@@ -23,7 +23,7 @@ const handler = async (req, res) => {
     } else if (administrationList.has(type)) {
       results = await query(
         `
-      SELECT * from notices where notice_type=? ORDER BY openDate DESC
+      SELECT * from notices where notice_type=? ORDER BY timestamp DESC
     `,
         [type]
       );
@@ -39,13 +39,13 @@ const handler = async (req, res) => {
 
       results = await query(
         `
-			SELECT * from notices where closeDate<=? and openDate>=? ORDER BY openDate DESC`,
+			SELECT * from notices where closeDate<=? and openDate>=? ORDER BY timestamp DESC`,
         [end, start]
       ).catch((err) => console.log(err));
     } else if (depList.has(type)) {
       results = await query(
         `
-      select * from notices where notice_type='department' and department=? ORDER BY openDate DESC`,
+      select * from notices where notice_type='department' and department=? ORDER BY timestamp DESC`,
         [depList.get(type)]
       );
     }
