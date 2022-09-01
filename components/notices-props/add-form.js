@@ -16,7 +16,7 @@ import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
 import Input from "@material-ui/core/Input"
 import { administrationList } from "@/lib/const"
-import {BroadcastMail} from "./../common-props/send-broadcast-mail";
+import { BroadcastMail } from "./../common-props/send-broadcast-mail"
 
 export const AddForm = ({ handleClose, modal }) => {
   const [session, loading] = useSession()
@@ -30,16 +30,15 @@ export const AddForm = ({ handleClose, modal }) => {
     notice_type: "department",
   })
 
-	const [broadcastMail, setBroadcastMail] = useState({
-		broadcast: false,
-		mail: "divyap.ug19.cs@nitp.ac.in" //"students@nitp.ac.in"
-	});
-
+  const [broadcastMail, setBroadcastMail] = useState({
+    broadcast: false,
+    mail: "divyap.ug19.cs@nitp.ac.in", //"students@nitp.ac.in"
+  })
 
   const [attachments, setAttachments] = useState([])
   const [mainAttachment, setMainAttachment] = useState({
-    url: "",
-    value: "",
+    url: undefined,
+    value: undefined,
     typeLink: false,
   })
   const [submitting, setSubmitting] = useState(false)
@@ -118,25 +117,25 @@ export const AddForm = ({ handleClose, modal }) => {
       console.log("Error Occured")
       // console.log(result);
     }
-    
-		// Broadcast after news is created
-		if (broadcastMail.broadcast) {
-			let data = {
-				type: "news",
-				email: broadcastMail.mail,
-				news: "result"
-			};
-			let result = await fetch("/api/broadcast", {
-				method: "POST",
-				body: JSON.stringify(data)
-			});
-			result = await result.json();
-			if (result instanceof Error) {
-				alert("Event created but an error occured while sending mail");
-				console.log(result);
-			}
-		}
-    
+
+    // Broadcast after news is created
+    if (broadcastMail.broadcast) {
+      let data = {
+        type: "news",
+        email: broadcastMail.mail,
+        news: "result",
+      }
+      let result = await fetch("/api/broadcast", {
+        method: "POST",
+        body: JSON.stringify(data),
+      })
+      result = await result.json()
+      if (result instanceof Error) {
+        alert("Event created but an error occured while sending mail")
+        console.log(result)
+      }
+    }
+
     window.location.reload()
   }
 
@@ -289,9 +288,9 @@ export const AddForm = ({ handleClose, modal }) => {
             />
 
             <BroadcastMail
-							broadcastMail={broadcastMail}
-							setBroadcastMail={setBroadcastMail}
-						/>
+              broadcastMail={broadcastMail}
+              setBroadcastMail={setBroadcastMail}
+            />
 
             <h2>Attachments</h2>
             <AddAttachments

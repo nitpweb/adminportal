@@ -1,136 +1,137 @@
-import { Checkbox, FormControlLabel } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import TextField from "@material-ui/core/TextField";
-import { Delete, Link } from "@material-ui/icons";
-import { useSession } from "next-auth/client";
-import React, { useRef, useState } from "react";
+import { Checkbox, FormControlLabel } from "@material-ui/core"
+import Button from "@material-ui/core/Button"
+import Dialog from "@material-ui/core/Dialog"
+import DialogActions from "@material-ui/core/DialogActions"
+import DialogContent from "@material-ui/core/DialogContent"
+import DialogTitle from "@material-ui/core/DialogTitle"
+import TextField from "@material-ui/core/TextField"
+import { Delete, Link } from "@material-ui/icons"
+import { useSession } from "next-auth/client"
+import React, { useRef, useState } from "react"
 import {
-	AddAttachments,
-	handleNewAttachments,
-} from "./../common-props/add-attachment";
-import { FormControl } from "@material-ui/core";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import Select from "@material-ui/core/Select";
-import Input from "@material-ui/core/Input";
+  AddAttachments,
+  handleNewAttachments,
+} from "./../common-props/add-attachment"
+import { FormControl } from "@material-ui/core"
+import InputLabel from "@material-ui/core/InputLabel"
+import MenuItem from "@material-ui/core/MenuItem"
+import Select from "@material-ui/core/Select"
+import Input from "@material-ui/core/Input"
 
-import { dateformatter } from "./../common-props/date-formatter";
-import { ConfirmDelete } from "./confirm-delete";
+import { dateformatter } from "./../common-props/date-formatter"
+import { ConfirmDelete } from "./confirm-delete"
 
 export const EditForm = ({ data, handleClose, modal }) => {
-	const deleteArray = useRef([]);
+  const deleteArray = useRef([])
 
-	const [session, loading] = useSession();
-	const [content, setContent] = useState({
-		id: data.id,
-		title: data.title,
-		openDate: dateformatter(data.openDate),
-		main_attachment: JSON.parse(data.notice_link) || {},
-		closeDate: dateformatter(data.closeDate),
-		notice_type: data.notice_type,
-		isVisible: data.isVisible ? true : false,
-		important: data.important ? true : false,
-	});
+  const [session, loading] = useSession()
+  const [content, setContent] = useState({
+    id: data.id,
+    title: data.title,
+    openDate: dateformatter(data.openDate),
+    main_attachment: JSON.parse(data.notice_link) || {},
+    closeDate: dateformatter(data.closeDate),
+    notice_type: data.notice_type,
+    isVisible: data.isVisible ? true : false,
+    important: data.important ? true : false,
+  })
 
-	const [verifyDelete, setVerifyDelete] = useState(false);
-	const handleDelete = () => {
-		setVerifyDelete(false);
-	};
+  const [verifyDelete, setVerifyDelete] = useState(false)
+  const handleDelete = () => {
+    setVerifyDelete(false)
+  }
 
-	const [attachments, setAttachments] = useState(data.attachments);
-	const [submitting, setSubmitting] = useState(false);
-	const [newAttachments, setNewAttachments] = useState([]);
+  const [attachments, setAttachments] = useState(data.attachments)
+  const [submitting, setSubmitting] = useState(false)
+  const [newAttachments, setNewAttachments] = useState([])
 
-	const handleChange = (e) => {
-		if (e.target.name == "important" || e.target.name == "isVisible") {
-			setContent({ ...content, [e.target.name]: e.target.checked });
-		} else {
-			setContent({ ...content, [e.target.name]: e.target.value });
-		}
-		// console.log(content);
-	};
+  const handleChange = (e) => {
+    if (e.target.name == "important" || e.target.name == "isVisible") {
+      setContent({ ...content, [e.target.name]: e.target.checked })
+    } else {
+      setContent({ ...content, [e.target.name]: e.target.value })
+    }
+    // console.log(content);
+  }
 
-	const handleAttachments = (e, idx) => {
-		let attach = [...attachments];
-		attach[idx].caption = e.target.value;
-		setAttachments(attach);
-	};
+  const handleAttachments = (e, idx) => {
+    let attach = [...attachments]
+    attach[idx].caption = e.target.value
+    setAttachments(attach)
+  }
 
-	const deleteAttachment = (idx) => {
-		deleteArray.current.push(attachments[idx].url.split("/")[5]);
-		console.log(deleteArray.current);
-		let atch = [...attachments];
-		atch.splice(idx, 1);
-		setAttachments(atch);
-	};
+  const deleteAttachment = (idx) => {
+    if (attachments[idx].url)
+      deleteArray.current.push(attachments[idx].url.split("/")[5])
+    console.log(deleteArray.current)
+    let atch = [...attachments]
+    atch.splice(idx, 1)
+    setAttachments(atch)
+  }
 
-	const handleSubmit = async (e) => {
-		e.preventDefault();
-		setSubmitting(true);
-		let open = new Date(content.openDate);
-		let close = new Date(content.closeDate);
-		open = open.getTime();
-		close = close.getTime();
-		let now = Date.now();
-		let new_attach = [...newAttachments];
-		new_attach = await handleNewAttachments(new_attach);
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setSubmitting(true)
+    let open = new Date(content.openDate)
+    let close = new Date(content.closeDate)
+    open = open.getTime()
+    close = close.getTime()
+    let now = Date.now()
+    let new_attach = [...newAttachments]
+    new_attach = await handleNewAttachments(new_attach)
 
-		let finaldata = {
-			...content,
+    let finaldata = {
+      ...content,
 
-			isVisible: content.isVisible ? 1 : 0,
-			important: content.important ? 1 : 0,
-			openDate: open,
-			closeDate: close,
-			timestamp: now,
-			main_attachment: { ...content.main_attachment },
-			email: session.user.email,
-			attachments: [...attachments, ...new_attach],
-		};
+      isVisible: content.isVisible ? 1 : 0,
+      important: content.important ? 1 : 0,
+      openDate: open,
+      closeDate: close,
+      timestamp: now,
+      main_attachment: { ...content.main_attachment },
+      email: session.user.email,
+      attachments: [...attachments, ...new_attach],
+    }
 
-		if (deleteArray.current.length) {
-			let result = await fetch("/api/gdrive/deletefiles", {
-				method: "DELETE",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(deleteArray.current),
-			});
-			result = await result.json();
-			if (result instanceof Error) {
-				console.log("Error Occured");
-			}
-			console.log(result);
-		}
+    if (deleteArray.current.length) {
+      let result = await fetch("/api/gdrive/deletefiles", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(deleteArray.current),
+      })
+      result = await result.json()
+      if (result instanceof Error) {
+        console.log("Error Occured")
+      }
+      console.log(result)
+    }
 
-		console.log(finaldata);
-		let result = await fetch("/api/update/notice", {
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json",
-			},
-			method: "POST",
-			body: JSON.stringify(finaldata),
-		});
-		result = await result.json();
-		if (result instanceof Error) {
-			console.log("Error Occured");
-			console.log(result);
-		}
-		console.log(result);
-		window.location.reload();
-	};
+    console.log(finaldata)
+    let result = await fetch("/api/update/notice", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify(finaldata),
+    })
+    result = await result.json()
+    if (result instanceof Error) {
+      console.log("Error Occured")
+      console.log(result)
+    }
+    console.log(result)
+    window.location.reload()
+  }
 
-	return (
+  return (
     <>
       <Dialog open={modal} onClose={handleClose}>
         <form
           onSubmit={(e) => {
-            handleSubmit(e);
+            handleSubmit(e)
           }}
         >
           <DialogTitle
@@ -300,7 +301,7 @@ export const EditForm = ({ data, handleClose, modal }) => {
                         />
                       </i>
                     </div>
-                  );
+                  )
                 })}
               </>
             )}
@@ -317,5 +318,5 @@ export const EditForm = ({ data, handleClose, modal }) => {
         </form>
       </Dialog>
     </>
-  );
-};
+  )
+}
