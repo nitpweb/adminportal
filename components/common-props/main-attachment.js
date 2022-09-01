@@ -10,6 +10,8 @@ export const MainAttachment = ({
 	const handleType = (e) => {
 		setMainAttachment({
 			...mainAttachment,
+			url: "",
+			value: "",
 			typeLink: !mainAttachment.typeLink,
 		});
 	};
