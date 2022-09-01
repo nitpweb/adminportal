@@ -7,7 +7,7 @@ const handler = async (req, res) => {
   let results;
 
   if (type == "all") {
-    let results = await query(`select * from users; `);
+    let results = await query(`select * from users ORDER BY name ASC; `);
     let array = JSON.parse(JSON.stringify(results));
     // console.log(array);
     return res.json(array);
@@ -15,7 +15,7 @@ const handler = async (req, res) => {
     results = [];
     let list = [...depList.values()];
     for (let i = 0; i < list.length - 1; i++) {
-      let data = await query(`SELECT * FROM users where department=?`, [
+      let data = await query(`SELECT * FROM users where department=? ORDER BY name ASC`, [
         list[i],
       ]).catch((e) => console.log(e));
       results = [...results, ...JSON.parse(JSON.stringify(data))];

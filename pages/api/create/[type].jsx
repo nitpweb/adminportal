@@ -19,6 +19,7 @@ const handler = async (req, res) => {
         if (type == "notice") {
           params.attachments = JSON.stringify(params.attachments)
           params.main_attachment = JSON.stringify(params.main_attachment)
+          params.timestamp = new Date().getTime()
           let result = await query(
             `INSERT INTO notices (id,title,timestamp,openDate,closeDate,important,attachments,email,isVisible,notice_link,notice_type,department) VALUES ` +
               `(?,?,?,?,?,?,?,?,?,?,?,?)`,
@@ -43,7 +44,8 @@ const handler = async (req, res) => {
 
       if (session.user.role == 1) {
         if (session.user.role == 1 && type == "user") {
-          let result = await query(
+          // let result = await 
+          await query(
             `INSERT INTO users (name,email,role,department,designation,administration,ext_no,research_interest) values (` +
               `?,?,?,?,?,?,?,?)`,
             [
@@ -56,11 +58,18 @@ const handler = async (req, res) => {
               params.ext_no,
               params.research_interest,
             ]
-          ).catch((err) => console.log(err))
-          return res.json(result)
+          ).then((result) => {
+            return res.json(result)
+            })
+          .catch((err) => {
+            console.log(err); 
+            return res.json({"message": err.message, "type": "error"})
+          })
+          return res.end()
         } else if (type == "event") {
           params.attachments = JSON.stringify(params.attachments)
           params.main_attachment = JSON.stringify(params.main_attachment)
+          params.timestamp = new Date().getTime()
           let result = await query(
             `INSERT INTO events (id,title,timestamp,openDate,closeDate,venue,doclink,attachments,event_link,email) VALUES ` +
               `(?,?,?,?,?,?,?,?,?,?)`,
@@ -80,6 +89,7 @@ const handler = async (req, res) => {
           return res.json(result)
         } else if (type == "innovation") {
           params.image = JSON.stringify(params.image)
+          params.timestamp = new Date().getTime()
           let result = await query(
             `INSERT INTO innovation (id,title,timestamp,openDate,closeDate,description,image,author,email) VALUES ` +
               `(?,?,?,?,?,?,?,?,?)`,
@@ -99,6 +109,7 @@ const handler = async (req, res) => {
         } else if (type == "news") {
           params.image = JSON.stringify(params.image)
           params.add_attach = JSON.stringify(params.add_attach)
+          params.timestamp = new Date().getTime()
           let result = await query(
             `INSERT INTO news (id,title,timestamp,openDate,closeDate,description,image,attachments,author,email) VALUES ` +
               `(?,?,?,?,?,?,?,?,?,?)`,
