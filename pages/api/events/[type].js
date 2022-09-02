@@ -20,12 +20,22 @@ const handler = async (req, res) => {
     } else if (type == "range") {
       const start = req.body.start_date;
       const end = req.body.end_date;
+      const department = req.body.department;
 
-      results = await query(
-        `
-			SELECT * from events where closeDate<=? and openDate>=? ORDER BY openDate DESC`,
-        [end, start]
-      ).catch((err) => console.log(err));
+      if(department === "all"){
+        results = await query(
+          `
+        SELECT * from events where closeDate<=? and openDate>=? ORDER BY openDate DESC`,
+          [end, start]
+        ).catch((err) => console.log(err));
+      } else {
+        results = await query(
+          `
+        SELECT * from events where closeDate<=? and openDate>=? and department=? ORDER BY openDate DESC`,
+          [end, start, department]
+        ).catch((err) => console.log(err));
+      }
+      
     }
     let array = JSON.parse(JSON.stringify(results));
     array.forEach((element) => {
