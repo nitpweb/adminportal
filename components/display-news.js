@@ -139,7 +139,9 @@ const DataDisplay = (props) => {
 								bottom: `12px`,
 							}}
 						>
-							{openDate}
+							<span>Uploaded By: {detail.email} </span>
+							<span>Updated By: {detail.updatedBy} </span>
+							<span>Open Date: {openDate}</span>
 						</span>
 					</Paper>
 				</Grid>
