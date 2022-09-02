@@ -191,7 +191,7 @@ export const FacultyTable = (props) => {
 			setRows(props.rows)
 			return
 		}
-		const filteredData = props.rows.filter((element)=> element.name.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1)
+		const filteredData = props.rows.filter((element)=> element.name.toLowerCase().indexOf(e.target.value.trim().toLowerCase()) != -1)
 		setRows(filteredData)
 	}
 	const handleChangeRowsPerPage = (event) => {
@@ -225,7 +225,7 @@ export const FacultyTable = (props) => {
 						}}
 					>
 						<TextField 
-							id="outlined-basic" label="Search" variant="outlined" size="small"
+							id="outlined-basic" label="Search by email" variant="outlined" size="small"
 							style={{marginRight : "10px"}}
 							onChange={(e)=>handleSearch(e)}
 						/>
