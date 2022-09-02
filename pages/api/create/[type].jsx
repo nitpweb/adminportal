@@ -21,8 +21,8 @@ const handler = async (req, res) => {
           params.main_attachment = JSON.stringify(params.main_attachment)
           params.timestamp = new Date().getTime()
           let result = await query(
-            `INSERT INTO notices (id,title,timestamp,openDate,closeDate,important,attachments,email,isVisible,notice_link,notice_type,department) VALUES ` +
-              `(?,?,?,?,?,?,?,?,?,?,?,?)`,
+            `INSERT INTO notices (id,title,timestamp,openDate,closeDate,important,attachments,email,isVisible,notice_link,notice_type,department,updatedBy,updatedAt) VALUES ` +
+              `(?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
             [
               params.id,
               params.title,
@@ -36,6 +36,8 @@ const handler = async (req, res) => {
               params.main_attachment,
               params.notice_type,
               params.department,
+              params.email,
+              params.timestamp
             ]
           ).catch((err) => console.log(err))
           return res.json(result)
@@ -71,8 +73,8 @@ const handler = async (req, res) => {
           params.main_attachment = JSON.stringify(params.main_attachment)
           params.timestamp = new Date().getTime()
           let result = await query(
-            `INSERT INTO events (id,title,timestamp,openDate,closeDate,venue,doclink,attachments,event_link,email) VALUES ` +
-              `(?,?,?,?,?,?,?,?,?,?)`,
+            `INSERT INTO events (id,title,timestamp,openDate,closeDate,venue,doclink,attachments,event_link,email,eventStartDate,eventEndDate,updatedBy,updatedAt) VALUES ` +
+              `(?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
             [
               params.id,
               params.title,
@@ -84,15 +86,19 @@ const handler = async (req, res) => {
               params.attachments,
               params.main_attachment,
               params.email,
+              params.eventStartDate,
+              params.eventEndDate,
+              params.email,
+              params.timestamp
             ]
-          )
+          ).catch((err) => console.log(err))
           return res.json(result)
         } else if (type == "innovation") {
           params.image = JSON.stringify(params.image)
           params.timestamp = new Date().getTime()
           let result = await query(
-            `INSERT INTO innovation (id,title,timestamp,openDate,closeDate,description,image,author,email) VALUES ` +
-              `(?,?,?,?,?,?,?,?,?)`,
+            `INSERT INTO innovation (id,title,timestamp,openDate,closeDate,description,image,author,email,updatedBy,updatedAt) VALUES ` +
+              `(?,?,?,?,?,?,?,?,?,?,?)`,
             [
               params.id,
               params.title,
@@ -103,6 +109,8 @@ const handler = async (req, res) => {
               params.image,
               params.author,
               params.email,
+              params.email,
+              params.timestamp
             ]
           )
           return res.json(result)
@@ -111,8 +119,8 @@ const handler = async (req, res) => {
           params.add_attach = JSON.stringify(params.add_attach)
           params.timestamp = new Date().getTime()
           let result = await query(
-            `INSERT INTO news (id,title,timestamp,openDate,closeDate,description,image,attachments,author,email) VALUES ` +
-              `(?,?,?,?,?,?,?,?,?,?)`,
+            `INSERT INTO news (id,title,timestamp,openDate,closeDate,description,image,attachments,author,email,updatedBy,updatedAt) VALUES ` +
+              `(?,?,?,?,?,?,?,?,?,?,?,?)`,
             [
               params.id,
               params.title,
@@ -124,6 +132,8 @@ const handler = async (req, res) => {
               params.add_attach,
               params.author,
               params.email,
+              params.email,
+              params.timestamp
             ]
           )
           return res.json(result)

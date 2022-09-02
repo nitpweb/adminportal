@@ -25,6 +25,8 @@ export const EditForm = ({ data, handleClose, modal }) => {
 		doclink: data.doclink,
 		main_attachment: JSON.parse(data.event_link) || {},
 		venue: data.venue,
+    eventStartDate: dateformatter(data.eventStartDate),
+		eventEndDate: dateformatter(data.eventEndDate),
 	});
 
 	const [verifyDelete, setVerifyDelete] = useState(false);
@@ -64,8 +66,12 @@ export const EditForm = ({ data, handleClose, modal }) => {
 		setSubmitting(true);
 		let open = new Date(content.openDate);
 		let close = new Date(content.closeDate);
+    let eventStart = new Date(content.eventStartDate);
+    let eventEnd = new Date(content.eventEndDate);
 		open = open.getTime();
 		close = close.getTime();
+    eventStart = eventStart.getTime();
+    eventEnd = eventEnd.getTime();
 		let now = Date.now();
 		let new_attach = [...newAttachments];
 		new_attach = await handleNewAttachments(new_attach);
@@ -74,6 +80,8 @@ export const EditForm = ({ data, handleClose, modal }) => {
 			...content,
 			openDate: open,
 			closeDate: close,
+      eventStartDate: eventStart,
+      eventEndDate: eventEnd,
 			main_attachment: { ...content.main_attachment },
 			timestamp: now,
 			email: session.user.email,
@@ -175,6 +183,34 @@ export const EditForm = ({ data, handleClose, modal }) => {
               value={content.closeDate}
               fullWidth
             />
+            <TextField
+							margin="dense"
+							id="eventStartDate"
+							label="Event Start Date"
+							name="eventStartDate"
+							type="date"
+							required
+							value={content.eventStartDate}
+							onChange={(e) => handleChange(e)}
+							fullWidth
+							InputLabelProps={{
+								shrink: true,
+							}}
+						/>
+						<TextField
+							id="eventEndDate"
+							label="Event End Date"
+							name="eventEndDate"
+							margin="dense"
+							required
+							type="date"
+							onChange={(e) => handleChange(e)}
+							value={content.eventEndDate}
+							fullWidth
+							InputLabelProps={{
+								shrink: true,
+							}}
+						/>
             <TextField
               margin="dense"
               id="venue"

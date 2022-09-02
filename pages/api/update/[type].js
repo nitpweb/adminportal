@@ -21,8 +21,8 @@ const handler = async (req, res) => {
           params.attachments = JSON.stringify(params.attachments)
           params.main_attachment = JSON.stringify(params.main_attachment)
           let result = await query(
-            `UPDATE notices SET title=?,timestamp=?,openDate=?,closeDate=?,important=?,` +
-              `attachments=?,notice_link=?,isVisible=?,email=?,notice_type=? WHERE id=?`,
+            `UPDATE notices SET title=?,updatedAt=?,openDate=?,closeDate=?,important=?,` +
+              `attachments=?,notice_link=?,isVisible=?,updatedBy=?,notice_type=? WHERE id=?`,
             [
               params.title,
               params.timestamp,
@@ -47,8 +47,8 @@ const handler = async (req, res) => {
           params.main_attachment = JSON.stringify(params.main_attachment)
 
           let result = await query(
-            `UPDATE events SET title=?,timestamp=?,openDate=?,closeDate=?,venue=?,event_link=?,` +
-              `doclink=?,attachments=?,email=? WHERE id=?`,
+            `UPDATE events SET title=?,updatedAt=?,openDate=?,closeDate=?,venue=?,event_link=?,` +
+              `doclink=?,attachments=?,updatedBy=?,eventStartDate=?,eventEndDate=? WHERE id=?`,
             [
               params.title,
               params.timestamp,
@@ -59,6 +59,8 @@ const handler = async (req, res) => {
               params.doclink,
               params.attachments,
               params.email,
+              params.eventStartDate,
+              params.eventEndDate,
               params.id,
             ]
           )
@@ -66,8 +68,8 @@ const handler = async (req, res) => {
         } else if (type == "innovation") {
           params.image = JSON.stringify(params.image)
           let result = await query(
-            `UPDATE innovation SET title=?,timestamp=?,openDate=?,closeDate=?,description=?` +
-              `,image=?,author=?,email=? WHERE id=?`,
+            `UPDATE innovation SET title=?,updatedAt=?,openDate=?,closeDate=?,description=?` +
+              `,image=?,author=?,updatedBy=? WHERE id=?`,
             [
               params.title,
               params.timestamp,
@@ -85,8 +87,8 @@ const handler = async (req, res) => {
           params.image = JSON.stringify(params.image)
           params.add_attach = JSON.stringify(params.add_attach)
           let result = await query(
-            `UPDATE news SET title=?,timestamp=?,openDate=?,closeDate=?,description=?` +
-              `,image=?,attachments=?,author=?,email=? WHERE id=?`,
+            `UPDATE news SET title=?,updatedAt=?,openDate=?,closeDate=?,description=?` +
+              `,image=?,attachments=?,author=?,updatedBy=? WHERE id=?`,
             [
               params.title,
               params.timestamp,

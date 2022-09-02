@@ -19,6 +19,8 @@ export const AddForm = ({ handleClose, modal }) => {
 		closeDate: "",
 		venue: "",
 		doclink: "",
+		eventStartDate: "",
+		eventEndDate: "",
 	});
 	const [submitting, setSubmitting] = useState(false);
 
@@ -45,8 +47,12 @@ export const AddForm = ({ handleClose, modal }) => {
 		e.preventDefault();
 		let open = new Date(content.openDate);
 		let close = new Date(content.closeDate);
+		let eventStart = new Date(content.eventStartDate);
+		let eventEnd = new Date(content.eventEndDate);
 		open = open.getTime();
 		close = close.getTime();
+		eventStart = eventStart.getTime();
+		eventEnd = eventEnd.getTime();
 		let now = Date.now();
 
 		let data = {
@@ -54,6 +60,8 @@ export const AddForm = ({ handleClose, modal }) => {
 			id: now,
 			openDate: open,
 			closeDate: close,
+			eventStartDate: eventStart,
+			eventEndDate: eventEnd,
 			timestamp: now,
 			email: session.user.email,
 			main_attachment: mainAttachment,
@@ -164,6 +172,34 @@ export const AddForm = ({ handleClose, modal }) => {
 							type="date"
 							onChange={(e) => handleChange(e)}
 							value={content.closeDate}
+							fullWidth
+							InputLabelProps={{
+								shrink: true,
+							}}
+						/>
+						<TextField
+							margin="dense"
+							id="eventStartDate"
+							label="Event Start Date"
+							name="eventStartDate"
+							type="date"
+							required
+							value={content.eventStartDate}
+							onChange={(e) => handleChange(e)}
+							fullWidth
+							InputLabelProps={{
+								shrink: true,
+							}}
+						/>
+						<TextField
+							id="eventEndDate"
+							label="Event End Date"
+							name="eventEndDate"
+							margin="dense"
+							required
+							type="date"
+							onChange={(e) => handleChange(e)}
+							value={content.eventEndDate}
 							fullWidth
 							InputLabelProps={{
 								shrink: true,
