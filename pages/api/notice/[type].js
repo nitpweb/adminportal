@@ -36,12 +36,23 @@ const handler = async (req, res) => {
     } else if (type == "range") {
       const start = req.body.start_date;
       const end = req.body.end_date;
+      const department = req.body.department;
+      const notice_type = req.body.notice_type
 
-      results = await query(
-        `
-			SELECT * from notices where closeDate<=? and openDate>=? ORDER BY timestamp DESC`,
-        [end, start]
-      ).catch((err) => console.log(err));
+      if(notice_type !== "department"){
+        results = await query(
+          `
+        SELECT * from notices where notice_type=? and closeDate<=? and openDate>=? ORDER BY openDate DESC`,
+          [notice_type, end, start]
+        ).catch((err) => console.log(err));
+      } else {
+        results = await query(
+          `
+        SELECT * from notices where closeDate<=? and openDate>=? and department=? ORDER BY openDate DESC`,
+          [end, start, department]
+        ).catch((err) => console.log(err));
+      }
+
     } else if (depList.has(type)) {
       results = await query(
         `
