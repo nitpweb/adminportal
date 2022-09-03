@@ -207,17 +207,11 @@ const DataDisplay = (props) => {
                   );
 								})}
 						</div>{" "}
-						<span
-							style={{
-								position: `absolute`,
-								right: `12px`,
-								bottom: `12px`,
-							}}
-						>
-							<span>Uploaded By: {detail.email} </span>
-							<span>Updated By: {detail.updatedBy} </span>
-							<span>Open Date: {openDate}</span>
-						</span>
+			<div style={{display: "flex", flexWrap:"wrap"}}>
+              <div>Uploaded By : {detail.email} </div>
+              <div>Updated By: {detail.updatedBy} </div>
+              <div>Open Date: {openDate}</div>
+            </div>
 					</Paper>
 				</Grid>
 

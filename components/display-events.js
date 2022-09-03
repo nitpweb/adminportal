@@ -245,17 +245,11 @@ const DataDisplay = (props) => {
               </span>
             </div>
 
-            <span
-              style={{
-                position: `absolute`,
-                right: `12px`,
-                bottom: `12px`,
-              }}
-            >
-              <span>Uploaded By: {detail.email} </span>
-              <span>Updated By: {detail.updatedBy} </span>
-              <span>Open Date: {openDate}</span>
-            </span>
+            <div  style={{display: "flex", flexWrap:"wrap"}}>
+              <div>Uploaded By : {detail.email} </div>
+              <div>Updated By: {detail.updatedBy} </div>
+              <div>Open Date: {openDate}</div>
+            </div>
           </Paper>
         </Grid>
 
@@ -295,7 +289,7 @@ const DataDisplay = (props) => {
 	};
 
 	return (
-		<div>
+		<div style={{alignItems: "center"}}>
 			<header>
 				<Typography variant="h4" style={{ margin: `15px 0` }}>
 					Recent Events
