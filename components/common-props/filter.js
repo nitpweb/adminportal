@@ -6,8 +6,8 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { Input, MenuItem, Select } from "@material-ui/core";
-import { depList } from "@/lib/const";
+import { FormControl, Input, InputLabel, MenuItem, Select } from "@material-ui/core";
+import { depList, administrationList } from "@/lib/const";
 
 const Filter = ({ type, setEntries }) => {
   const [open, setOpen] = React.useState(false);
@@ -15,6 +15,7 @@ const Filter = ({ type, setEntries }) => {
     start_date: "",
     end_date: "",
     department: "all",
+    notice_type: "department"
   });
 
   const handleClickOpen = () => {
@@ -42,9 +43,11 @@ const Filter = ({ type, setEntries }) => {
         range.end_date !== ""
           ? new Date(range.end_date).getTime()
           : new Date().getTime(),
-      department: range.department,
+      notice_type : range.notice_type,
+      department: range.department
     };
 
+    console.log(data)
     let entries = await fetch(`/api/${type}/range`, {
       method: "post",
       headers: { "Content-type": "application/json" },
@@ -75,26 +78,58 @@ const Filter = ({ type, setEntries }) => {
             <DialogContentText>
               Filter entries using date and department
             </DialogContentText>
+            
             {
-				type === "notice" &&
-				<Select
+              type === "notice" &&
+              <FormControl
+              style={{ margin: `10px auto`, width: `100%` }}
+              required
+            >
+              <InputLabel id="demo-dialog-select-label30">
+                Notice Type
+              </InputLabel>
+
+                <Select
                   labelId="demo-dialog-select-label30"
                   id="demo-dialog-select30"
-                  name="department"
+                  name="notice_type"
                   fullWidth
-                  value={range.department}
+                  value={range.notice_type}
                   onChange={(e) => handleChange(e)}
                   input={<Input />}
                 >
-					<MenuItem value="all">All</MenuItem>
-                  {[...depList].map(([key, value]) => (
-                    <MenuItem key={key} value={value}>{value}</MenuItem>
+                  <MenuItem value="general">General</MenuItem>
+                  <MenuItem value="department">Department</MenuItem>
+                  {[...administrationList].map(([key, value]) => (
+                    <MenuItem key = {key} value={key}>{value}</MenuItem>
                   ))}
-            	</Select>
-			}
-
-
-
+                </Select>
+            </FormControl>
+          }         
+            {
+              type==="notice" && range.notice_type == "department" && (
+                <FormControl
+                  style={{ margin: `10px auto`, width: `100%` }}
+                  required
+                >
+                  <InputLabel id="department">Department</InputLabel>
+                  <Select
+                    labelId="branch"
+                    autoWidth
+                    id="branch"
+                    name="department"
+                    value={range.department}
+                    onChange={(e) => handleChange(e)}
+                    input={<Input />}
+                  >
+                  {[...depList].map(([key, value]) => (
+                    <MenuItem key = {key} value={value}>{value}</MenuItem>
+                  ))}
+                  </Select>
+                </FormControl>
+              )
+            
+          }
             <TextField
               margin="dense"
               id="start_date"
