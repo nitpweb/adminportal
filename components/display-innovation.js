@@ -1,15 +1,18 @@
-import { Typography } from "@material-ui/core";
+import { IconButton, TableFooter, TablePagination, TableRow, Typography } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-import { makeStyles } from "@material-ui/core/styles";
-import { Description, Edit, Flag } from "@material-ui/icons";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { Edit, Flag, Description, KeyboardArrowLeft, KeyboardArrowRight } from "@material-ui/icons";
 import React, { useState } from "react";
 import { AddForm } from "./innovation-props/add-form";
 import { EditForm } from "./innovation-props/edit-form";
 import { useSession } from "next-auth/client";
 import { DescriptionModal } from "./common-props/description-modal";
 import Filter from "./common-props/filter";
+import PropTypes from "prop-types";
+import FirstPageIcon from "@material-ui/icons/FirstPage";
+import LastPageIcon from "@material-ui/icons/LastPage";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -41,10 +44,106 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
+const useStyles1 = makeStyles((theme) => ({
+	root: {
+		flexShrink: 0,
+		marginRight: theme.spacing(2.5),
+	},
+}));
+
+
+
+function TablePaginationActions(props) {
+	const classes = useStyles1();
+	const theme = useTheme();
+	const { count, page, rowsPerPage, onChangePage } = props;
+
+	const handleFirstPageButtonClick = (event) => {
+		onChangePage(event, 0);
+	};
+
+	const handleBackButtonClick = (event) => {
+		onChangePage(event, page - 1);
+	};
+
+	const handleNextButtonClick = (event) => {
+		onChangePage(event, page + 1);
+	};
+
+	const handleLastPageButtonClick = (event) => {
+		onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
+	};
+
+	return (
+		<div className={classes.root}>
+			<IconButton
+				onClick={handleFirstPageButtonClick}
+				disabled={page === 0}
+				aria-label="first page"
+			>
+				{theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
+			</IconButton>
+			<IconButton
+				onClick={handleBackButtonClick}
+				disabled={page === 0}
+				aria-label="previous page"
+			>
+				{theme.direction === "rtl" ? (
+					<KeyboardArrowRight />
+				) : (
+					<KeyboardArrowLeft />
+				)}
+			</IconButton>
+			<IconButton
+				onClick={handleNextButtonClick}
+				disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+				aria-label="next page"
+			>
+				{theme.direction === "rtl" ? (
+					<KeyboardArrowLeft />
+				) : (
+					<KeyboardArrowRight />
+				)}
+			</IconButton>
+			<IconButton
+				onClick={handleLastPageButtonClick}
+				disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+				aria-label="last page"
+			>
+				{theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
+			</IconButton>
+		</div>
+	);
+}
+
+TablePaginationActions.propTypes = {
+	count: PropTypes.number.isRequired,
+	onChangePage: PropTypes.func.isRequired,
+	page: PropTypes.number.isRequired,
+	rowsPerPage: PropTypes.number.isRequired,
+};
+
 const DataDisplay = (props) => {
 	const [session, loading] = useSession();
 	const classes = useStyles();
 	const [details, setDetails] = useState(props.data);
+	
+	const [rows, setRows] = useState(props.data);
+	const totalRow = [...rows]
+  const [page, setPage] = React.useState(0);
+	const [rowsPerPage, setRowsPerPage] = React.useState(15);
+
+	const emptyRows =
+		rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
+	const handleChangePage = (event, newPage) => {
+		setPage(newPage);
+	};
+
+  const handleChangeRowsPerPage = (event) => {
+		setRowsPerPage(parseInt(event.target.value, 10));
+		setPage(0);
+	};
 
 	const [addModal, setAddModal] = useState(false);
 	const addModalOpen = () => {
@@ -179,13 +278,35 @@ const DataDisplay = (props) => {
 			<AddForm handleClose={handleCloseAddModal} modal={addModal} />
 
 			<Grid container spacing={2} className={classes.root}>
-				{details.map((detail) => (
-					<Innovation detail={detail} />
-				))}
+				
+			{(rowsPerPage > 0
+							? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+							: rows
+						).map((row) => {
+							return <Innovation detail={row} />;
+				})}
 				{/* <Grid >
             <Paper xs={12} sm={9}>{detail.title}</Paper>
          </Grid> */}
 			</Grid>
+			<TableFooter>
+						<TableRow>
+							<TablePagination
+								rowsPerPageOptions={[15, 25, 50, 100]}
+								colSpan={7}
+								count={rows.length}
+								rowsPerPage={rowsPerPage}
+								page={page}
+								SelectProps={{
+									inputProps: { "aria-label": "rows per page" },
+									native: true,
+								}}
+								onChangePage={handleChangePage}
+								onChangeRowsPerPage={handleChangeRowsPerPage}
+								ActionsComponent={TablePaginationActions}
+							/>
+						</TableRow>
+					</TableFooter>
 		</div>
 	);
 };
