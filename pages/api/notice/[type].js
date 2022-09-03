@@ -36,8 +36,8 @@ const handler = async (req, res) => {
     } else if (type == "range") {
       const start = req.body.start_date;
       const end = req.body.end_date;
-      const department = req.query.department;
-      const notice_type = req.query.notice_type
+      const department = req.body.department;
+      const notice_type = req.body.notice_type
 
       if(notice_type !== "department"){
         results = await query(
