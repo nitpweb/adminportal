@@ -27,6 +27,14 @@ const handler = async (req, res) => {
 			SELECT * from innovation where closeDate<=? and openDate>=? ORDER BY openDate DESC`,
         [end, start]
       ).catch((err) => console.log(err));
+    } else if (type == "between") {
+      const from = req.body.from;
+      const to = req.body.to;
+
+      results = await query(
+        `SELECT * from innovation ORDER BY openDate DESC limit ?, ?`,
+        [from,to-from]
+      );
     } else {
       results = await query(`SELECT * from innovation WHERE id=?`, [String(type)]);
     }

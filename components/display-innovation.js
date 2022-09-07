@@ -4,7 +4,7 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Edit, Flag, Description, KeyboardArrowLeft, KeyboardArrowRight } from "@material-ui/icons";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { AddForm } from "./innovation-props/add-form";
 import { EditForm } from "./innovation-props/edit-form";
 import { useSession } from "next-auth/client";
@@ -96,7 +96,7 @@ function TablePaginationActions(props) {
 			</IconButton>
 			<IconButton
 				onClick={handleNextButtonClick}
-				disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+				// disabled={page >= Math.ceil(count / rowsPerPage) - 1}
 				aria-label="next page"
 			>
 				{theme.direction === "rtl" ? (
@@ -107,7 +107,7 @@ function TablePaginationActions(props) {
 			</IconButton>
 			<IconButton
 				onClick={handleLastPageButtonClick}
-				disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+				// disabled={page >= Math.ceil(count / rowsPerPage) - 1}
 				aria-label="last page"
 			>
 				{theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
@@ -128,13 +128,13 @@ const DataDisplay = (props) => {
 	const classes = useStyles();
 	const [details, setDetails] = useState(props.data);
 	
-	const [rows, setRows] = useState(props.data);
-	const totalRow = [...rows]
+	// const [rows, setRows] = useState(props.data);
+	// const totalRow = [...rows]
   const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(15);
 
-	const emptyRows =
-		rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+	// const emptyRows =
+	// 	rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
 	const handleChangePage = (event, newPage) => {
 		setPage(newPage);
@@ -152,6 +152,34 @@ const DataDisplay = (props) => {
 	const handleCloseAddModal = () => {
 		setAddModal(false);
 	};
+
+	useEffect(()=>{
+		fetch('/api/innovation/between', {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				"Accept": "application/json"
+			},
+			body : JSON.stringify({
+				from : page * rowsPerPage,
+				to : page * rowsPerPage + rowsPerPage
+			})
+		}).then(res => res.json())
+		.then(data => {
+			console.log(data)
+			setDetails(data)
+		})
+		.catch(err => console.log(err))
+		
+
+		// setDetails(await response.json());
+
+		console.log("page : ", page)
+		console.log("rowperpage : ", rowsPerPage)
+
+		// console.log(response.json());
+
+	}, [page, rowsPerPage])
 
 	const Innovation = ({ detail }) => {
 		let openDate = new Date(detail.timestamp);
@@ -273,10 +301,7 @@ const DataDisplay = (props) => {
 
 			<Grid container spacing={2} className={classes.root}>
 				
-			{(rowsPerPage > 0
-							? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-							: rows
-						).map((row) => {
+			{details.map((row) => {
 							return <Innovation detail={row} />;
 				})}
 				{/* <Grid >
@@ -288,7 +313,7 @@ const DataDisplay = (props) => {
 							<TablePagination
 								rowsPerPageOptions={[15, 25, 50, 100]}
 								colSpan={7}
-								count={rows.length}
+								count={rowsPerPage * page + details.length}
 								rowsPerPage={rowsPerPage}
 								page={page}
 								SelectProps={{
