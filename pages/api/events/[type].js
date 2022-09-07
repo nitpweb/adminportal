@@ -27,7 +27,15 @@ const handler = async (req, res) => {
         [end, start]
       ).catch((err) => console.log(err));
       
-    }
+    } else if (type == "between") {
+      const from = req.body.from;
+      const to = req.body.to;
+
+      results = await query(
+        `SELECT * from events ORDER BY openDate DESC limit ?, ?`,
+        [from,to-from]
+      );
+    } 
     let array = JSON.parse(JSON.stringify(results));
     array.forEach((element) => {
       element.attachments = JSON.parse(element.attachments);

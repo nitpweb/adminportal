@@ -12,6 +12,7 @@ import Filter from "./common-props/filter";
 import PropTypes from "prop-types";
 import FirstPageIcon from "@material-ui/icons/FirstPage";
 import LastPageIcon from "@material-ui/icons/LastPage";
+import { useEffect } from "react";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -80,14 +81,14 @@ function TablePaginationActions(props) {
 		<div className={classes.root}>
 			<IconButton
 				onClick={handleFirstPageButtonClick}
-				disabled={page === 0}
+				disabled={page <= 0}
 				aria-label="first page"
 			>
 				{theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
 			</IconButton>
 			<IconButton
 				onClick={handleBackButtonClick}
-				disabled={page === 0}
+				disabled={page <= 0}
 				aria-label="previous page"
 			>
 				{theme.direction === "rtl" ? (
@@ -98,7 +99,7 @@ function TablePaginationActions(props) {
 			</IconButton>
 			<IconButton
 				onClick={handleNextButtonClick}
-				disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+				// disabled={page >= Math.ceil(count / rowsPerPage) - 1}
 				aria-label="next page"
 			>
 				{theme.direction === "rtl" ? (
@@ -109,7 +110,7 @@ function TablePaginationActions(props) {
 			</IconButton>
 			<IconButton
 				onClick={handleLastPageButtonClick}
-				disabled={page >= Math.ceil(count / rowsPerPage) - 1}
+				// disabled={page >= Math.ceil(count / rowsPerPage) - 1}
 				aria-label="last page"
 			>
 				{theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
@@ -132,15 +133,15 @@ TablePaginationActions.propTypes = {
 const DataDisplay = (props) => {
 	const [session, loading] = useSession();
 	const classes = useStyles();
-	const [details, setDetails] = useState(props.data);
+	const [details, setDetails] = useState(props.entries);
 
-  const [rows, setRows] = useState(props.data);
-	const totalRow = [...rows]
+//   const [rows, setRows] = useState(props.data);
+	// const totalRow = [...rows]
   const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(15);
 
-	const emptyRows =
-		rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+	// const emptyRows =
+	// 	rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
 	const handleChangePage = (event, newPage) => {
 		setPage(newPage);
@@ -153,9 +154,35 @@ const DataDisplay = (props) => {
 
 
 
+	useEffect(()=>{
+		fetch('/api/events/between', {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				"Accept": "application/json"
+			},
+			body : JSON.stringify({
+				from : page * rowsPerPage,
+				to : page * rowsPerPage + rowsPerPage
+			})
+		}).then(res => res.json())
+		.then(data => {
+			console.log(data)
+			setDetails(data)
+		})
+		.catch(err => console.log(err))
+		
 
+		// setDetails(await response.json());
 
+		console.log("page : ", page)
+		console.log("rowperpage : ", rowsPerPage)
 
+		// console.log(response.json());
+
+	}, [page, rowsPerPage])
+
+	
 
 
 
@@ -308,15 +335,18 @@ const DataDisplay = (props) => {
 			<AddForm handleClose={handleCloseAddModal} modal={addModal} />
 
 			<Grid container spacing={2} className={classes.root}>
+				{
+					details.map((row) => {
+						return <Event detail={row} />;
+					})
+				}
 
-      {(rowsPerPage > 0
+      {/* {(rowsPerPage > 0
 							? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 							: rows
 						).map((row) => {
 							return <Event detail={row} />;
-				})}
-
-
+				})} */}
 
 
 
@@ -339,7 +369,7 @@ const DataDisplay = (props) => {
 							<TablePagination
 								rowsPerPageOptions={[15, 25, 50, 100]}
 								colSpan={7}
-								count={rows.length}
+								count={rowsPerPage * page + details.length}
 								rowsPerPage={rowsPerPage}
 								page={page}
 								SelectProps={{

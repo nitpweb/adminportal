@@ -53,6 +53,14 @@ const handler = async (req, res) => {
         ).catch((err) => console.log(err));
       }
 
+    } else if (type == "between") {
+      const from = req.body.from;
+      const to = req.body.to;
+
+      results = await query(
+        `SELECT * from notices ORDER BY openDate DESC limit ?, ?`,
+        [from,to-from]
+      );
     } else if (depList.has(type)) {
       results = await query(
         `
