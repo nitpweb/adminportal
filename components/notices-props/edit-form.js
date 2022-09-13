@@ -12,12 +12,14 @@ import {
   AddAttachments,
   handleNewAttachments,
 } from "./../common-props/add-attachment"
+import {UpdateMainAttachment} from "./../common-props/update-main-attachment"
 import { FormControl } from "@material-ui/core"
 import InputLabel from "@material-ui/core/InputLabel"
 import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
 import Input from "@material-ui/core/Input"
 import { administrationList } from "@/lib/const"
+import { fileUploader } from "./../common-props/useful-functions"
 
 import { dateformatter } from "./../common-props/date-formatter"
 import { ConfirmDelete } from "./confirm-delete"
@@ -45,6 +47,9 @@ export const EditForm = ({ data, handleClose, modal }) => {
   const [attachments, setAttachments] = useState(data.attachments)
   const [submitting, setSubmitting] = useState(false)
   const [newAttachments, setNewAttachments] = useState([])
+
+  const [updateMainAttachment, setUpdateMainAttachment] = useState(false)
+  const [newMainAttachment, setNewMainAttachment] = useState({})
 
   const handleChange = (e) => {
     if (e.target.name == "important" || e.target.name == "isVisible") {
@@ -80,6 +85,19 @@ export const EditForm = ({ data, handleClose, modal }) => {
     let now = Date.now()
     let new_attach = [...newAttachments]
     new_attach = await handleNewAttachments(new_attach)
+    let new_main_attach = newMainAttachment
+
+    if(updateMainAttachment && new_main_attach.url){
+      // delete old file and upload new one
+      deleteArray.current.push(content.main_attachment.url.split("/")[5])
+      if (!new_main_attach.typeLink) {
+        new_main_attach.url = await fileUploader(new_main_attach)
+      }
+    }else{
+      console.log("no update");
+      new_main_attach = content.main_attachment;
+    }
+    console.log(new_main_attach)
 
     let finaldata = {
       ...content,
@@ -89,10 +107,12 @@ export const EditForm = ({ data, handleClose, modal }) => {
       openDate: open,
       closeDate: close,
       timestamp: now,
-      main_attachment: { ...content.main_attachment },
+      main_attachment: new_main_attach,
       email: session.user.email,
       attachments: [...attachments, ...new_attach],
     }
+
+    console.log(finaldata);
 
     if (deleteArray.current.length) {
       let result = await fetch("/api/gdrive/deletefiles", {
@@ -253,6 +273,7 @@ export const EditForm = ({ data, handleClose, modal }) => {
 
                 <div>
                   <TextField
+                    placeholder="SubTitle for main attachment"
                     id="attachments"
                     margin="dense"
                     type="text"
@@ -278,6 +299,18 @@ export const EditForm = ({ data, handleClose, modal }) => {
                     <Link />
                   </a>
                 </div>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="UpdateMainAttachment"
+                      checked={updateMainAttachment}
+                      onChange={(e) => setUpdateMainAttachment(e.target.checked)}
+                    />
+                  }
+                  label="Edit Main Attachment"
+                />
+                {updateMainAttachment && 
+                  <UpdateMainAttachment attachment={newMainAttachment} setAttachment={setNewMainAttachment}/>}
               </>
             )}
 
