@@ -10,27 +10,27 @@ const handler = async (req, res) => {
     if (type === "all") {
       results = await query(
         `
-      SELECT * from notices where notice_type='general' and isVisible=1 ORDER BY timestamp DESC;
+      SELECT * from notices where notice_type='general' ORDER BY timestamp DESC;
     `
       );
     }
     if (type === "whole") {
       results = await query(
         `
-      SELECT * from notices where isVisible=1 ORDER BY openDate DESC;
+      SELECT * from notices ORDER BY openDate DESC;
     `
       );
     } else if (administrationList.has(type)) {
       results = await query(
         `
-      SELECT * from notices where notice_type=? and isVisible=1 ORDER BY timestamp DESC
+      SELECT * from notices where notice_type=? ORDER BY timestamp DESC
     `,
         [type]
       );
     } else if (type == "active") {
       results = await query(
         `
-        SELECT * from notices where notice_type='general' and openDate<? and closeDate>? and isVisible=1 ORDER BY openDate DESC`,
+        SELECT * from notices where notice_type='general' and openDate<? and closeDate>? ORDER BY openDate DESC`,
         [now, now]
       );
     } else if (type == "range") {
@@ -42,13 +42,13 @@ const handler = async (req, res) => {
       if(notice_type !== "department"){
         results = await query(
           `
-        SELECT * from notices where notice_type=? and closeDate<=? and openDate>=? and isVisible=1 ORDER BY openDate DESC`,
+        SELECT * from notices where notice_type=? and closeDate<=? and openDate>=? ORDER BY openDate DESC`,
           [notice_type, end, start]
         ).catch((err) => console.log(err));
       } else {
         results = await query(
           `
-        SELECT * from notices where closeDate<=? and openDate>=? and department=? and isVisible=1 ORDER BY openDate DESC`,
+        SELECT * from notices where closeDate<=? and openDate>=? and department=? ORDER BY openDate DESC`,
           [end, start, department]
         ).catch((err) => console.log(err));
       }
@@ -58,13 +58,13 @@ const handler = async (req, res) => {
       const to = req.body.to;
 
       results = await query(
-        `SELECT * from notices where isVisible=1 ORDER BY openDate DESC limit ?, ?`,
+        `SELECT * from notices ORDER BY openDate DESC limit ?, ?`,
         [from,to-from]
       );
     } else if (depList.has(type)) {
       results = await query(
         `
-      select * from notices where notice_type='department' and department=? and isVisible=1 ORDER BY timestamp DESC`,
+      select * from notices where notice_type='department' and department=? ORDER BY timestamp DESC`,
         [depList.get(type)]
       );
     }
