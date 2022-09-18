@@ -134,6 +134,7 @@ const DataDisplay = (props) => {
 	const [session, loading] = useSession();
 	const classes = useStyles();
 	const [details, setDetails] = useState(props.entries);
+	const [filterQuery, setFilterQuery] = useState(null)
 
 //   const [rows, setRows] = useState(props.data);
 	// const totalRow = [...rows]
@@ -155,7 +156,8 @@ const DataDisplay = (props) => {
 
 
 	useEffect(()=>{
-		fetch('/api/events/between', {
+		if(!filterQuery){
+			fetch('/api/events/between', {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -165,13 +167,31 @@ const DataDisplay = (props) => {
 				from : page * rowsPerPage,
 				to : page * rowsPerPage + rowsPerPage
 			})
-		}).then(res => res.json())
-		.then(data => {
-			console.log(data)
-			setDetails(data)
-		})
-		.catch(err => console.log(err))
-		
+			}).then(res => res.json())
+			.then(data => {
+				console.log(data)
+				setDetails(data)
+			})
+			.catch(err => console.log(err))
+		} else {
+			fetch('/api/events/range', {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					"Accept": "application/json"
+				},
+				body : JSON.stringify({
+					...filterQuery,
+					from : page * rowsPerPage,
+					to : page * rowsPerPage + rowsPerPage
+				})
+				}).then(res => res.json())
+				.then(data => {
+					console.log(data)
+					setDetails(data)
+				})
+				.catch(err => console.log(err))
+		}
 
 		// setDetails(await response.json());
 
@@ -180,11 +200,9 @@ const DataDisplay = (props) => {
 
 		// console.log(response.json());
 
-	}, [page, rowsPerPage])
+	}, [page, rowsPerPage, filterQuery])
 
 	
-
-
 
 
 	const [addModal, setAddModal] = useState(false);
@@ -329,7 +347,7 @@ const DataDisplay = (props) => {
 				>
 					ADD +
 				</Button>
-				<Filter type="events" setEntries={setDetails} />
+				<Filter type="events" setEntries={setFilterQuery} />
 			</header>
 
 			<AddForm handleClose={handleCloseAddModal} modal={addModal} />

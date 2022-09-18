@@ -127,6 +127,8 @@ const DataDisplay = (props) => {
 	const [session, loading] = useSession();
 	const classes = useStyles();
 	const [details, setDetails] = useState(props.data);
+	const [filterQuery, setFilterQuery] = useState(null)
+
 	
 	// const [rows, setRows] = useState(props.data);
 	// const totalRow = [...rows]
@@ -154,23 +156,42 @@ const DataDisplay = (props) => {
 	};
 
 	useEffect(()=>{
-		fetch('/api/innovation/between', {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				"Accept": "application/json"
-			},
-			body : JSON.stringify({
-				from : page * rowsPerPage,
-				to : page * rowsPerPage + rowsPerPage
+		if(!filterQuery){
+			fetch('/api/innovation/between', {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					"Accept": "application/json"
+				},
+				body : JSON.stringify({
+					from : page * rowsPerPage,
+					to : page * rowsPerPage + rowsPerPage
+				})
+			}).then(res => res.json())
+			.then(data => {
+				console.log(data)
+				setDetails(data)
 			})
-		}).then(res => res.json())
-		.then(data => {
-			console.log(data)
-			setDetails(data)
-		})
-		.catch(err => console.log(err))
-		
+			.catch(err => console.log(err))
+		} else {
+			fetch('/api/innovation/range', {
+				method: "POST",
+				headers: {
+				  "Content-Type": "application/json",
+				  "Accept": "application/json"
+				},
+				body : JSON.stringify({
+				  ...filterQuery,
+				  from : page * rowsPerPage,
+				  to : page * rowsPerPage + rowsPerPage
+				})
+			  }).then(res => res.json())
+			  .then(data => {
+				// console.log(data)
+				setDetails(data)
+			  })
+			  .catch(err => console.log(err))
+		}
 
 		// setDetails(await response.json());
 
@@ -179,7 +200,7 @@ const DataDisplay = (props) => {
 
 		// console.log(response.json());
 
-	}, [page, rowsPerPage])
+	}, [page, rowsPerPage, filterQuery])
 
 	const Innovation = ({ detail }) => {
 		let openDate = new Date(detail.timestamp);
@@ -294,7 +315,7 @@ const DataDisplay = (props) => {
 				<Button variant="contained" color="primary" onClick={addModalOpen}>
 					ADD +
 				</Button>
-				<Filter type="innovation" setEntries={setDetails} />
+				<Filter type="innovation" setEntries={setFilterQuery} />
 			</header>
 
 			<AddForm handleClose={handleCloseAddModal} modal={addModal} />
