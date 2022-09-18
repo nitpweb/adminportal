@@ -20,11 +20,13 @@ const handler = async (req, res) => {
     } else if (type == "range") {
       const start = req.body.start_date;
       const end = req.body.end_date;
+      const from = req.body.from;
+      const to = req.body.to;
 
       results = await query(
         `
-      SELECT * from events where closeDate<=? and openDate>=? ORDER BY openDate DESC`,
-        [end, start]
+      SELECT * from events where closeDate<=? and openDate>=? ORDER BY openDate DESC limit ?,?`,
+        [end, start, from, to-from]
       ).catch((err) => console.log(err));
       
     } else if (type == "between") {

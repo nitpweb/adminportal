@@ -37,19 +37,21 @@ const handler = async (req, res) => {
       const start = req.body.start_date;
       const end = req.body.end_date;
       const department = req.body.department;
-      const notice_type = req.body.notice_type
+      const notice_type = req.body.notice_type;
+      const from = req.body.from;
+      const to = req.body.to; 
 
       if(notice_type !== "department"){
         results = await query(
           `
-        SELECT * from notices where notice_type=? and closeDate<=? and openDate>=? ORDER BY openDate DESC`,
-          [notice_type, end, start]
+        SELECT * from notices where notice_type=? and closeDate<=? and openDate>=? ORDER BY openDate DESC limit ?, ?`,
+          [notice_type, end, start, from, to-from]
         ).catch((err) => console.log(err));
       } else {
         results = await query(
           `
-        SELECT * from notices where closeDate<=? and openDate>=? and department=? ORDER BY openDate DESC`,
-          [end, start, department]
+        SELECT * from notices where closeDate<=? and openDate>=? and department=? ORDER BY openDate DESC limit ?, ?`,
+          [end, start, department, from, to-from]
         ).catch((err) => console.log(err));
       }
 

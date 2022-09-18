@@ -48,16 +48,17 @@ const Filter = ({ type, setEntries }) => {
     };
 
     console.log(data)
-    let entries = await fetch(`/api/${type}/range`, {
-      method: "post",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify(data),
-    });
-    entries = await entries.json();
+  //   let entries = await fetch(`/api/${type}/range`, {
+  //     method: "post",
+  //     headers: { "Content-type": "application/json" },
+  //     body: JSON.stringify(data),
+  //   });
+  //   entries = await entries.json();
 
-    // console.log(data);
-	// console.log(entries)
-    setEntries(entries);
+  //   // console.log(data);
+	// // console.log(entries)
+    // setEntries(entries);
+    setEntries(data)
     setOpen(false);
   };
 

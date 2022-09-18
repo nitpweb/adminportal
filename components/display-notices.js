@@ -134,6 +134,7 @@ const DataDisplay = (props) => {
   const [session, loading] = useSession()
   const classes = useStyles()
   const [details, setDetails] = useState(props.data)
+  const [filterQuery, setFilterQuery] = useState(null)
 
   // const [rows, setRows] = useState(props.data);
 	// const totalRow = [...rows]
@@ -161,23 +162,42 @@ const DataDisplay = (props) => {
   }
 
   useEffect(()=>{
-		fetch('/api/notice/between', {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				"Accept": "application/json"
-			},
-			body : JSON.stringify({
-				from : page * rowsPerPage,
-				to : page * rowsPerPage + rowsPerPage
-			})
-		}).then(res => res.json())
-		.then(data => {
-			console.log(data)
-			setDetails(data)
-		})
-		.catch(err => console.log(err))
-		
+    if(!filterQuery){
+      fetch('/api/notice/between', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body : JSON.stringify({
+          from : page * rowsPerPage,
+          to : page * rowsPerPage + rowsPerPage
+        })
+      }).then(res => res.json())
+      .then(data => {
+        // console.log(data)
+        setDetails(data)
+      })
+      .catch(err => console.log(err))
+    } else {
+      fetch('/api/notice/range', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body : JSON.stringify({
+          ...filterQuery,
+          from : page * rowsPerPage,
+          to : page * rowsPerPage + rowsPerPage
+        })
+      }).then(res => res.json())
+      .then(data => {
+        // console.log(data)
+        setDetails(data)
+      })
+      .catch(err => console.log(err))
+    }
 
 		// setDetails(await response.json());
 
@@ -185,8 +205,8 @@ const DataDisplay = (props) => {
 		console.log("rowperpage : ", rowsPerPage)
 
 		// console.log(response.json());
-
-	}, [page, rowsPerPage])
+    if(filterQuery)console.log(filterQuery)
+	}, [page, rowsPerPage, filterQuery])
 
   const Notice = ({ detail }) => {
     let openDate = new Date(detail.timestamp)
@@ -338,7 +358,7 @@ const DataDisplay = (props) => {
         <Button variant="contained" color="primary" onClick={addModalOpen}>
           ADD +
         </Button>
-        <Filter type="notice" setEntries={setDetails} />
+        <Filter type="notice" setEntries={setFilterQuery} />
       </header>
 
       <AddForm handleClose={handleCloseAddModal} modal={addModal} />
