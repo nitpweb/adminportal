@@ -40,18 +40,26 @@ const handler = async (req, res) => {
       const notice_type = req.body.notice_type;
       const from = req.body.from;
       const to = req.body.to; 
+      const keyword = req.body.keyword || "";
 
-      if(notice_type !== "department"){
+      if(!notice_type){
         results = await query(
           `
-        SELECT * from notices where notice_type=? and closeDate<=? and openDate>=? ORDER BY openDate DESC limit ?, ?`,
-          [notice_type, end, start, from, to-from]
+        SELECT * from notices where title like ? ORDER BY openDate DESC limit ?, ?`,
+          [`%${keyword}%`, from, to-from]
+        ).catch((err) => console.log(err));
+      }
+      else if(notice_type !== "department"){
+        results = await query(
+          `
+        SELECT * from notices where notice_type=? and closeDate<=? and openDate>=? and title like ? ORDER BY openDate DESC limit ?, ?`,
+          [notice_type, end, start, `%${keyword}%`, from, to-from]
         ).catch((err) => console.log(err));
       } else {
         results = await query(
           `
-        SELECT * from notices where closeDate<=? and openDate>=? and department=? ORDER BY openDate DESC limit ?, ?`,
-          [end, start, department, from, to-from]
+        SELECT * from notices where closeDate<=? and openDate>=? and department=? and title like ? ORDER BY openDate DESC limit ?, ?`,
+          [end, start, department, `%${keyword}%`, from, to-from]
         ).catch((err) => console.log(err));
       }
 
