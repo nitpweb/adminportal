@@ -1,4 +1,4 @@
-import { IconButton, TableFooter, TablePagination, TableRow, Typography } from "@material-ui/core";
+import { IconButton, TableFooter, TablePagination, TableRow, Typography, TextField } from "@material-ui/core";
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
 import Paper from "@material-ui/core/Paper"
@@ -135,6 +135,7 @@ const DataDisplay = (props) => {
   const classes = useStyles()
   const [details, setDetails] = useState(props.data)
   const [filterQuery, setFilterQuery] = useState(null)
+  const [searchQuery, setSearchQuery] = useState("")
 
   // const [rows, setRows] = useState(props.data);
 	// const totalRow = [...rows]
@@ -160,6 +161,31 @@ const DataDisplay = (props) => {
   const handleCloseAddModal = () => {
     setAddModal(false)
   }
+
+  useEffect(()=>{
+    if(!searchQuery || searchQuery.length===0){
+      setDetails(props.data)
+    }
+
+    fetch('/api/notice/search', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body : JSON.stringify({
+        keyword: searchQuery,
+        from : page * rowsPerPage,
+        to : page * rowsPerPage + rowsPerPage
+      })
+    }).then(res => res.json())
+    .then(data => {
+      // console.log(data)
+      setDetails(data)
+    })
+    .catch(err => console.log(err))
+	}, [searchQuery])
+
 
   useEffect(()=>{
     if(!filterQuery){
@@ -355,6 +381,11 @@ const DataDisplay = (props) => {
         <Typography variant="h4" style={{ margin: `15px 0` }}>
           Recent Notices
         </Typography>
+        <TextField 
+							id="outlined-basic" label="Search by title" variant="outlined" size="small"
+							style={{marginRight : "10px"}}
+							onChange={(e)=>setSearchQuery(e.target.value)}
+						/>
         <Button variant="contained" color="primary" onClick={addModalOpen}>
           ADD +
         </Button>

@@ -69,6 +69,15 @@ const handler = async (req, res) => {
       select * from notices where notice_type='department' and department=? ORDER BY timestamp DESC`,
         [depList.get(type)]
       );
+    }else if(type == "search"){
+      const keyword = req.body.keyword;
+      const from = req.body.from;
+      const to = req.body.to;
+      
+      results = await query(
+        'SELECT * from notices where title like ? ORDER BY openDate DESC limit ?, ?',
+        [`%${keyword}%`, from, to-from]
+      );
     }
 
     let array = JSON.parse(JSON.stringify(results));
