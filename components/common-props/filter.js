@@ -42,7 +42,7 @@ const Filter = ({ type, setEntries }) => {
       end_date:
         range.end_date !== ""
           ? new Date(range.end_date).getTime()
-          : new Date().getTime(),
+          : new Date().setYear(new Date().getFullYear() + 10),
       notice_type : range.notice_type,
       department: range.department
     };

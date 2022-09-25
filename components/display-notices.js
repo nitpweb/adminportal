@@ -1,4 +1,4 @@
-import { IconButton, TableFooter, TablePagination, TableRow, Typography } from "@material-ui/core";
+import { IconButton, TableFooter, TablePagination, TableRow, Typography, TextField } from "@material-ui/core";
 import Button from "@material-ui/core/Button"
 import Grid from "@material-ui/core/Grid"
 import Paper from "@material-ui/core/Paper"
@@ -355,6 +355,11 @@ const DataDisplay = (props) => {
         <Typography variant="h4" style={{ margin: `15px 0` }}>
           Recent Notices
         </Typography>
+        <TextField 
+							id="outlined-basic" label="Search by title" variant="outlined" size="small"
+							style={{marginRight : "10px"}}
+							onChange={(e)=>setFilterQuery({...filterQuery, keyword:e.target.value})}
+						/>
         <Button variant="contained" color="primary" onClick={addModalOpen}>
           ADD +
         </Button>
