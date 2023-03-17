@@ -9,5 +9,5 @@ export const fileUploader = async (attachment) => {
 	viewLink = await viewLink.json();
 	// console.log("Client side link");
 	// console.log(viewLink);
-	return viewLink[0].webViewLink;
+	return viewLink[0]?.webViewLink;
 };
