@@ -3,12 +3,20 @@ import multer from "multer";
 import { getSession } from "next-auth/client";
 import { authorize, authorized, getAccessToken } from "./authorize";
 import stream from "stream";
+
 export const config = {
 	api: {
 		bodyParser: false,
 	},
 };
 const upload = multer();
+
+//create function to pass file data buffer to stram and create bufferStream
+const bufferToStream = (buffer) => {
+	const bufferStream = new stream.PassThrough();
+	bufferStream.end(buffer);
+	return bufferStream;
+};
 
 export default async function UploadFiles(request, response) {
 	if (request.method === "POST") {
@@ -31,40 +39,93 @@ export default async function UploadFiles(request, response) {
 
 				for (let index = 0; index < files.length; index++) {
 					const file = files[index];
-					const bufferStream = new stream.PassThrough();
-					bufferStream.end(file.buffer);
+
+					const bufferStream = bufferToStream(file.buffer);
 
 					var media = {
 						mimeType: file.mimetype,
 						body: bufferStream,
 					};
-					const driveRes = await drive.files.create({
-						requestBody: {
-							name: file.originalname,
-							parents: [process.env.FOLDER_ID],
-						},
-						media: media,
-						fields: "id,name,webViewLink",
-					}).catch(async(err) => {
-						console.log(err.message);
-						console.log("Requires new token generation. Contact administrator");
-						await getAccessToken();
-						return response.status(500).json({"error": err.message});
+					// const driveRes = await drive.files.create({
+					// 	requestBody: {
+					// 		name: file.originalname,
+					// 		parents: [process.env.FOLDER_ID],
+					// 	},
+					// 	media: media,
+					// 	fields: "id,name,webViewLink",
+					// }).catch(async(err) => {
+					// 	console.log(err.message);
+					// 	console.log("Requires new token generation. Contact administrator");
+					// 	await getAccessToken();
+					// 	return response.status(500).json({"error": err.message});
 
-					});
+					// });
 
 					
-					await finalResult.push(driveRes.data);
+					// await finalResult.push(driveRes.data);
+
+					var count=1;
+					var currentResult = null;
+					var requestBody = {
+						name: file.originalname,
+						parents: [process.env.FOLDER_ID],
+					};
+					var fields = "id,name,webViewLink";
+					var uploadSingleFile = async() => {
+						await drive.files.create({
+							requestBody: requestBody,
+							media: media,
+							fields: fields,
+						})
+							.then((res) => {
+								console.log("Upload Sucessfull");
+								currentResult = res.data;
+								clearInterval(uploadSingleFile);
+							})
+							.catch(async (err) => {	
+								console.log(err.message);
+								if (err.message == "Invalid Credentials") {
+									console.log("Requires new token generation. Contact administrator");
+									await getAccessToken();	
+								}
+								else {
+									console.log(`Retrying upload ${count} of 5`)
+								}
+								count++;
+							});
+					};
+
+					await uploadSingleFile();
+
+					while (currentResult == null && count < 5) {
+						await new Promise((resolve) => setTimeout(resolve, 1000));
+						await uploadSingleFile();
+					}
+
+					
+					if (currentResult == null) {
+						console.log("Upload Failed");
+					}
+					else{
+						finalResult.push(currentResult);
+					}
+			
 				}
 
 				console.log("Sending Response");
 				// response.send("Upload Sucessfull");
-				console.log(finalResult);
-				response.json(finalResult);
+				if (finalResult.length == 0) {
+					response.status(500).json({ "error": "Upload Failed" });
+				} else {
+					console.log(finalResult);
+					response.json(finalResult);
+				}
 			});
 		} else {
 			// Not Signed In
 			response.status(401);
 		}
+	} else {
+		response.status(403);
 	}
 }
