@@ -1,15 +1,15 @@
-import useSWR from "swr";
+import useSWR from 'swr'
 
 function fetcher(url: string) {
-  return window.fetch(url).then((res) => res.json());
+    return window.fetch(url).then((res) => res.json())
 }
 
 export function useEntries(url) {
-  const { data, error } = useSWR(`${url}`, fetcher);
+    const { data, error } = useSWR(`${url}`, fetcher)
 
-  return {
-    entries: data,
-    isLoading: !error && !data,
-    isError: error,
-  };
+    return {
+        entries: data,
+        isLoading: !error && !data,
+        isError: error,
+    }
 }
