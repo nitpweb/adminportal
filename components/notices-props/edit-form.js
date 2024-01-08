@@ -37,6 +37,7 @@ export const EditForm = ({ data, handleClose, modal }) => {
         notice_type: data.notice_type,
         isVisible: data.isVisible ? true : false,
         important: data.important ? true : false,
+        intranet: data.intranet ? true : false,
     })
 
     const [verifyDelete, setVerifyDelete] = useState(false)
@@ -52,7 +53,11 @@ export const EditForm = ({ data, handleClose, modal }) => {
     const [newMainAttachment, setNewMainAttachment] = useState({})
 
     const handleChange = (e) => {
-        if (e.target.name == 'important' || e.target.name == 'isVisible') {
+        if (
+            e.target.name == 'important' ||
+            e.target.name == 'isVisible' ||
+            e.target.name == 'intranet' 
+        ) {
             setContent({ ...content, [e.target.name]: e.target.checked })
         } else {
             setContent({ ...content, [e.target.name]: e.target.value })
@@ -104,6 +109,7 @@ export const EditForm = ({ data, handleClose, modal }) => {
 
             isVisible: content.isVisible ? 1 : 0,
             important: content.important ? 1 : 0,
+            intranet: content.intranet ? 1 : 0,
             openDate: open,
             closeDate: close,
             timestamp: now,
@@ -243,6 +249,16 @@ export const EditForm = ({ data, handleClose, modal }) => {
                                 />
                             }
                             label="Visibility"
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    name="intranet"
+                                    checked={content.intranet}
+                                    onChange={(e) => handleChange(e)}
+                                />
+                            }
+                            label="Intranet"
                         />
 
                         <FormControl
