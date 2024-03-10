@@ -27,6 +27,7 @@ export const AddForm = ({ handleClose, modal }) => {
         department: '',
         isVisible: true,
         important: false,
+        intranet: false,
         notice_type: 'department',
     })
 
@@ -44,7 +45,11 @@ export const AddForm = ({ handleClose, modal }) => {
     const [submitting, setSubmitting] = useState(false)
 
     const handleChange = (e) => {
-        if (e.target.name == 'important' || e.target.name == 'isVisible') {
+        if (
+            e.target.name == 'important' ||
+            e.target.name == 'isVisible' ||
+            e.target.name == 'intranet'
+        ) {
             setContent({ ...content, [e.target.name]: e.target.checked })
         } else {
             setContent({ ...content, [e.target.name]: e.target.value })
@@ -66,6 +71,7 @@ export const AddForm = ({ handleClose, modal }) => {
             id: now,
             isVisible: content.isVisible ? 1 : 0,
             important: content.important ? 1 : 0,
+            intranet: content.intranet ? 1 : 0,
             notice_type:
                 session.user.role == 4
                     ? session.user.administration
@@ -217,6 +223,16 @@ export const AddForm = ({ handleClose, modal }) => {
                                 />
                             }
                             label="Visibility"
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    name="intranet"
+                                    checked={content.intranet}
+                                    onChange={(e) => handleChange(e)}
+                                />
+                            }
+                            label="Intranet"
                         />
 
                         <FormControl

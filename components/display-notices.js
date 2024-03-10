@@ -291,8 +291,20 @@ const DataDisplay = (props) => {
                                         </span>
                                     )
                                 })}
+                            {detail.intranet ? (
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                        flexWrap: 'wrap',
+                                        fontWeight: 'bold',
+                                    }}
+                                >
+                                    Intranet
+                                </div>
+                            ) : (
+                                <span></span>
+                            )}
                         </div>
-
                         <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                             <div>Uploaded By : {detail.email} </div>
                             <div>Updated By: {detail.updatedBy} </div>

@@ -23,8 +23,8 @@ const handler = async (req, res) => {
                     )
                     params.timestamp = new Date().getTime()
                     let result = await query(
-                        `INSERT INTO notices (id,title,timestamp,openDate,closeDate,important,attachments,email,isVisible,notice_link,notice_type,department,updatedBy,updatedAt) VALUES ` +
-                            `(?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
+                        `INSERT INTO notices (id,title,timestamp,openDate,closeDate,important,attachments,email,isVisible,notice_link,notice_type,department,updatedBy,updatedAt,intranet) VALUES ` +
+                            `(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`,
                         [
                             params.id,
                             params.title,
@@ -40,6 +40,7 @@ const handler = async (req, res) => {
                             params.department,
                             params.email,
                             params.timestamp,
+                            params.intranet,
                         ]
                     ).catch((err) => console.log(err))
                     return res.json(result)

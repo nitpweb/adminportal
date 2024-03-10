@@ -40,6 +40,7 @@ async function migrate() {
       attachments varchar(1000),
       email varchar(50) NOT NULL,
       isDept int,
+      intranet int;
       department varchar(1000),
       PRIMARY KEY (id)
     );`).catch((e) => console.log(e))
